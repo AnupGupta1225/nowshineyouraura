@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>NowShineYourAura</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="background:black;color:white">
+        <div id="auth" style="min-height:100vh;display:flex;justify-content:center;align-items:center;padding:16px">
+<div style="width:100%;max-width:400px;background:#18181b;padding:32px;border-radius:32px;border:1px solid #333">
+<h1 style="font-size:28px;font-weight:900;text-align:center">NOWSHINE<span style="color:gold">YOURAURA</span></h1>
+<p style="text-align:center;color:gray;font-size:12px">50 Cards • OTP • Group Chat</p>
+<br>
+<input id="regUser" placeholder="Username" style="width:100%;padding:12px;background:#27272a;border-radius:12px;margin-bottom:12px;color:white">
+<input id="regEmail" placeholder="Email" style="width:100%;padding:12px;background:#27272a;border-radius:12px;margin-bottom:12px;color:white">
+<input id="regID" placeholder="Create ID" style="width:100%;padding:12px;background:#27272a;border-radius:12px;margin-bottom:12px;color:white">
+<input id="regPass" type="password" placeholder="Password" style="width:100%;padding:12px;background:#27272a;border-radius:12px;margin-bottom:12px;color:white">
+<button onclick="sendOTP()" style="width:100%;background:gold;color:black;font-weight:900;padding:12px;border-radius:12px">SEND OTP 123456</button>
+<div id="otpBox" style="display:none;margin-top:12px">
+<input id="otpInput" placeholder="Enter OTP 123456" style="width:100%;padding:12px;background:#27272a;border-radius:12px;margin-bottom:12px;border:1px solid gold;color:white">
+<button onclick="verifyOTP()" style="width:100%;background:white;color:black;font-weight:900;padding:12px;border-radius:12px">VERIFY & CREATE</button>
+</div>
+<p style="text-align:center;margin-top:16px;font-size:14px">Have account? <span onclick="showLogin()" style="color:gold;cursor:pointer">Login</span></p>
+</div>
+<div id="loginForm" style="display:none">
+<input id="logID" placeholder="Your ID" style="width:100%;padding:12px;background:#27272a;border-radius:12px;margin-bottom:12px;color:white">
+<input id="logPass" type="password" placeholder="Password" style="width:100%;padding:12px;background:#27272a;border-radius:12px;margin-bottom:12px;color:white">
+<button onclick="doLogin()" style="width:100%;background:white;color:black;font-weight:900;padding:12px;border-radius:12px">LOGIN</button>
+</div>
+</div>
+</div>
+        <div id="app" style="display:none;padding:16px;max-width:800px;margin:auto">
+<div style="display:flex;justify-content:space-between;margin-bottom:20px">
+<div><h2 id="uName" style="font-weight:900"></h2>
+<p id="uID" style="color:gray;font-size:12px"></p></div>
+<div><p id="uAura" style="font-size:24px;font-weight:900;color:gold">0</p>
+<p id="uLevel" style="font-size:12px"></p></div>
+</div>
+<div id="cardDisplay" style="width:100%;max-width:350px;margin:auto;height:380px;border-radius:40px;padding:24px;display:flex;flex-direction:column;justify-content:space-between;text-align:center;background:#222">
+<div id="cardTier" style="font-size:10px;letter-spacing:4px">SHADOW</div>
+<div><h1 id="cardName" style="font-size:36px;font-weight:900">SHADOW</h1>
+<p id="cardDesc" style="font-size:12px;opacity:0.8">Begin Journey</p></div>
+<div style="display:flex;justify-content:space-between;font-size:12px">
+<span id="cardLevel">Lv 0</span><span id="cardAura">0 Aura</span></div>
+</div>
+<br>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<button onclick="completeTask('follow')" style="background:#18181b;border:1px solid #ff00ff;padding:16px;border-radius:16px;text-align:left">Follow @evil_sword_<br><small style="color:gray">+1000 Aura</small></button>
+<button onclick="completeTask('daily')" style="background:#18181b;border:1px solid gold;padding:16px;border-radius:16px;text-align:left">Daily Check<br><small style="color:gray">+100 Aura</small></button>
+<button onclick="completeTask('share')" style="background:#18181b;padding:16px;border-radius:16px;text-align:left">Share Aura<br><small style="color:gray">+50 Aura</small></button>
+<button onclick="logout()" style="background:#450a0a;padding:16px;border-radius:16px">Logout</button>
+</div>
+<script>
+const ADMIN_EMAIL="anup97005@gmail.com";
+const ADMIN_PASS="anup123";
+let users=JSON.parse(localStorage.getItem('aura_users')||'{}');
+let chats=JSON.parse(localStorage.getItem('aura_chats')||'[]');
+let current=null;
+function sendOTP(){if(!regUser.value||!regEmail.value||!regID.value||!regPass.value){alert('Fill all');return;}otpBox.style.display='block';alert('OTP is 123456');}
+function verifyOTP(){if(otpInput.value!=='123456'){alert('Wrong OTP');return;}users[regID.value]={username:regUser.value,email:regEmail.value,id:regID.value,pass:regPass.value,aura:0,level:0,followed:false};localStorage.setItem('aura_users',JSON.stringify(users));alert('Created! Now Login');showLogin();}
+function showLogin(){registerForm.style.display='none';loginForm.style.display='block';}
+function showReg(){loginForm.style.display='none';registerForm.style.display='block';}
+function doLogin(){let u=null;if(logID.value===ADMIN_EMAIL&&logPass.value===ADMIN_PASS){u={username:'ANUP ADMIN',email:ADMIN_EMAIL,id:'ADMIN',aura:999999,level:999,isAdmin:true};}else if(users[logID.value]&&users[logID.value].pass===logPass.value){u=users[logID.value];}else{alert('Wrong ID Pass');return;}current=u;localStorage.setItem('aura_current',JSON.stringify(u));loadApp();}
+function loadApp(){let c=JSON.parse(localStorage.getItem('aura_current'));if(!c)return;current=c;auth.style.display='none';app.style.display='block';uName.innerText=current.username;uID.innerText='ID: '+current.id;if(current.isAdmin){uAura.innerText='999999+';uLevel.innerText='ADMIN GOD';cardDisplay.style.background='radial-gradient(circle,gold,red,black)';cardTier.innerText='CREATOR';cardName.innerText='GOD ADMIN';}else{updateCard();}renderChat();}
+function updateCard(){let lvl=Math.floor(current.aura/100);let names=['SHADOW','SPARK','FLAME','STORM','FROST','GOLD','TITAN','PHANTOM','VENOM','INFERNO','DEMON','DRAGON','CELESTIAL','VOID','GOD'];let idx=Math.min(Math.floor(lvl/3),14);if(current.aura>=15000)idx=14;else if(current.aura>=10000)idx=10;else if(current.aura>=5000)idx=5;cardTier.innerText=names[idx];cardName.innerText=names[idx];cardLevel.innerText='Level '+lvl;cardAura.innerText=current.aura+' Aura';uAura.innerText=current.aura;uLevel.innerText='Level '+lvl;}
+function completeTask(t){if(!current||current.isAdmin)return;if(t==='follow'&&!current.followed){current.aura+=1000;current.followed=true;}else if(t==='daily'){current.aura+=100;}else if(t==='share'){current.aura+=50;}users[current.id]=current;localStorage.setItem('aura_users',JSON.stringify(users));localStorage.setItem('aura_current',JSON.stringify(current));updateCard();}
+        function sendChat(){if(!chatInput.value)return;chats.push({user:current.username,id:current.id,text:chatInput.value,time:new Date().toLocaleTimeString(),isAdmin:current.isAdmin||false});localStorage.setItem('aura_chats',JSON.stringify(chats));chatInput.value='';renderChat();}
+function renderChat(){chatBox.innerHTML=chats.map((m,i)=>'<div style="background:#27272a;padding:12px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between"><div><p style="font-size:10px;color:'+(m.isAdmin?'gold':'gray')+'">'+m.user+' '+(m.isAdmin?'ADMIN':'')+' '+m.time+'</p><p style="font-size:14px">'+m.text+'</p></div>'+(current&&current.isAdmin?'<button onclick="delChat('+i+')" style="color:red;font-size:10px">DEL</button>':'')+'</div>').join('');chatBox.scrollTop=chatBox.scrollHeight;}
+function delChat(i){if(!current.isAdmin)return;chats.splice(i,1);localStorage.setItem('aura_chats',JSON.stringify(chats));renderChat();}
+function logout(){localStorage.removeItem('aura_current');location.reload();}
+window.onload=()=>{let c=localStorage.getItem('aura_current');if(c)loadApp();}
+</script>
+</body>
+</html>
+
