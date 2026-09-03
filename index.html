@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NOWSHINEYOURAURA</title>
+<style>
+body{margin:0;background:#0a0814;color:#fff;font-family:Inter}
+.glass{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:20px;margin:15px}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#15122b;color:#fff;margin:8px 0;box-sizing:border-box}
+input:disabled{background:#2a2a2a!important;opacity:0.5}
+.btn{width:100%;padding:12px;border:none;border-radius:12px;background:linear-gradient(90deg,#7c3aed,#a855f7);color:#fff;font-weight:700}
+.dot{position:fixed;top:12px;left:12px;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.06);z-index:9999}
+table{width:100%;font-size:13px} td,th{padding:10px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.smallBtn{padding:6px 12px;border:none;border-radius:8px;background:#7c3aed;color:#fff}
+</style>
+</head>
+<body>
+<div class="dot" onclick="openAdminLogin()"></div>
+<div id="loginPage" class="glass" style="margin-top:60px;text-align:center">
+<h2>NOWSHINEYOURAURA</h2>
+<p>Shine your aura daily</p>
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password">
+<button class="btn" onclick="userLogin()">Login</button>
+</div>
+
+<div id="homePage" style="display:none">
+<div class="glass"><h2>Welcome, <span id="uName">User</span></h2>
+<p>Level <span id="uLevel">1</span> • Aura <span id="uAura">0</span></p>
+<button onclick="userLogout()" style="padding:8px;background:#222;color:#fff;border:none;border-radius:8px">Logout</button></div>
+<div class="glass"><h3>Tasks</h3><div id="userTasks">No tasks yet</div></div>
+<div class="glass"><h3>Aura Card</h3><p>No aura card yet</p></div>
+</div>
+<div id="adminLoginModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:10000;align-items:center;justify-content:center">
+<div class="glass" style="width:90%;max-width:350px;text-align:center">
+<h3>Admin Access</h3>
+<input id="a_email" placeholder="anup97005@gmail.com">
+<input id="a_pass" type="password" placeholder="facedevilff1225">
+<button class="btn" onclick="checkAdmin()">Login as Admin</button>
+<button onclick="closeAdminLogin()" style="width:100%;margin-top:10px;padding:10px;background:#222;color:#aaa;border:none;border-radius:10px">Cancel</button>
+<p id="adminErr" style="color:#ef4444;display:none">Wrong</p>
+</div></div>
+
+<div id="adminPanel" style="display:none">
+<div class="glass"><h2>AURA ADMIN</h2><p>Total Users: <span id="tUsers">0</span></p>
+<button class="smallBtn" onclick="closeAdminPanel()">Back</button></div>
+<div class="glass"><h3>User List</h3><table id="userTable"></table></div>
+<div id="editPanel" class="glass" style="display:none">
+<h3>Edit User</h3>
+<label>Name Locked</label><input id="e_name" disabled>
+<label>Email Locked</label><input id="e_email" disabled>
+<label>Aura Editable</label><input id="e_aura" type="number">
+<label>Level Editable</label><input id="e_level" type="number" min="1" max="10">
+<label>Add Task</label><input id="e_task" placeholder="Daily checkin +5">
+<button class="btn" onclick="saveUser()">Save</button>
+<button onclick="document.getElementById('editPanel').style.display='none'" style="width:100%;margin-top:8px;padding:10px;background:#222;color:#fff;border:none;border-radius:10px">Close</button>
+</div></div>
+@<script>
+let currentIdx=null;
+function openAdminLogin(){document.getElementById('adminLoginModal').style.display='flex'}
+function closeAdminLogin(){document.getElementById('adminLoginModal').style.display='none'}
+function checkAdmin(){
+ if(document.getElementById('a_email').value==='anup97005@gmail.com' && document.getElementById('a_pass').value==='facedevilff1225'){
+  document.getElementById('adminLoginModal').style.display='none';
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('homePage').style.display='none';
+  document.getElementById('adminPanel').style.display='block';
+  loadUsers();
+ } else document.getElementById('adminErr').style.display='block';
+}
+function closeAdminPanel(){document.getElementById('adminPanel').style.display='none';document.getElementById('loginPage').style.display='block';}
+function userLogin(){
+ let email=document.getElementById('email').value;
+ if(!email) return alert('Email daalo');
+ let users=JSON.parse(localStorage.getItem('nsya_users')||'[]');
+ let existing=users.find(u=>u.email===email);
+ if(!existing){users.push({name:email.split('@')[0],email,aura:0,level:1,tasks:[]});localStorage.setItem('nsya_users',JSON.stringify(users)); existing=users[users.length-1];}
+ document.getElementById('loginPage').style.display='none';
+ document.getElementById('homePage').style.display='block';
+ document.getElementById('uName').innerText=existing.name;
+ document.getElementById('uAura').innerText=existing.aura;
+ document.getElementById('uLevel').innerText=existing.level;
+ document.getElementById('userTasks').innerHTML=(existing.tasks||[]).length? existing.tasks.join('<br>') : 'No tasks yet';
+}
+function userLogout(){document.getElementById('homePage').style.display='none';document.getElementById('loginPage').style.display='block';}
+function loadUsers(){
+ let users=JSON.parse(localStorage.getItem('nsya_users')||'[]');
+ document.getElementById('tUsers').innerText=users.length;
+ let html='<tr><th>NAME</th><th>EMAIL</th><th>AURA</th><th>LEVEL</th><th>ACTION</th></tr>';
+ users.forEach((u,i)=>{html+=`<tr><td>${u.name}</td><td>${u.email}</td><td>${u.aura}</td><td>${u.level}</td><td><button class="smallBtn" onclick="editUser(${i})">Edit</button></td></tr>`});
+ document.getElementById('userTable').innerHTML=html;
+}function editUser(i){
+ let u=JSON.parse(localStorage.getItem('nsya_users')||'[]')[i]; currentIdx=i;
+ document.getElementById('e_name').value=u.name;
+ document.getElementById('e_email').value=u.email;
+ document.getElementById('e_aura').value=u.aura;
+ document.getElementById('e_level').value=u.level;
+ document.getElementById('editPanel').style.display='block';
+}
+function saveUser(){
+ let users=JSON.parse(localStorage.getItem('nsya_users')||'[]');
+ users[currentIdx].aura=parseInt(document.getElementById('e_aura').value)||0;
+ users[currentIdx].level=parseInt(document.getElementById('e_level').value)||1;
+ let task=document.getElementById('e_task').value;
+ if(task){ if(!users[currentIdx].tasks) users[currentIdx].tasks=[]; users[currentIdx].tasks.push(task); }
+ localStorage.setItem('nsya_users',JSON.stringify(users));
+ loadUsers(); alert('Saved!'); document.getElementById('e_task').value='';
+}
+</script>
+</body>
+</html>
