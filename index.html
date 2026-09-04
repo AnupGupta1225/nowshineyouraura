@@ -1,0 +1,1720 @@
+<!-- ================= USER REGISTER FORM ================= -->
+<!-- Register form me ye fields add karo -->
+
+<div class="form-group">
+  <label>Full Name</label>
+  <input type="text" id="regName" placeholder="Enter your full name" required>
+</div>
+
+<div class="form-group">
+  <label>Email Address</label>
+  <input type="email" id="regEmail" placeholder="Enter your email" required>
+</div>
+
+<div class="form-group">
+  <label>Mobile Number</label>
+  <input type="tel" id="regMobile" placeholder="Enter 10 digit mobile number"
+         maxlength="10" inputmode="numeric" required>
+</div>
+
+<div class="form-group">
+  <label>Password</label>
+  <input type="password" id="regPassword" placeholder="Create password" required>
+</div>
+
+<button type="button" onclick="registerUser()">Create Aura Account</button>
+
+
+<!-- ================= FRIENDS PAGE ================= -->
+
+<section id="friendsPage" class="page">
+  <div class="page-header">
+    <button onclick="goBackToDashboard()" class="back-btn">← Back</button>
+    <h1>Friends</h1>
+    <p>Search users by User ID or Aura Card last 4 digits</p>
+  </div>
+
+  <div class="friend-search-box">
+    <input
+      type="text"
+      id="friendSearch"
+      placeholder="Enter User ID or Card Last 4 Digits"
+      oninput="searchAuraUser()"
+    >
+    <button onclick="searchAuraUser()">Search</button>
+  </div>
+
+  <div id="searchResult"></div>
+
+  <h2 class="section-title">My Friends</h2>
+  <div id="friendsList"></div>
+
+  <h2 class="section-title">Messages</h2>
+  <div id="friendsChatList"></div>
+</section>
+
+
+<!-- ================= USER SEARCH RESULT CARD ================= -->
+
+<template id="friendResultTemplate">
+  <div class="friend-result-card">
+    <div class="friend-result-top">
+      <div>
+        <h2 class="friend-name"></h2>
+        <p class="friend-id"></p>
+      </div>
+      <div class="friend-level"></div>
+    </div>
+
+    <div class="friend-mini-card">
+      <div class="friend-card-style"></div>
+      <h3 class="friend-card-name"></h3>
+      <p class="friend-aura"></p>
+      <p class="friend-points"></p>
+      <p class="friend-card-code"></p>
+    </div>
+
+    <div class="friend-actions">
+      <button class="follow-user-btn">Follow</button>
+      <button class="view-user-card-btn">View Aura Card</button>
+    </div>
+  </div>
+</template>
+
+
+<!-- ================= FULL USER AURA CARD ================= -->
+
+<section id="publicAuraCardPage" class="page">
+  <div class="page-header">
+    <button onclick="closePublicAuraCard()" class="back-btn">← Back</button>
+    <h1>Aura Card</h1>
+  </div>
+
+  <div id="publicAuraCardContainer"></div>
+
+  <div class="card-download-actions">
+    <button onclick="downloadPublicAuraCard()">⬇ Download Card</button>
+    <button onclick="sharePublicAuraCard()">↗ Share Card</button>
+    <button id="followFromCardBtn" onclick="followCurrentCardUser()">＋ Follow</button>
+  </div>
+</section>
+
+
+<!-- ================= CHAT PAGE ================= -->
+
+<section id="privateChatPage" class="page">
+  <div class="chat-header">
+    <button onclick="closeChat()" class="back-btn">←</button>
+    <div>
+      <h2 id="chatFriendName">Friend</h2>
+      <span>Private Messages</span>
+    </div>
+  </div>
+
+  <div id="chatMessages" class="chat-messages"></div>
+
+  <div class="chat-input-area">
+    <input
+      type="text"
+      id="chatMessageInput"
+      placeholder="Type a message..."
+      onkeypress="if(event.key==='Enter') sendFriendMessage()"
+    >
+    <button onclick="sendFriendMessage()">Send</button>
+  </div>
+</section>
+
+
+<!-- ================= ADMIN USER DETAILS ================= -->
+
+<section id="adminUsersPage" class="page admin-page">
+  <div class="page-header">
+    <button onclick="showAdminDashboard()" class="back-btn">← Dashboard</button>
+    <h1>All Users</h1>
+  </div>
+
+  <div class="admin-search">
+    <input
+      type="text"
+      id="adminUserSearch"
+      placeholder="Search name, email, mobile, User ID or card digits..."
+      oninput="renderAdminUsers()"
+    >
+  </div>
+
+  <div id="adminUsersList"></div>
+</section>
+
+
+<!-- ================= ADMIN USER DETAILS MODAL ================= -->
+
+<div id="adminUserModal" class="custom-modal">
+  <div class="modal-content admin-user-modal-content">
+    <button class="close-modal" onclick="closeAdminUserModal()">×</button>
+
+    <h2>User Complete Details</h2>
+
+    <div id="adminSelectedUserDetails"></div>
+
+    <div class="admin-user-actions">
+      <input type="number" id="adminNewLevel" min="1" max="999"
+             placeholder="Set Level">
+
+      <button onclick="adminUpdateUserLevel()">Update Level</button>
+
+      <input type="number" id="adminAuraPoints"
+             placeholder="Add/Remove Aura Points">
+
+      <button onclick="adminUpdateAuraPoints()">Update Aura</button>
+
+      <button onclick="adminSaveUserEdits()">Save User Details</button>
+    </div>
+
+    <hr>
+
+    <h2>Private Chat History</h2>
+    <p class="admin-note">
+      Only Admin can view all users' private chat history.
+    </p>
+
+    <div id="adminChatHistory"></div>
+  </div>
+</div>
+
+
+<!-- ================= CSS ================= -->
+
+<style>
+.friend-search-box,
+.admin-search{
+  display:flex;
+  gap:10px;
+  max-width:700px;
+  margin:20px auto;
+}
+
+.friend-search-box input,
+.admin-search input{
+  flex:1;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid #c99b36;
+  background:#07111f;
+  color:white;
+  font-size:15px;
+}
+
+.friend-search-box button,
+.friend-actions button,
+.card-download-actions button,
+.chat-input-area button,
+.admin-user-actions button{
+  padding:13px 18px;
+  border-radius:12px;
+  border:1px solid #d8af4b;
+  color:#fff;
+  background:linear-gradient(135deg,#7b20d8,#b431ed);
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.friend-result-card{
+  max-width:700px;
+  margin:20px auto;
+  padding:20px;
+  border:1px solid #b99032;
+  border-radius:18px;
+  background:#07111f;
+  color:white;
+  box-shadow:0 0 30px rgba(211,166,61,.16);
+}
+
+.friend-result-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.friend-id{
+  color:#aaa;
+  font-size:13px;
+}
+
+.friend-level{
+  color:#f4c75c;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.friend-mini-card{
+  margin:15px 0;
+  padding:18px;
+  border:1px solid #d3a943;
+  border-radius:15px;
+  background:linear-gradient(135deg,#181002,#030711);
+}
+
+.friend-card-style{
+  font-size:12px;
+  color:#e4bd59;
+  margin-bottom:10px;
+}
+
+.friend-actions,
+.card-download-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin:20px auto;
+}
+
+.section-title{
+  max-width:700px;
+  margin:35px auto 10px;
+  color:#e4bd59;
+}
+
+.friend-list-item{
+  max-width:700px;
+  margin:8px auto;
+  padding:15px;
+  border:1px solid #29384d;
+  border-radius:12px;
+  background:#0a1423;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.chat-header{
+  max-width:800px;
+  margin:auto;
+  padding:15px;
+  display:flex;
+  gap:15px;
+  align-items:center;
+  color:white;
+  border-bottom:1px solid #334;
+}
+
+.chat-header h2{
+  margin:0;
+}
+
+.chat-header span{
+  color:#aaa;
+  font-size:13px;
+}
+
+.chat-messages{
+  max-width:800px;
+  height:65vh;
+  margin:auto;
+  padding:15px;
+  overflow-y:auto;
+  background:#06101d;
+}
+
+.message{
+  max-width:75%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:14px;
+  color:white;
+}
+
+.message.sent{
+  margin-left:auto;
+  background:#7221cc;
+}
+
+.message.received{
+  margin-right:auto;
+  background:#172536;
+}
+
+.message-time{
+  display:block;
+  font-size:10px;
+  opacity:.6;
+  margin-top:5px;
+}
+
+.chat-input-area{
+  max-width:800px;
+  margin:auto;
+  padding:12px;
+  display:flex;
+  gap:10px;
+  background:#08111e;
+}
+
+.chat-input-area input{
+  flex:1;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #39455a;
+  background:#111d2d;
+  color:white;
+}
+
+.admin-user-row{
+  max-width:1000px;
+  margin:10px auto;
+  padding:15px;
+  border:1px solid #283d55;
+  border-radius:12px;
+  background:#091525;
+  color:white;
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.admin-user-row button{
+  padding:9px 14px;
+  border:1px solid #c89e3c;
+  background:#19100a;
+  color:#f3cf76;
+  border-radius:8px;
+}
+
+.custom-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  overflow:auto;
+  background:rgba(0,0,0,.75);
+}
+
+.custom-modal.show{
+  display:block;
+}
+
+.modal-content{
+  position:relative;
+  max-width:900px;
+  margin:5vh auto;
+  padding:25px;
+  background:#07111e;
+  color:white;
+  border:1px solid #c69c38;
+  border-radius:18px;
+}
+
+.close-modal{
+  position:absolute;
+  right:15px;
+  top:10px;
+  background:none;
+  border:none;
+  color:white;
+  font-size:30px;
+  cursor:pointer;
+}
+
+.admin-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:10px;
+  margin:20px 0;
+}
+
+.admin-detail-item{
+  padding:12px;
+  background:#0d1a2b;
+  border-radius:10px;
+}
+
+.admin-user-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.admin-user-actions input{
+  padding:12px;
+  background:#0b1726;
+  border:1px solid #43516a;
+  color:white;
+  border-radius:8px;
+}
+
+.admin-chat-block{
+  margin:15px 0;
+  padding:15px;
+  border:1px solid #344761;
+  border-radius:12px;
+  background:#091524;
+}
+
+.admin-note{
+  color:#d6af53;
+}
+
+@media(max-width:600px){
+  .friend-search-box{
+    flex-direction:column;
+  }
+
+  .friend-result-top,
+  .friend-list-item{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .chat-messages{
+    height:60vh;
+  }
+}
+</style>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+/* =========================================================
+   USER DATA
+========================================================= */
+
+let currentUser = null;
+let selectedFriend = null;
+let selectedCardUser = null;
+let selectedAdminUserId = null;
+
+
+/* =========================================================
+   REGISTER USER WITH MOBILE NUMBER
+========================================================= */
+
+function registerUser(){
+
+  const name = document.getElementById("regName").value.trim();
+  const email = document.getElementById("regEmail").value.trim().toLowerCase();
+  const mobile = document.getElementById("regMobile").value.trim();
+  const password = document.getElementById("regPassword").value;
+
+  if(!name || !email || !mobile || !password){
+    alert("Please fill all details");
+    return;
+  }
+
+  if(!/^[0-9]{10}$/.test(mobile)){
+    alert("Please enter a valid 10 digit mobile number");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  if(users.some(user => user.email === email)){
+    alert("This email is already registered");
+    return;
+  }
+
+  if(users.some(user => user.mobile === mobile)){
+    alert("This mobile number is already registered");
+    return;
+  }
+
+  const userId = generateUserId(users);
+
+  const newUser = {
+    id: userId,
+    name: name,
+    email: email,
+    mobile: mobile,
+    password: password,
+
+    level: 1,
+    auraPoints: 500,
+
+    aura: "Awakening Spark",
+    energy: "500 AE",
+    vibe: "New Beginning",
+
+    cardCode: generateCardCode(),
+    cardStyle: getCardStyle(1),
+
+    followers: [],
+    following: [],
+    friends: [],
+
+    createdAt: new Date().toISOString()
+  };
+
+  users.push(newUser);
+  localStorage.setItem("auraUsers", JSON.stringify(users));
+
+  currentUser = newUser;
+  localStorage.setItem("currentAuraUser", JSON.stringify(currentUser));
+
+  alert(
+    "Welcome to Aura!\n\n" +
+    "User ID: " + userId + "\n" +
+    "Bonus Aura Points: 500\n" +
+    "Level: 1"
+  );
+
+  if(typeof showUserDashboard === "function"){
+    showUserDashboard();
+  }
+}
+
+
+function generateUserId(users){
+  let id;
+
+  do{
+    id = "AURA" + Math.floor(100000 + Math.random() * 900000);
+  }while(users.some(user => user.id === id));
+
+  return id;
+}
+
+
+function generateCardCode(){
+
+  let code = "";
+
+  for(let i = 0; i < 12; i++){
+    code += Math.floor(Math.random() * 10);
+  }
+
+  return code;
+}
+
+
+/* =========================================================
+   SEARCH USER BY USER ID OR CARD LAST 4 DIGITS
+========================================================= */
+
+function searchAuraUser(){
+
+  const searchInput = document.getElementById("friendSearch");
+  const resultBox = document.getElementById("searchResult");
+
+  if(!searchInput || !resultBox) return;
+
+  const query = searchInput.value.trim().toLowerCase();
+
+  if(query.length < 2){
+    resultBox.innerHTML = "";
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const results = users.filter(user => {
+
+    if(!currentUser) return false;
+
+    if(user.id === currentUser.id) return false;
+
+    const userIdMatch =
+      user.id.toLowerCase().includes(query);
+
+    const cardLastFour =
+      String(user.cardCode || "").slice(-4);
+
+    const cardMatch =
+      cardLastFour === query;
+
+    return userIdMatch || cardMatch;
+  });
+
+  if(results.length === 0){
+
+    resultBox.innerHTML = `
+      <div class="friend-result-card">
+        <h3>No Aura User Found</h3>
+        <p>Search using exact User ID or last 4 digits of Aura Card.</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  resultBox.innerHTML = "";
+
+  results.forEach(user => {
+
+    const isFollowing =
+      currentUser.following &&
+      currentUser.following.includes(user.id);
+
+    resultBox.innerHTML += `
+      <div class="friend-result-card">
+
+        <div class="friend-result-top">
+          <div>
+            <h2>${escapeHtml(user.name)}</h2>
+            <p class="friend-id">
+              User ID: ${escapeHtml(user.id)}
+            </p>
+          </div>
+
+          <div class="friend-level">
+            LEVEL ${user.level}
+          </div>
+        </div>
+
+        <div class="friend-mini-card">
+          <div class="friend-card-style">
+            ${getCardStyle(user.level).name}
+          </div>
+
+          <h3>${escapeHtml(user.name)}</h3>
+
+          <p><b>Aura:</b> ${escapeHtml(user.aura || "Awakening Spark")}</p>
+
+          <p><b>Aura Points:</b> ${Number(user.auraPoints || 0)}</p>
+
+          <p>
+            <b>Card:</b>
+            **** **** ${String(user.cardCode || "").slice(-4)}
+          </p>
+        </div>
+
+        <div class="friend-actions">
+
+          <button onclick="toggleFollow('${escapeAttr(user.id)}')">
+            ${isFollowing ? "Following ✓" : "Follow"}
+          </button>
+
+          <button onclick="viewOtherUserCard('${escapeAttr(user.id)}')">
+            View Aura Card
+          </button>
+
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+
+/* =========================================================
+   FOLLOW USER
+========================================================= */
+
+function toggleFollow(targetUserId){
+
+  if(!currentUser) return;
+
+  const users = JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const currentIndex =
+    users.findIndex(user => user.id === currentUser.id);
+
+  const targetIndex =
+    users.findIndex(user => user.id === targetUserId);
+
+  if(currentIndex === -1 || targetIndex === -1) return;
+
+  if(!users[currentIndex].following){
+    users[currentIndex].following = [];
+  }
+
+  if(!users[targetIndex].followers){
+    users[targetIndex].followers = [];
+  }
+
+  const alreadyFollowing =
+    users[currentIndex].following.includes(targetUserId);
+
+  if(alreadyFollowing){
+
+    users[currentIndex].following =
+      users[currentIndex].following.filter(
+        id => id !== targetUserId
+      );
+
+    users[targetIndex].followers =
+      users[targetIndex].followers.filter(
+        id => id !== currentUser.id
+      );
+
+    alert("Unfollowed successfully");
+
+  }else{
+
+    users[currentIndex].following.push(targetUserId);
+    users[targetIndex].followers.push(currentUser.id);
+
+    alert("User followed successfully");
+  }
+
+  localStorage.setItem("auraUsers", JSON.stringify(users));
+
+  currentUser = users[currentIndex];
+
+  localStorage.setItem(
+    "currentAuraUser",
+    JSON.stringify(currentUser)
+  );
+
+  searchAuraUser();
+  renderFriendsList();
+}
+
+
+/* =========================================================
+   FRIEND LIST
+   FOLLOWING USER KO FRIEND LIST ME ADD KAREGA
+========================================================= */
+
+function renderFriendsList(){
+
+  const box = document.getElementById("friendsList");
+
+  if(!box || !currentUser) return;
+
+  const users = JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const following = currentUser.following || [];
+
+  if(following.length === 0){
+
+    box.innerHTML = `
+      <div class="friend-list-item">
+        <span>You are not following anyone yet.</span>
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML = "";
+
+  following.forEach(friendId => {
+
+    const friend =
+      users.find(user => user.id === friendId);
+
+    if(!friend) return;
+
+    box.innerHTML += `
+      <div class="friend-list-item">
+
+        <div>
+          <strong>${escapeHtml(friend.name)}</strong>
+          <br>
+          <small>
+            ${escapeHtml(friend.id)} · Level ${friend.level}
+          </small>
+        </div>
+
+        <div style="display:flex;gap:8px">
+          <button onclick="openFriendChat('${escapeAttr(friend.id)}')">
+            Message
+          </button>
+
+          <button onclick="viewOtherUserCard('${escapeAttr(friend.id)}')">
+            Card
+          </button>
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+
+/* =========================================================
+   VIEW OTHER USER AURA CARD
+========================================================= */
+
+function viewOtherUserCard(userId){
+
+  const users = JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const user =
+    users.find(item => item.id === userId);
+
+  if(!user) return;
+
+  selectedCardUser = user;
+
+  const page =
+    document.getElementById("publicAuraCardPage");
+
+  const container =
+    document.getElementById("publicAuraCardContainer");
+
+  if(!page || !container) return;
+
+  document.querySelectorAll(".page").forEach(p => {
+    p.style.display = "none";
+  });
+
+  page.style.display = "block";
+
+  container.innerHTML = createAuraCardHTML(user);
+
+  const followButton =
+    document.getElementById("followFromCardBtn");
+
+  if(followButton && currentUser){
+
+    const following =
+      currentUser.following || [];
+
+    if(following.includes(user.id)){
+      followButton.textContent = "Following ✓";
+    }else{
+      followButton.textContent = "＋ Follow";
+    }
+  }
+}
+
+
+function createAuraCardHTML(user){
+
+  const style = getCardStyle(user.level);
+
+  return `
+    <div class="aura-card ${style.className}" id="downloadableAuraCard">
+
+      <div class="aura-card-border">
+
+        <div class="card-top">
+          <div>
+            <div class="card-style-title">
+              ${style.name}
+            </div>
+
+            <div class="card-user-id">
+              USER ID · ${escapeHtml(user.id)}
+            </div>
+          </div>
+
+          <div class="level-badge">
+            LEVEL<br>
+            <strong>${user.level >= 999 ? "999+" : user.level}</strong>
+          </div>
+        </div>
+
+        <div class="card-chip"></div>
+
+        <div class="card-number">
+          ${formatCardCode(user.cardCode)}
+        </div>
+
+        <div class="card-details">
+
+          <div>
+            <span>NAME</span>
+            <strong>${escapeHtml(user.name)}</strong>
+
+            <span>TYPE</span>
+            <strong>${style.type}</strong>
+
+            <span>VIBE</span>
+            <strong>${escapeHtml(user.vibe || style.vibe)}</strong>
+          </div>
+
+          <div>
+            <span>AURA</span>
+            <strong>${escapeHtml(user.aura || style.aura)}</strong>
+
+            <span>ENERGY</span>
+            <strong>${escapeHtml(user.energy || user.auraPoints + " AE")}</strong>
+
+            <span>AURA POINTS</span>
+            <strong>${Number(user.auraPoints || 0)}</strong>
+          </div>
+
+        </div>
+
+        <div class="card-footer">
+          <span>
+            ${style.quote}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+function getCardStyle(level){
+
+  const evolution = Math.min(
+    Math.floor((Number(level) - 1) / 20),
+    49
+  );
+
+  if(level >= 999){
+    return {
+      name: "STYLE 10 · MYTHIC · ADMIN SPECIAL",
+      className: "mythic-card",
+      type: "Mythic",
+      aura: "Eternal Origin",
+      vibe: "Aura God",
+      quote: "Beyond levels, I AM aura."
+    };
+  }
+
+  if(evolution === 0){
+    return {
+      name: "STYLE 01 · AWAKENING",
+      className: "awakening-card",
+      type: "Awakening",
+      aura: "New Spark",
+      vibe: "First Light",
+      quote: "Every legend begins with one point."
+    };
+  }
+
+  if(evolution < 5){
+    return {
+      name: "STYLE 02 · CYBERPUNK",
+      className: "cyber-card",
+      type: "Cyberpunk",
+      aura: "Voidshift",
+      vibe: "Neon Pulse",
+      quote: "In the neon dark, aura evolves."
+    };
+  }
+
+  if(evolution < 10){
+    return {
+      name: "STYLE 03 · LUXURY GOLD",
+      className: "luxury-card",
+      type: "Luxury",
+      aura: "Celestial Radiance",
+      vibe: "Regal Sovereign",
+      quote: "Grace is power, worn quietly like gold."
+    };
+  }
+
+  if(evolution < 20){
+    return {
+      name: "STYLE 04 · DEMON",
+      className: "demon-card",
+      type: "Demon",
+      aura: "Hellflame",
+      vibe: "Wrath Incarnate",
+      quote: "From the abyss, my fury is eternal."
+    };
+  }
+
+  return {
+    name: "STYLE 05 · FUTURISTIC",
+    className: "future-card",
+    type: "Futuristic",
+    aura: "Plasma Flow",
+    vibe: "Neural Drift",
+    quote: "Data flows like light; the future is now."
+  };
+}
+
+
+function formatCardCode(code){
+
+  const value = String(code || "000000000000");
+
+  return value.match(/.{1,4}/g).join(" ");
+}
+
+
+function closePublicAuraCard(){
+
+  document.getElementById("publicAuraCardPage").style.display = "none";
+
+  if(typeof showUserDashboard === "function"){
+    showUserDashboard();
+  }
+}
+
+
+function followCurrentCardUser(){
+
+  if(!selectedCardUser) return;
+
+  toggleFollow(selectedCardUser.id);
+
+  const button =
+    document.getElementById("followFromCardBtn");
+
+  if(button && currentUser){
+
+    const isFollowing =
+      (currentUser.following || [])
+      .includes(selectedCardUser.id);
+
+    button.textContent =
+      isFollowing ? "Following ✓" : "＋ Follow";
+  }
+}
+
+
+/* =========================================================
+   PRIVATE CHAT
+========================================================= */
+
+function openFriendChat(friendId){
+
+  const users = JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const friend =
+    users.find(user => user.id === friendId);
+
+  if(!friend || !currentUser) return;
+
+  selectedFriend = friend;
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.style.display = "none";
+  });
+
+  document.getElementById("privateChatPage").style.display = "block";
+
+  document.getElementById("chatFriendName").textContent =
+    friend.name;
+
+  renderChatMessages();
+}
+
+
+function getConversationId(user1, user2){
+
+  return [user1, user2].sort().join("_");
+}
+
+
+function renderChatMessages(){
+
+  const box =
+    document.getElementById("chatMessages");
+
+  if(!box || !currentUser || !selectedFriend) return;
+
+  const chats =
+    JSON.parse(localStorage.getItem("auraChats") || "{}");
+
+  const conversationId =
+    getConversationId(
+      currentUser.id,
+      selectedFriend.id
+    );
+
+  const messages =
+    chats[conversationId] || [];
+
+  box.innerHTML = "";
+
+  messages.forEach(message => {
+
+    const type =
+      message.senderId === currentUser.id
+        ? "sent"
+        : "received";
+
+    box.innerHTML += `
+      <div class="message ${type}">
+        ${escapeHtml(message.text)}
+        <span class="message-time">
+          ${new Date(message.time).toLocaleString()}
+        </span>
+      </div>
+    `;
+  });
+
+  box.scrollTop = box.scrollHeight;
+}
+
+
+function sendFriendMessage(){
+
+  const input =
+    document.getElementById("chatMessageInput");
+
+  if(!input || !currentUser || !selectedFriend) return;
+
+  const text = input.value.trim();
+
+  if(!text) return;
+
+  const chats =
+    JSON.parse(localStorage.getItem("auraChats") || "{}");
+
+  const conversationId =
+    getConversationId(
+      currentUser.id,
+      selectedFriend.id
+    );
+
+  if(!chats[conversationId]){
+    chats[conversationId] = [];
+  }
+
+  chats[conversationId].push({
+    senderId: currentUser.id,
+    receiverId: selectedFriend.id,
+    text: text,
+    time: new Date().toISOString()
+  });
+
+  localStorage.setItem(
+    "auraChats",
+    JSON.stringify(chats)
+  );
+
+  input.value = "";
+
+  renderChatMessages();
+}
+
+
+function closeChat(){
+
+  selectedFriend = null;
+
+  document.getElementById("privateChatPage").style.display = "none";
+
+  if(typeof showFriendsPage === "function"){
+    showFriendsPage();
+  }else{
+    document.getElementById("friendsPage").style.display = "block";
+    renderFriendsList();
+  }
+}
+
+
+/* =========================================================
+   ADMIN: VIEW ALL USERS
+========================================================= */
+
+function renderAdminUsers(){
+
+  const box =
+    document.getElementById("adminUsersList");
+
+  if(!box) return;
+
+  const search =
+    (
+      document.getElementById("adminUserSearch")?.value || ""
+    ).trim().toLowerCase();
+
+  const users =
+    JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const filteredUsers =
+    users.filter(user => {
+
+      const cardLastFour =
+        String(user.cardCode || "").slice(-4);
+
+      const allText = [
+        user.name,
+        user.email,
+        user.mobile,
+        user.id,
+        cardLastFour
+      ].join(" ").toLowerCase();
+
+      return allText.includes(search);
+    });
+
+  if(filteredUsers.length === 0){
+
+    box.innerHTML = `
+      <div class="admin-user-row">
+        No users found.
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML = "";
+
+  filteredUsers.forEach(user => {
+
+    box.innerHTML += `
+      <div class="admin-user-row">
+
+        <div>
+          <strong>${escapeHtml(user.name)}</strong>
+          <br>
+          <small>
+            ${escapeHtml(user.id)} · Level ${user.level}
+          </small>
+          <br>
+          <small>
+            ${escapeHtml(user.email)}
+          </small>
+        </div>
+
+        <div>
+          <strong>${Number(user.auraPoints || 0)} Aura</strong>
+          <br>
+          <small>
+            Mobile: ${escapeHtml(user.mobile || "Not Added")}
+          </small>
+        </div>
+
+        <button onclick="openAdminUserDetails('${escapeAttr(user.id)}')">
+          View Full Details
+        </button>
+
+      </div>
+    `;
+  });
+}
+
+
+/* =========================================================
+   ADMIN: COMPLETE USER DETAILS + CHAT HISTORY
+========================================================= */
+
+function openAdminUserDetails(userId){
+
+  const users =
+    JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const user =
+    users.find(item => item.id === userId);
+
+  if(!user) return;
+
+  selectedAdminUserId = userId;
+
+  document.getElementById("adminUserModal")
+    .classList.add("show");
+
+  document.getElementById("adminSelectedUserDetails").innerHTML = `
+
+    <div class="admin-detail-grid">
+
+      <div class="admin-detail-item">
+        <b>Name</b><br>
+        ${escapeHtml(user.name)}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>User ID</b><br>
+        ${escapeHtml(user.id)}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Email</b><br>
+        ${escapeHtml(user.email)}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Mobile Number</b><br>
+        ${escapeHtml(user.mobile || "Not Added")}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Level</b><br>
+        ${user.level}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Aura Points</b><br>
+        ${Number(user.auraPoints || 0)}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Aura</b><br>
+        ${escapeHtml(user.aura || "")}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Card Code</b><br>
+        ${escapeHtml(formatCardCode(user.cardCode))}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Followers</b><br>
+        ${(user.followers || []).length}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Following</b><br>
+        ${(user.following || []).length}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Registered</b><br>
+        ${user.createdAt ? new Date(user.createdAt).toLocaleString() : ""}
+      </div>
+
+      <div class="admin-detail-item">
+        <b>Card Style</b><br>
+        ${getCardStyle(user.level).name}
+      </div>
+
+    </div>
+  `;
+
+  document.getElementById("adminNewLevel").value =
+    user.level;
+
+  document.getElementById("adminAuraPoints").value =
+    user.auraPoints;
+
+  renderAdminChatHistory(userId);
+}
+
+
+function renderAdminChatHistory(userId){
+
+  const box =
+    document.getElementById("adminChatHistory");
+
+  if(!box) return;
+
+  const chats =
+    JSON.parse(localStorage.getItem("auraChats") || "{}");
+
+  const users =
+    JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const userChats =
+    Object.entries(chats).filter(([conversationId]) =>
+      conversationId.includes(userId)
+    );
+
+  if(userChats.length === 0){
+
+    box.innerHTML = `
+      <div class="admin-chat-block">
+        No chat history found.
+      </div>
+    `;
+
+    return;
+  }
+
+  box.innerHTML = "";
+
+  userChats.forEach(([conversationId, messages]) => {
+
+    const ids =
+      conversationId.split("_");
+
+    const otherId =
+      ids.find(id => id !== userId);
+
+    const otherUser =
+      users.find(user => user.id === otherId);
+
+    let html = `
+      <div class="admin-chat-block">
+
+        <h3>
+          Conversation with:
+          ${escapeHtml(otherUser ? otherUser.name : otherId)}
+        </h3>
+    `;
+
+    messages.forEach(message => {
+
+      const sender =
+        users.find(
+          user => user.id === message.senderId
+        );
+
+      html += `
+        <div style="margin:8px 0;padding:10px;background:#101f31;border-radius:8px">
+
+          <b>
+            ${escapeHtml(
+              sender ? sender.name : message.senderId
+            )}
+          </b>
+
+          <br>
+
+          ${escapeHtml(message.text)}
+
+          <br>
+
+          <small style="color:#999">
+            ${new Date(message.time).toLocaleString()}
+          </small>
+
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+
+    box.innerHTML += html;
+  });
+}
+
+
+function adminUpdateUserLevel(){
+
+  if(!selectedAdminUserId) return;
+
+  const newLevel =
+    Number(
+      document.getElementById("adminNewLevel").value
+    );
+
+  if(newLevel < 1 || newLevel > 999){
+    alert("Level must be between 1 and 999");
+    return;
+  }
+
+  const users =
+    JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const index =
+    users.findIndex(
+      user => user.id === selectedAdminUserId
+    );
+
+  if(index === -1) return;
+
+  users[index].level = newLevel;
+
+  users[index].cardStyle =
+    getCardStyle(newLevel);
+
+  localStorage.setItem(
+    "auraUsers",
+    JSON.stringify(users)
+  );
+
+  if(currentUser && currentUser.id === selectedAdminUserId){
+    currentUser = users[index];
+
+    localStorage.setItem(
+      "currentAuraUser",
+      JSON.stringify(currentUser)
+    );
+  }
+
+  alert("User level updated successfully");
+
+  openAdminUserDetails(selectedAdminUserId);
+  renderAdminUsers();
+}
+
+
+function adminUpdateAuraPoints(){
+
+  if(!selectedAdminUserId) return;
+
+  const newAuraPoints =
+    Number(
+      document.getElementById("adminAuraPoints").value
+    );
+
+  if(isNaN(newAuraPoints) || newAuraPoints < 0){
+    alert("Enter valid Aura Points");
+    return;
+  }
+
+  const users =
+    JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const index =
+    users.findIndex(
+      user => user.id === selectedAdminUserId
+    );
+
+  if(index === -1) return;
+
+  users[index].auraPoints = newAuraPoints;
+
+  localStorage.setItem(
+    "auraUsers",
+    JSON.stringify(users)
+  );
+
+  if(currentUser && currentUser.id === selectedAdminUserId){
+    currentUser = users[index];
+
+    localStorage.setItem(
+      "currentAuraUser",
+      JSON.stringify(currentUser)
+    );
+  }
+
+  alert("Aura Points updated successfully");
+
+  openAdminUserDetails(selectedAdminUserId);
+  renderAdminUsers();
+}
+
+
+function adminSaveUserEdits(){
+
+  if(!selectedAdminUserId) return;
+
+  const users =
+    JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const index =
+    users.findIndex(
+      user => user.id === selectedAdminUserId
+    );
+
+  if(index === -1) return;
+
+  users[index].level =
+    Number(document.getElementById("adminNewLevel").value)
+    || users[index].level;
+
+  users[index].auraPoints =
+    Number(document.getElementById("adminAuraPoints").value)
+    || users[index].auraPoints;
+
+  users[index].cardStyle =
+    getCardStyle(users[index].level);
+
+  localStorage.setItem(
+    "auraUsers",
+    JSON.stringify(users)
+  );
+
+  alert("User details saved successfully");
+
+  openAdminUserDetails(selectedAdminUserId);
+  renderAdminUsers();
+}
+
+
+function closeAdminUserModal(){
+
+  document.getElementById("adminUserModal")
+    .classList.remove("show");
+
+  selectedAdminUserId = null;
+}
+
+
+/* =========================================================
+   LEVEL SYSTEM
+   LEVEL 1 = 1000 REQUIRED
+   NEXT LEVEL REQUIREMENT +1000
+========================================================= */
+
+function getRequiredAuraForLevel(level){
+
+  level = Number(level);
+
+  if(level >= 999){
+    return 999000;
+  }
+
+  return level * 1000;
+}
+
+
+function updateUserLevelFromAura(userId){
+
+  const users =
+    JSON.parse(localStorage.getItem("auraUsers") || "[]");
+
+  const index =
+    users.findIndex(user => user.id === userId);
+
+  if(index === -1) return;
+
+  const user = users[index];
+
+  let newLevel =
+    Math.floor(Number(user.auraPoints || 0) / 1000) + 1;
+
+  if(newLevel > 999){
+    newLevel = 999;
+  }
+
+  if(newLevel < 1){
+    newLevel = 1;
+  }
+
+  user.level = newLevel;
+  user.cardStyle = getCardStyle(newLevel);
+
+  users[index] = user;
+
+  localStorage.setItem(
+    "auraUsers",
+    JSON.stringify(users)
+  );
+
+  if(currentUser && currentUser.id === userId){
+
+    currentUser = user;
+
+    localStorage.setItem(
+      "currentAuraUser",
+      JSON.stringify(currentUser)
+    );
+  }
+}
+
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+function escapeAttr(value){
+  return escapeHtml(value);
+}
+
+
+/* =========================================================
+   LOAD CURRENT USER
+========================================================= */
+
+window.addEventListener("load", function(){
+
+  const savedUser =
+    localStorage.getItem("currentAuraUser");
+
+  if(savedUser){
+
+    try{
+      currentUser = JSON.parse(savedUser);
+    }catch(error){
+      currentUser = null;
+    }
+  }
+
+  if(currentUser){
+
+    updateUserLevelFromAura(currentUser.id);
+
+    const updated =
+      JSON.parse(
+        localStorage.getItem("currentAuraUser") || "null"
+      );
+
+    if(updated){
+      currentUser = updated;
+    }
+  }
+
+  renderFriendsList();
+});
+</script>
