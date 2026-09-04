@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Now Shine Your Aura</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+:root{
+  --bg:#050816;--panel:#0b1020;--panel2:#11182b;--gold:#f0c65d;
+  --purple:#8b32ff;--cyan:#46dfff;--red:#ff4d45;--text:#f5f7ff;
+  --muted:#9aa5bf;--line:rgba(255,255,255,.1)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:radial-gradient(circle at 50% 0,#182548 0,#050816 45%);color:var(--text);min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+.topnav{height:65px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--line);background:rgba(5,8,22,.9);position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}
+.brand{font-weight:900;letter-spacing:2px;color:var(--gold)}
+.navright{display:flex;gap:10px;align-items:center}
+.small-btn,.logout-btn{border:1px solid var(--line);background:#10182b;color:white;padding:9px 14px;border-radius:9px}
+.logout-btn{border-color:#ff5964;color:#ffb4b9}
+.admin-dot{position:absolute;left:12px;top:12px;width:9px;height:9px;border-radius:50%;border:0;background:var(--gold);box-shadow:0 0 14px var(--gold)}
+.home{min-height:100vh;display:grid;place-items:center;padding:25px}
+.hero{text-align:center;max-width:700px}
+.hero h1{font-size:clamp(45px,10vw,100px);margin:0;background:linear-gradient(90deg,#fff,#e9c35c,#fff);color:transparent;background-clip:text}
+.hero p{color:var(--muted);font-size:18px;line-height:1.6}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:25px}
+.primary,.secondary,.danger{border:0;border-radius:12px;padding:13px 24px;font-weight:800}
+.primary{background:linear-gradient(135deg,#d89e23,#ffe59b,#a66a10);color:#191000}
+.secondary{background:linear-gradient(135deg,#5014a5,#9a35f1);color:white}
+.danger{background:#b72f38;color:white}
+.authbox{width:min(92%,430px);margin:45px auto;padding:25px;background:rgba(13,19,36,.9);border:1px solid var(--line);border-radius:20px}
+.authbox h2{text-align:center;margin-top:0}
+.field{margin:12px 0}
+.field label{display:block;margin-bottom:6px;color:#cdd5ea;font-size:14px}
+.field input,.field textarea,.field select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#070c19;color:white}
+.auth-links{display:flex;justify-content:space-between;gap:10px;margin-top:15px;font-size:13px}
+.link{color:#b98cff;cursor:pointer}
+.container{max-width:1250px;margin:auto;padding:20px}
+.dashboard-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:20px 0}
+.stat{padding:18px;background:linear-gradient(145deg,#10182d,#090e1b);border:1px solid var(--line);border-radius:16px}
+.stat b{display:block;font-size:28px;color:var(--gold);margin-top:6px}
+.tabs{display:flex;gap:8px;overflow:auto;margin:18px 0;padding-bottom:5px}
+.tab{white-space:nowrap;border:1px solid var(--line);background:#10172a;color:#dce4ff;padding:10px 14px;border-radius:10px}
+.tab.active{background:#6f23ce;border-color:#a55cff}
+.panel{display:none;background:rgba(11,16,32,.92);border:1px solid var(--line);border-radius:20px;padding:20px}
+.panel.active{display:block}
+.task{padding:15px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;align-items:center}
+.task:last-child{border-bottom:0}
+.task h4{margin:0 0 6px}
+.task p{margin:0;color:var(--muted);font-size:13px}
+.badge{padding:7px 10px;border-radius:30px;background:#1a263d;color:var(--gold);font-weight:bold;font-size:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card-actions{display:flex;gap:12px;margin-top:18px}
+.card-actions button{flex:1}
+
+/* AURA CARD */
+.aura-card{
+ width:100%;max-width:900px;margin:auto;aspect-ratio:1.5/1;position:relative;overflow:hidden;
+ border-radius:24px;padding:35px 42px;border:2px solid currentColor;color:#c794ff;
+ background:
+ radial-gradient(circle at 75% 15%,rgba(153,57,255,.25),transparent 25%),
+ radial-gradient(circle at 15% 70%,rgba(64,0,130,.28),transparent 35%),
+ linear-gradient(135deg,#070511,#120a25 55%,#070611);
+ box-shadow:0 0 35px rgba(143,52,255,.25),inset 0 0 40px rgba(157,74,255,.08)
+}
+.aura-card::before{
+ content:"";position:absolute;inset:0;opacity:.25;
+ background-image:linear-gradient(90deg,transparent 48%,currentColor 49%,transparent 50%),
+ linear-gradient(0deg,transparent 48%,currentColor 49%,transparent 50%);
+ background-size:95px 95px;mask-image:linear-gradient(90deg,black,transparent)
+}
+.aura-card.gold{color:#caa03d;background:radial-gradient(circle at 70% 25%,rgba(255,255,255,.65),transparent 28%),linear-gradient(135deg,#f3eee1,#b99c62 60%,#e7ddca)}
+.aura-card.demon{color:#ff544c;background:radial-gradient(circle at 65% 45%,rgba(255,40,20,.2),transparent 30%),linear-gradient(135deg,#130405,#270708,#080305)}
+.aura-card.future{color:#54ddff;background:radial-gradient(circle at 70% 25%,rgba(0,212,255,.22),transparent 25%),linear-gradient(135deg,#071b2c,#092e42,#06101d)}
+.aura-card.mythic{color:#e8bd59;background:radial-gradient(circle at 75% 30%,rgba(255,199,70,.22),transparent 25%),radial-gradient(circle at 50% 55%,rgba(80,40,10,.2),transparent 40%),#050507}
+.card-style{font-size:12px;font-weight:900;letter-spacing:2px;position:relative;z-index:2}
+.level-badge{position:absolute;right:35px;top:25px;border:2px solid currentColor;padding:18px 22px;border-radius:22px;font-size:18px;font-weight:900;text-align:center;box-shadow:0 0 18px currentColor}
+.level-badge b{font-size:34px;display:block}
+.chip{width:75px;height:60px;margin-top:35px;border-radius:12px;background:linear-gradient(135deg,#fff0ae,#c28b23);border:1px solid #825c13}
+.card-number{font-size:clamp(20px,4vw,40px);font-weight:900;letter-spacing:5px;margin:18px 0}
+.card-info{display:grid;grid-template-columns:1fr 1fr;gap:15px;width:75%;position:relative;z-index:2}
+.card-info div{border-bottom:1px solid color-mix(in srgb,currentColor 40%,transparent);padding-bottom:7px}
+.card-info span{display:block;font-size:10px;letter-spacing:1px;opacity:.75}
+.card-info b{font-size:clamp(13px,2vw,20px)}
+.quote{position:absolute;bottom:20px;right:35px;font-style:italic;font-size:clamp(11px,1.7vw,18px)}
+.user-code{position:absolute;bottom:20px;left:35px;font-size:11px;letter-spacing:2px}
+.card-title-name{font-size:clamp(24px,5vw,54px);font-weight:900;margin-top:12px;position:relative;z-index:2}
+.friends-search{display:flex;gap:10px;flex-wrap:wrap}
+.friends-search input{flex:1;min-width:180px}
+.friend-result,.friend-row{padding:15px;border:1px solid var(--line);border-radius:14px;margin-top:12px;background:#0c1324}
+.chat-layout{display:grid;grid-template-columns:260px 1fr;gap:15px;min-height:450px}
+.friend-list{border-right:1px solid var(--line);padding-right:12px}
+.friend-row{cursor:pointer}
+.messages{display:flex;flex-direction:column;gap:10px;max-height:370px;overflow:auto;padding:10px}
+.msg{max-width:75%;padding:10px 13px;border-radius:12px;background:#19243d}
+.msg.me{align-self:flex-end;background:#6322b4}
+.msg small{display:block;opacity:.65;margin-top:4px}
+.sendrow{display:flex;gap:8px;margin-top:10px}
+.sendrow input{flex:1}
+.admin-user{padding:13px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.admin-user:last-child{border-bottom:0}
+.hidden{display:none!important}
+.note{font-size:12px;color:var(--muted)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 18px;border-radius:10px;background:#18223b;color:white;z-index:999;display:none}
+@media(max-width:700px){
+ .topnav{padding:0 12px}.container{padding:14px}.grid2{grid-template-columns:1fr}
+ .aura-card{aspect-ratio:.72;min-height:610px;padding:25px 24px}
+ .level-badge{right:20px;top:18px;padding:12px}.level-badge b{font-size:25px}
+ .chip{margin-top:70px}.card-info{width:100%;grid-template-columns:1fr}
+ .quote{right:20px;left:20px;bottom:75px}.user-code{left:20px;bottom:25px}
+ .chat-layout{grid-template-columns:1fr}.friend-list{border-right:0;border-bottom:1px solid var(--line);padding-right:0;padding-bottom:10px}
+ .card-actions{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<div id="toast"></div>
+
+<!-- HOME -->
+<section id="home" class="page active">
+<button class="admin-dot" onclick="showPage('adminLogin')" title="Admin Login"></button>
+<div class="home">
+ <div class="hero">
+  <h1>NOW SHINE<br>YOUR AURA</h1>
+  <p>Complete tasks. Collect Aura Points. Level up. Evolve your Aura Card.</p>
+  <div class="hero-actions">
+   <button class="primary" onclick="showPage('login')">Login</button>
+   <button class="secondary" onclick="showPage('register')">Create Account</button>
+  </div>
+ </div>
+</div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+ <div class="topnav"><div class="brand">AURA</div><button class="small-btn" onclick="showPage('home')">Home</button></div>
+ <div class="authbox">
+  <h2>User Login</h2>
+  <div class="field"><label>Email</label><input id="loginEmail" type="email"></div>
+  <div class="field"><label>Password</label><input id="loginPass" type="password"></div>
+  <button class="primary" style="width:100%" onclick="login()">Login</button>
+  <div class="auth-links">
+   <span class="link" onclick="showPage('forgot')">Forgot Password?</span>
+   <span class="link" onclick="showPage('register')">Register</span>
+  </div>
+ </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="page">
+ <div class="topnav"><div class="brand">AURA</div><button class="small-btn" onclick="showPage('home')">Home</button></div>
+ <div class="authbox">
+  <h2>Create Aura Account</h2>
+  <div class="field"><label>Name</label><input id="regName"></div>
+  <div class="field"><label>Email</label><input id="regEmail" type="email"></div>
+  <div class="field"><label>Password</label><input id="regPass" type="password"></div>
+  <button class="primary" style="width:100%" onclick="register()">Register + Get 500 Bonus Aura</button>
+  <div class="auth-links"><span class="link" onclick="showPage('login')">Already have an account? Login</span></div>
+ </div>
+</section>
+
+<!-- FORGOT -->
+<section id="forgot" class="page">
+ <div class="topnav"><div class="brand">AURA</div><button class="small-btn" onclick="showPage('login')">Back</button></div>
+ <div class="authbox">
+  <h2>Reset Password</h2>
+  <div class="field"><label>Registered Email</label><input id="forgotEmail" type="email"></div>
+  <button class="secondary" style="width:100%" onclick="forgotPassword()">Send Reset Link</button>
+ </div>
+</section>
+
+<!-- ADMIN LOGIN -->
+<section id="adminLogin" class="page">
+ <div class="topnav"><div class="brand">AURA • ADMIN</div><button class="small-btn" onclick="showPage('home')">Home</button></div>
+ <div class="authbox">
+  <h2>Admin Login</h2>
+  <div class="field"><label>Admin Email</label><input id="adminEmail" type="email"></div>
+  <div class="field"><label>Admin Password</label><input id="adminPass" type="password"></div>
+  <button class="primary" style="width:100%" onclick="adminLogin()">Admin Login</button>
+ </div>
+</section>
+
+<!-- USER DASHBOARD -->
+<section id="userDashboard" class="page">
+ <div class="topnav">
+  <div class="brand">AURA DASHBOARD</div>
+  <div class="navright"><span id="navUser"></span><button class="logout-btn" onclick="logout()">Logout</button></div>
+ </div>
+ <main class="container">
+  <div class="dashboard-head"><div><h2 id="welcome">Welcome</h2><div class="note">Your aura grows with every completed task.</div></div></div>
+
+  <div class="stats">
+   <div class="stat">Level<b id="statLevel">1</b></div>
+   <div class="stat">Aura Points<b id="statAura">500</b></div>
+   <div class="stat">Next Level<b id="statNext">1000</b></div>
+   <div class="stat">Friends<b id="statFriends">0</b></div>
+  </div>
+
+  <div class="tabs">
+   <button class="tab active" onclick="openTab('mycard',this)">My Aura Card</button>
+   <button class="tab" onclick="openTab('tasks',this)">Tasks</button>
+   <button class="tab" onclick="openTab('friends',this)">Friends</button>
+  </div>
+
+  <div id="mycard" class="panel active">
+   <div id="userAuraCard" class="aura-card">
+    <div class="card-style" id="cardStyle">STYLE 01 • CYBERPUNK</div>
+    <div class="level-badge">LEVEL<b id="cardLevel">1</b></div>
+    <div class="chip"></div>
+    <div class="card-number" id="cardNumber">0000 0000 0000 0000</div>
+    <div class="card-title-name" id="cardName">USER</div>
+    <div class="card-info">
+     <div><span>TYPE</span><b id="cardType">Cyberpunk</b></div>
+     <div><span>AURA</span><b id="cardAuraName">Awakening</b></div>
+     <div><span>VIBE</span><b id="cardVibe">Rising Star</b></div>
+     <div><span>ENERGY</span><b id="cardEnergy">500 AE</b></div>
+    </div>
+    <div class="quote" id="cardQuote">“Every level reveals a new aura.”</div>
+    <div class="user-code">AURA ID • <span id="cardCode">0000</span></div>
+   </div>
+   <div class="card-actions">
+    <button class="primary" onclick="downloadCard('userAuraCard','MY-AURA-CARD.png')">⬇ Download Aura Card</button>
+    <button class="secondary" onclick="shareCard('userAuraCard','My Aura Card')">↗ Share Aura Card</button>
+   </div>
+  </div>
+
+  <div id="tasks" class="panel">
+   <h3>Available Tasks</h3>
+   <div id="taskList"></div>
+  </div>
+
+  <div id="friends" class="panel">
+   <h3>Friends</h3>
+   <div class="friends-search">
+    <input id="friendCodeSearch" maxlength="4" placeholder="Enter last 4 card digits">
+    <button class="secondary" onclick="searchFriend()">Search Aura</button>
+   </div>
+   <div id="friendSearchResult"></div>
+
+   <div class="grid2" style="margin-top:20px">
+    <div>
+     <h3>My Friends</h3>
+     <div id="friendList"></div>
+    </div>
+    <div>
+     <h3>Messages</h3>
+     <div id="chatBox" class="hidden">
+      <div id="chatTitle" class="badge"></div>
+      <div id="messages" class="messages"></div>
+      <div class="sendrow">
+       <input id="messageInput" placeholder="Type message...">
+       <button class="secondary" onclick="sendMessage()">Send</button>
+      </div>
+     </div>
+     <div id="noChat" class="note">Select a friend to message.</div>
+    </div>
+   </div>
+  </div>
+ </main>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="adminDashboard" class="page">
+ <div class="topnav">
+  <div class="brand">AURA ADMIN DASHBOARD</div>
+  <div class="navright"><span>ADMIN</span><button class="logout-btn" onclick="logout()">Logout</button></div>
+ </div>
+
+ <main class="container">
+  <div class="tabs">
+   <button class="tab active" onclick="openAdminTab('admincard',this)">Admin Card</button>
+   <button class="tab" onclick="openAdminTab('users',this)">All Users</button>
+   <button class="tab" onclick="openAdminTab('tasksAdmin',this)">Tasks</button>
+   <button class="tab" onclick="openAdminTab('chatsAdmin',this)">Chat History</button>
+  </div>
+
+  <div id="admincard" class="panel active">
+   <div id="adminAuraCard" class="aura-card mythic">
+    <div class="card-style">ADMIN • SPECIAL EDITION</div>
+    <div class="level-badge">LEVEL<b>999+</b></div>
+    <div class="chip"></div>
+    <div class="card-number">0000 0000 9999 0001</div>
+    <div class="card-title-name">ANUP</div>
+    <div class="card-info">
+     <div><span>TYPE</span><b>Mythic</b></div>
+     <div><span>AURA</span><b>Eternal Origin</b></div>
+     <div><span>VIBE</span><b>Aura God</b></div>
+     <div><span>ENERGY</span><b>Not Defined</b></div>
+    </div>
+    <div class="quote">“Beyond levels, I AM aura.”</div>
+    <div class="user-code">ADMIN ACCESS • ETERNAL ORIGIN</div>
+   </div>
+   <div class="card-actions">
+    <button class="primary" onclick="downloadCard('adminAuraCard','ANUP-MYTHIC-AURA-CARD.png')">⬇ Download Aura Card</button>
+    <button class="secondary" onclick="shareCard('adminAuraCard','ANUP Mythic Aura Card')">↗ Share Aura Card</button>
+   </div>
+  </div>
+
+  <div id="users" class="panel">
+   <h3>All Users</h3>
+   <div id="adminUsers"></div>
+  </div>
+
+  <div id="tasksAdmin" class="panel">
+   <h3>Add New Task</h3>
+   <div class="grid2">
+    <div class="field"><label>Task Title</label><input id="newTaskTitle"></div>
+    <div class="field"><label>Aura Reward</label><input id="newTaskReward" type="number" value="100"></div>
+   </div>
+   <div class="field"><label>Description</label><textarea id="newTaskDesc"></textarea></div>
+   <button class="primary" onclick="addTask()">Add Task</button>
+   <h3 style="margin-top:25px">Current Tasks</h3>
+   <div id="adminTaskList"></div>
+  </div>
+
+  <div id="chatsAdmin" class="panel">
+   <h3>All Private Chat History</h3>
+   <div class="note">Only Admin can access this section.</div>
+   <div id="adminChats" style="margin-top:15px"></div>
+  </div>
+ </main>
+</section>
+
+<script>
+/*
+=====================================================
+DEMO DATABASE
+For production replace these functions with Firebase.
+Do NOT put a real admin password inside frontend code.
+=====================================================
+*/
+
+const ADMIN_EMAIL = "anup97005@gmail.com";
+
+let db = JSON.parse(localStorage.getItem("auraDB") || "{}");
+db.users ||= {};
+db.tasks ||= [
+ {id:"t1",title:"Welcome Task",description:"Complete your profile and explore Aura.",reward:500},
+ {id:"t2",title:"Daily Aura",description:"Open your Aura Card.",reward:100}
+];
+db.messages ||= [];
+save();
+
+let currentUserId = sessionStorage.getItem("auraCurrentUser") || null;
+let currentAdmin = sessionStorage.getItem("auraAdmin") === "1";
+let selectedFriendId = null;
+
+function save(){localStorage.setItem("auraDB",JSON.stringify(db))}
+function uid(){return "u"+Date.now()+Math.random().toString(16).slice(2)}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(()=>e.style.display="none",2500)}
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+}
+function openTab(id,btn){
+ document.querySelectorAll("#userDashboard .panel").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("#userDashboard .tab").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+ if(id==="friends")renderFriends();
+}
+function openAdminTab(id,btn){
+ document.querySelectorAll("#adminDashboard .panel").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("#adminDashboard .tab").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+ if(id==="users")renderAdminUsers();
+ if(id==="tasksAdmin")renderAdminTasks();
+ if(id==="chatsAdmin")renderAdminChats();
+}
+
+function register(){
+ const name=regName.value.trim(),email=regEmail.value.trim().toLowerCase(),pass=regPass.value;
+ if(!name||!email||pass.length<6)return toast("Fill all fields. Password minimum 6 characters.");
+ if(Object.values(db.users).some(u=>u.email===email))return toast("Email already registered.");
+ const cardDigits=String(Math.floor(1000+Math.random()*9000));
+ const id=uid();
+ db.users[id]={
+  id,name,email,password:pass,
+  auraPoints:500,level:1,cardDigits,
+  completedTasks:[],friends:[],following:[]
+ };
+ save();toast("Registered! You received 500 bonus Aura Points.");
+ showPage("login");
+}
+function login(){
+ const email=loginEmail.value.trim().toLowerCase(),pass=loginPass.value;
+ const user=Object.values(db.users).find(u=>u.email===email&&u.password===pass);
+ if(!user)return toast("Invalid email or password.");
+ currentUserId=user.id;sessionStorage.setItem("auraCurrentUser",user.id);
+ renderUserDashboard();showPage("userDashboard");
+}
+function adminLogin(){
+ const email=adminEmail.value.trim().toLowerCase(),pass=adminPass.value;
+ /*
+ IMPORTANT:
+ Real admin authentication must be handled by Firebase Auth +
+ secure backend/custom claims. Never store your real password here.
+ */
+ if(email!==ADMIN_EMAIL)return toast("Admin email not authorized.");
+ if(!pass)return toast("Enter password.");
+ currentAdmin=true;sessionStorage.setItem("auraAdmin","1");
+ showPage("adminDashboard");renderAdminUsers();
+}
+function logout(){
+ currentUserId=null;currentAdmin=false;selectedFriendId=null;
+ sessionStorage.removeItem("auraCurrentUser");sessionStorage.removeItem("auraAdmin");
+ showPage("home");
+}
+function forgotPassword(){
+ const email=forgotEmail.value.trim().toLowerCase();
+ if(!email)return toast("Enter registered email.");
+ /*
+ Firebase production code:
+ sendPasswordResetEmail(auth,email)
+ */
+ toast("Password reset requires Firebase Email Authentication.");
+}
+
+function getUser(){return db.users[currentUserId]}
+function auraRequiredForLevel(level){return level*1000}
+function calculateLevel(points){
+ return Math.min(999,Math.max(1,Math.floor(points/1000)+1));
+}
+function cardTheme(level){
+ if(level>=999)return {cls:"mythic",style:"STYLE 10 • MYTHIC",type:"Mythic",aura:"Eternal Origin",vibe:"Aura God",quote:"“Beyond levels, I AM aura.”"};
+ const stage=Math.floor((level-1)/20);
+ const themes=[
+  {cls:"",style:"STYLE 01 • CYBERPUNK",type:"Cyberpunk",aura:"Voidshift",vibe:"Stealth Assassin",quote:"“In the neon dark, my signal cannot be silenced.”"},
+  {cls:"gold",style:"STYLE 02 • LUXURY GOLD",type:"Luxury",aura:"Celestial Radiance",vibe:"Regal Sovereign",quote:"“Grace is power, worn quietly like gold.”"},
+  {cls:"demon",style:"STYLE 03 • DEMON",type:"Demon",aura:"Hellflame",vibe:"Wrath Incarnate",quote:"“From the abyss again; my fury is eternal.”"},
+  {cls:"future",style:"STYLE 04 • FUTURISTIC",type:"Futuristic",aura:"Plasma Flow",vibe:"Neural Drift",quote:"“Data flows like light; the future is now.”"}
+ ];
+ return themes[Math.min(stage,themes.length-1)];
+}
+function renderUserDashboard(){
+ const u=getUser();if(!u)return logout();
+ u.level=calculateLevel(u.auraPoints);save();
+ navUser.textContent=u.name;
+ welcome.textContent="Welcome, "+u.name;
+ statLevel.textContent=u.level;
+ statAura.textContent=u.auraPoints;
+ statNext.textContent=u.level>=999?"MAX":auraRequiredForLevel(u.level);
+ statFriends.textContent=u.friends.length;
+ renderUserCard();renderTasks();
+}
+function renderUserCard(){
+ const u=getUser(),t=cardTheme(u.level),card=userAuraCard;
+ card.className="aura-card "+t.cls;
+ cardStyle.textContent=t.style;
+ cardLevel.textContent=u.level>=999?"999+":u.level;
+ cardNumber.textContent="4001 "+String(u.cardDigits).padStart(4,"0")+" "+String((Number(u.cardDigits)*7)%10000).padStart(4,"0")+" "+String((Number(u.cardDigits)*3)%10000).padStart(4,"0");
+ cardName.textContent=u.name.toUpperCase();
+ cardType.textContent=t.type;
+ cardAuraName.textContent=t.aura;
+ cardVibe.textContent=t.vibe;
+ cardEnergy.textContent=u.auraPoints+" AE";
+ cardQuote.textContent=t.quote;
+ cardCode.textContent=u.cardDigits;
+}
+function renderTasks(){
+ const u=getUser();
+ taskList.innerHTML=db.tasks.map(t=>{
+  const done=u.completedTasks.includes(t.id);
+  return `<div class="task">
+   <div><h4>${esc(t.title)}</h4><p>${esc(t.description)}</p></div>
+   <div style="text-align:right"><div class="badge">+${t.reward} Aura</div>
+   ${done?'<button class="small-btn" disabled>Completed</button>':`<button class="primary" style="margin-top:8px" onclick="completeTask('${t.id}')">Complete</button>`}</div>
+  </div>`;
+ }).join("");
+}
+function completeTask(id){
+ const u=getUser(),t=db.tasks.find(x=>x.id===id);
+ if(!t||u.completedTasks.includes(id))return;
+ u.completedTasks.push(id);u.auraPoints+=Number(t.reward);u.level=calculateLevel(u.auraPoints);
+ save();renderUserDashboard();toast("Task completed! +"+t.reward+" Aura Points");
+}
+function searchFriend(){
+ const code=friendCodeSearch.value.trim();
+ if(!/^\d{4}$/.test(code))return toast("Enter exactly 4 digits.");
+ const u=Object.values(db.users).find(x=>x.cardDigits===code);
+ if(!u)return friendSearchResult.innerHTML='<div class="note" style="margin-top:12px">No user found.</div>';
+ if(u.id===currentUserId)return friendSearchResult.innerHTML='<div class="note" style="margin-top:12px">This is your own card.</div>';
+ const me=getUser(),isFriend=me.friends.includes(u.id),theme=cardTheme(u.level);
+ friendSearchResult.innerHTML=`
+ <div class="friend-result">
+  <b>${esc(u.name)}</b> • Level ${u.level} • ${u.auraPoints} Aura<br>
+  <span class="note">${theme.aura} • ${theme.vibe} • Card ending ${u.cardDigits}</span>
+  <div class="card-actions">
+   <button class="primary" onclick="viewFriendCard('${u.id}')">View / Download Card</button>
+   <button class="secondary" onclick="addFriend('${u.id}')">${isFriend?"Friend Added":"Add Friend"}</button>
+  </div>
+ </div>`;
+}
+function addFriend(id){
+ const me=getUser(),other=db.users[id];if(!other)return;
+ if(!me.friends.includes(id))me.friends.push(id);
+ if(!other.friends.includes(me.id))other.friends.push(me.id);
+ save();renderUserDashboard();renderFriends();toast("Friend added.");
+}
+function renderFriends(){
+ const me=getUser();if(!me)return;
+ friendList.innerHTML=me.friends.length?me.friends.map(id=>{
+  const u=db.users[id];if(!u)return "";
+  return `<div class="friend-row" onclick="selectFriend('${id}')"><b>${esc(u.name)}</b><br><span class="note">Level ${u.level} • Card ****${u.cardDigits}</span></div>`;
+ }).join(""):'<div class="note">No friends yet. Search using the last 4 card digits.</div>';
+}
+function selectFriend(id){
+ selectedFriendId=id;
+ const u=db.users[id];chatTitle.textContent="Message • "+u.name;
+ chatBox.classList.remove("hidden");noChat.classList.add("hidden");
+ renderMessages();
+}
+function renderMessages(){
+ if(!selectedFriendId)return;
+ const me=getUser(),fid=selectedFriendId;
+ const msgs=db.messages.filter(m=>(m.from===me.id&&m.to===fid)||(m.from===fid&&m.to===me.id));
+ messages.innerHTML=msgs.map(m=>`<div class="msg ${m.from===me.id?'me':''}">${esc(m.text)}<small>${new Date(m.time).toLocaleString()}</small></div>`).join("");
+ messages.scrollTop=messages.scrollHeight;
+}
+function sendMessage(){
+ const text=messageInput.value.trim();if(!text||!selectedFriendId)return;
+ const me=getUser();if(!me.friends.includes(selectedFriendId))return toast("Add user as friend first.");
+ db.messages.push({id:uid(),from:me.id,to:selectedFriendId,text,time:Date.now()});
+ save();messageInput.value="";renderMessages();
+}
+function viewFriendCard(id){
+ const u=db.users[id],t=cardTheme(u.level);
+ const popup=window.open("","_blank");
+ if(!popup)return toast("Popup blocked.");
+ popup.document.write(`
+ <html><head><title>${esc(u.name)} Aura Card</title>
+ <style>body{margin:0;background:#050816;color:white;font-family:Arial;padding:20px}#c{max-width:800px;margin:auto;padding:40px;border:2px solid ${t.cls==="gold"?"#caa03d":t.cls==="demon"?"#ff544c":t.cls==="future"?"#54ddff":"#c794ff"};border-radius:25px;background:#101426}.name{font-size:50px;font-weight:bold}.num{font-size:30px;margin:30px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}button{margin-top:20px;padding:12px 20px;border:0;border-radius:10px}</style>
+ </head><body><div id="c"><b>${t.style}</b><div style="float:right">LEVEL ${u.level}</div><div class="num">4001 ${u.cardDigits} ${(Number(u.cardDigits)*7%10000).toString().padStart(4,"0")} ${(Number(u.cardDigits)*3%10000).toString().padStart(4,"0")}</div><div class="name">${esc(u.name).toUpperCase()}</div><div class="grid"><div>TYPE<br><b>${t.type}</b></div><div>AURA<br><b>${t.aura}</b></div><div>VIBE<br><b>${t.vibe}</b></div><div>ENERGY<br><b>${u.auraPoints} AE</b></div></div><p>${t.quote}</p></div><button onclick="window.print()">Download / Print Card</button></body></html>`);
+ popup.document.close();
+}
+
+function renderAdminUsers(){
+ adminUsers.innerHTML=Object.values(db.users).map(u=>`
+ <div class="admin-user">
+  <div><b>${esc(u.name)}</b><br><span class="note">${esc(u.email)} • Level ${u.level} • ${u.auraPoints} Aura • Card ****${u.cardDigits}</span></div>
+  <div style="display:flex;gap:7px">
+   <button class="small-btn" onclick="adminAddAura('${u.id}',100)">+100 Aura</button>
+   <button class="small-btn" onclick="adminLevelUp('${u.id}')">Level +1</button>
+   <button class="danger" onclick="adminEdit('${u.id}')">Edit</button>
+  </div>
+ </div>`).join("")||'<div class="note">No users registered.</div>';
+}
+function adminAddAura(id,n){
+ const u=db.users[id];u.auraPoints=Math.max(0,u.auraPoints+n);u.level=calculateLevel(u.auraPoints);save();renderAdminUsers();
+}
+function adminLevelUp(id){
+ const u=db.users[id];if(u.level>=999)return;
+ u.level++;u.auraPoints=Math.max(u.auraPoints,(u.level-1)*1000);save();renderAdminUsers();
+}
+function adminEdit(id){
+ const u=db.users[id];
+ const name=prompt("User Name:",u.name);if(name===null)return;
+ const aura=prompt("Aura Points:",u.auraPoints);if(aura===null)return;
+ const level=prompt("Level (1-999):",u.level);if(level===null)return;
+ u.name=name.trim()||u.name;
+ u.auraPoints=Math.max(0,Number(aura)||0);
+ u.level=Math.min(999,Math.max(1,Number(level)||1));
+ save();renderAdminUsers();toast("User updated.");
+}
+function addTask(){
+ const title=newTaskTitle.value.trim(),reward=Number(newTaskReward.value),description=newTaskDesc.value.trim();
+ if(!title||!reward)return toast("Enter task title and reward.");
+ db.tasks.push({id:uid(),title,reward,description});save();
+ newTaskTitle.value="";newTaskDesc.value="";newTaskReward.value=100;
+ renderAdminTasks();toast("Task added.");
+}
+function renderAdminTasks(){
+ adminTaskList.innerHTML=db.tasks.map(t=>`
+ <div class="task"><div><h4>${esc(t.title)}</h4><p>${esc(t.description)}</p></div>
+ <div><div class="badge">+${t.reward} Aura</div><button class="danger" style="margin-top:8px" onclick="deleteTask('${t.id}')">Delete</button></div></div>`).join("");
+}
+function deleteTask(id){db.tasks=db.tasks.filter(t=>t.id!==id);save();renderAdminTasks()}
+function renderAdminChats(){
+ adminChats.innerHTML=db.messages.length?db.messages.map(m=>{
+  const from=db.users[m.from]?.name||"Deleted User",to=db.users[m.to]?.name||"Deleted User";
+  return `<div class="friend-row"><b>${esc(from)} → ${esc(to)}</b><br>${esc(m.text)}<br><span class="note">${new Date(m.time).toLocaleString()}</span></div>`;
+ }).join(""):'<div class="note">No messages yet.</div>';
+}
+
+async function downloadCard(id,fileName){
+ const el=document.getElementById(id);
+ try{
+  const canvas=await html2canvas(el,{scale:3,useCORS:true,backgroundColor:"#050816"});
+  const a=document.createElement("a");a.download=fileName;a.href=canvas.toDataURL("image/png");a.click();
+ }catch(e){toast("Download failed.");console.error(e)}
+}
+async function shareCard(id,title){
+ const el=document.getElementById(id);
+ try{
+  const canvas=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:"#050816"});
+  const blob=await new Promise(r=>canvas.toBlob(r,"image/png"));
+  const file=new File([blob],"aura-card.png",{type:"image/png"});
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+   await navigator.share({title,text:title,files:[file]});
+  }else downloadCard(id,"AURA-CARD.png");
+ }catch(e){toast("Share cancelled or unavailable.");}
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+
+if(currentAdmin){showPage("adminDashboard")}
+else if(currentUserId&&db.users[currentUserId]){renderUserDashboard();showPage("userDashboard")}
+</script>
+</body>
+</html>
