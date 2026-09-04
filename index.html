@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NOW SHINE YOUR AURA</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:Arial,sans-serif;background:#030713;color:#fff}
+body{overflow-x:hidden}
+
+.page{
+ display:none;
+ min-height:100vh;
+ padding:20px;
+ animation:pageIn .35s ease;
+}
+.page.active{display:block}
+
+@keyframes pageIn{
+ from{opacity:0;transform:translateX(15px)}
+ to{opacity:1;transform:translateX(0)}
+}
+
+button{
+ cursor:pointer;border:none;color:#fff;font-weight:bold;
+ padding:13px 18px;border-radius:10px;
+ background:linear-gradient(135deg,#6420cf,#b22ce8);
+}
+button:hover{transform:translateY(-1px);filter:brightness(1.1)}
+
+input,textarea{
+ width:100%;padding:14px;margin:7px 0;
+ border-radius:10px;border:1px solid #34445d;
+ background:#091525;color:#fff;outline:none;
+}
+input:focus,textarea:focus{border-color:#d6ad48}
+
+.topbar{
+ max-width:1100px;margin:auto;
+ display:flex;justify-content:space-between;align-items:center;
+ padding:10px 0;
+}
+.logo{font-size:22px;font-weight:900;color:#f1c95d;letter-spacing:2px}
+.back{background:#111c2c;border:1px solid #3b4a60;padding:9px 13px}
+.logout{background:#7e1825}
+
+.card-box{
+ max-width:450px;margin:40px auto;padding:25px;
+ background:linear-gradient(145deg,#091525,#030713);
+ border:1px solid #b89035;border-radius:20px;
+ box-shadow:0 0 35px rgba(213,168,59,.12);
+}
+.card-box h1{text-align:center;color:#edc65e;margin-bottom:10px}
+.card-box p{text-align:center;color:#9ba6b6;margin-bottom:20px}
+
+.home{
+ max-width:1100px;margin:auto;min-height:90vh;
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ text-align:center;
+}
+.home h1{
+ font-size:clamp(42px,8vw,90px);
+ letter-spacing:5px;
+ background:linear-gradient(90deg,#fff,#e4b846,#b14cf2);
+ -webkit-background-clip:text;color:transparent;
+}
+.home p{color:#aeb8c8;font-size:18px;margin:20px auto;max-width:600px}
+.home-buttons{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.admin-dot{
+ position:fixed;top:15px;left:15px;width:13px;height:13px;
+ border-radius:50%;padding:0;background:#d7b049;
+ box-shadow:0 0 15px #d7b049;z-index:99
+}
+
+.dashboard{
+ max-width:1100px;margin:20px auto;
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px;
+}
+.panel{
+ padding:20px;border:1px solid #253954;border-radius:16px;
+ background:linear-gradient(145deg,#081424,#040a13);
+}
+.panel h3{color:#e6bd52;margin-bottom:10px}
+.big-number{font-size:32px;font-weight:bold}
+
+.aura-card{
+ width:min(92vw,500px);min-height:300px;margin:25px auto;
+ padding:22px;border-radius:24px;position:relative;overflow:hidden;
+ border:2px solid #d7b149;
+ background:linear-gradient(135deg,#140b03,#342104,#080c18);
+ box-shadow:0 0 40px rgba(231,188,69,.2);
+}
+.aura-card::before{
+ content:"";position:absolute;width:300px;height:300px;
+ border-radius:50%;right:-100px;top:-130px;
+ background:radial-gradient(circle,rgba(232,186,53,.35),transparent 65%);
+}
+.aura-card h2{font-size:25px;color:#f4d168;position:relative}
+.card-row{display:flex;justify-content:space-between;gap:10px;position:relative}
+.card-label{font-size:10px;color:#aaa;letter-spacing:2px;margin-top:14px}
+.card-value{font-weight:bold;font-size:16px}
+.card-number{font-size:22px;letter-spacing:4px;margin:35px 0 20px;position:relative}
+.level-circle{
+ border:1px solid #f0c658;border-radius:50%;width:72px;height:72px;
+ display:flex;align-items:center;justify-content:center;text-align:center;
+ color:#f3cd62;font-weight:bold;position:relative
+}
+.card-actions{text-align:center;margin:15px}
+.card-actions button{margin:5px}
+
+.cyber{background:linear-gradient(135deg,#061c27,#150833,#00131c);border-color:#30e3f1}
+.neon{background:linear-gradient(135deg,#1c0527,#020d20,#26021a);border-color:#d847f3}
+.demon{background:linear-gradient(135deg,#260306,#090001,#2a0900);border-color:#ff5a38}
+.future{background:linear-gradient(135deg,#06101d,#171035,#0d2734);border-color:#6c9dff}
+.mythic{background:linear-gradient(135deg,#2d1a00,#050505,#341700);border-color:#ffe07b}
+
+.menu-grid{
+ max-width:900px;margin:25px auto;
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;
+}
+.menu-item{
+ padding:25px;text-align:center;border-radius:15px;
+ border:1px solid #283b55;background:#091525;cursor:pointer;
+}
+.menu-item:hover{border-color:#d7b149}
+.menu-item h3{color:#efc55d;margin-bottom:7px}
+
+.list{max-width:850px;margin:20px auto}
+.list-item{
+ margin:10px 0;padding:15px;border-radius:13px;
+ border:1px solid #263b55;background:#081424;
+ display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.list-item small{color:#9ca8b9}
+
+.search-row{max-width:850px;margin:20px auto;display:flex;gap:10px}
+.search-row input{margin:0}
+
+.chat{
+ max-width:800px;margin:20px auto;height:60vh;
+ overflow:auto;padding:15px;background:#06101c;border:1px solid #293b55;border-radius:15px;
+}
+.msg{max-width:75%;padding:11px;margin:10px 0;border-radius:12px}
+.mine{margin-left:auto;background:#6820c9}
+.other{background:#172638}
+.chat-input{max-width:800px;margin:auto;display:flex;gap:8px}
+.chat-input input{margin:0}
+
+.task{
+ max-width:800px;margin:10px auto;padding:16px;
+ border:1px solid #30435d;border-radius:14px;background:#081424;
+}
+.task h3{color:#efc55d}
+.reward{color:#60e89c;margin:8px 0}
+
+.admin-title{text-align:center;color:#edc75d;margin:20px}
+.note{max-width:850px;margin:10px auto;color:#a9b5c5;text-align:center}
+
+.modal{
+ display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);
+ z-index:1000;padding:20px;overflow:auto;
+}
+.modal.show{display:block}
+.modal-box{
+ max-width:850px;margin:30px auto;padding:25px;border-radius:18px;
+ background:#07111e;border:1px solid #c79d3d;
+}
+.close{float:right;background:none;font-size:25px;padding:0}
+
+@media(max-width:600px){
+ .topbar{gap:10px}.logo{font-size:16px}
+ .search-row,.chat-input{flex-direction:column}
+ .home h1{letter-spacing:2px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<section id="home" class="page active">
+<button class="admin-dot" onclick="showPage('adminLogin')" title="Admin"></button>
+
+<div class="home">
+<h1>NOW SHINE<br>YOUR AURA</h1>
+<p>Complete tasks. Collect Aura Points. Level up. Evolve your Aura Card.</p>
+
+<div class="home-buttons">
+<button onclick="showPage('login')">LOGIN</button>
+<button onclick="showPage('register')">CREATE ACCOUNT</button>
+</div>
+</div>
+</section>
+
+
+<!-- REGISTER -->
+<section id="register" class="page">
+<div class="topbar">
+<div class="logo">NOW SHINE YOUR AURA</div>
+<button class="back" onclick="showPage('home')">← BACK</button>
+</div>
+
+<div class="card-box">
+<h1>CREATE ACCOUNT</h1>
+<p>Start at Level 1 with 500 Bonus Aura Points</p>
+
+<input id="regName" placeholder="Full Name">
+<input id="regEmail" type="email" placeholder="Email Address">
+<input id="regMobile" type="tel" maxlength="10" placeholder="10 Digit Mobile Number">
+<input id="regPassword" type="password" placeholder="Password">
+
+<button style="width:100%;margin-top:10px" onclick="registerUser()">CREATE ACCOUNT</button>
+
+<p style="margin-top:15px">Already have an account?</p>
+<button style="width:100%" onclick="showPage('login')">LOGIN</button>
+</div>
+</section>
+
+
+<!-- LOGIN -->
+<section id="login" class="page">
+<div class="topbar">
+<div class="logo">NOW SHINE YOUR AURA</div>
+<button class="back" onclick="showPage('home')">← BACK</button>
+</div>
+
+<div class="card-box">
+<h1>USER LOGIN</h1>
+<input id="loginEmail" type="email" placeholder="Email">
+<input id="loginPassword" type="password" placeholder="Password">
+
+<button style="width:100%;margin-top:10px" onclick="loginUser()">LOGIN</button>
+<button style="width:100%;margin-top:10px;background:#172536" onclick="forgotPassword()">FORGOT PASSWORD?</button>
+
+<p style="margin-top:15px">New user?</p>
+<button style="width:100%" onclick="showPage('register')">CREATE ACCOUNT</button>
+</div>
+</section>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page">
+<div class="topbar">
+<div class="logo">YOUR AURA</div>
+<button class="logout" onclick="logoutUser()">LOGOUT</button>
+</div>
+
+<div class="dashboard">
+<div class="panel">
+<h3>WELCOME</h3>
+<div id="dashName" class="big-number">USER</div>
+<p id="dashUserId">AURA000000</p>
+</div>
+
+<div class="panel">
+<h3>LEVEL</h3>
+<div id="dashLevel" class="big-number">1</div>
+<p id="nextLevel">Next Level: 1000 Aura</p>
+</div>
+
+<div class="panel">
+<h3>AURA POINTS</h3>
+<div id="dashAura" class="big-number">500</div>
+<p>Collect more to evolve</p>
+</div>
+</div>
+
+<div class="menu-grid">
+<div class="menu-item" onclick="openMyCard()"><h3>◈ AURA CARD</h3><p>View your evolving card</p></div>
+<div class="menu-item" onclick="showPage('tasks');renderTasks()"><h3>✓ TASKS</h3><p>Complete tasks for Aura</p></div>
+<div class="menu-item" onclick="showPage('friends');renderFriends()"><h3>◉ FRIENDS</h3><p>Search, follow & message</p></div>
+<div class="menu-item" onclick="showPage('profile')"><h3>◌ PROFILE</h3><p>View account details</p></div>
+</div>
+</section>
+
+
+<!-- CARD -->
+<section id="cardPage" class="page">
+<div class="topbar">
+<div class="logo">AURA CARD</div>
+<button class="back" onclick="showPage('dashboard')">← DASHBOARD</button>
+</div>
+
+<div id="myAuraCard"></div>
+
+<div class="card-actions">
+<button onclick="alert('Card download can be added with Firebase Storage or html2canvas.')">⬇ DOWNLOAD</button>
+<button onclick="shareCard()">↗ SHARE</button>
+</div>
+</section>
+
+
+<!-- FRIENDS -->
+<section id="friends" class="page">
+<div class="topbar">
+<div class="logo">FRIENDS</div>
+<button class="back" onclick="showPage('dashboard')">← DASHBOARD</button>
+</div>
+
+<p class="note">Search using full User ID or exact last 4 digits of Aura Card.</p>
+
+<div class="search-row">
+<input id="userSearch" placeholder="User ID or Card Last 4 Digits">
+<button onclick="searchUser()">SEARCH</button>
+</div>
+
+<div id="searchResult" class="list"></div>
+
+<h2 class="admin-title">FOLLOWING</h2>
+<div id="friendsList" class="list"></div>
+</section>
+
+
+<!-- OTHER USER CARD -->
+<section id="otherCardPage" class="page">
+<div class="topbar">
+<div class="logo">AURA CARD</div>
+<button class="back" onclick="showPage('friends')">← FRIENDS</button>
+</div>
+
+<div id="otherAuraCard"></div>
+<div class="card-actions">
+<button id="followCardBtn" onclick="followSelectedUser()">＋ FOLLOW</button>
+<button onclick="startChat()">MESSAGE</button>
+</div>
+</section>
+
+
+<!-- CHAT -->
+<section id="chatPage" class="page">
+<div class="topbar">
+<div class="logo" id="chatTitle">PRIVATE CHAT</div>
+<button class="back" onclick="showPage('friends')">← FRIENDS</button>
+</div>
+
+<div id="chatMessages" class="chat"></div>
+
+<div class="chat-input">
+<input id="messageText" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendMessage()">
+<button onclick="sendMessage()">SEND</button>
+</div>
+</section>
+
+
+<!-- TASKS -->
+<section id="tasks" class="page">
+<div class="topbar">
+<div class="logo">AURA TASKS</div>
+<button class="back" onclick="showPage('dashboard')">← DASHBOARD</button>
+</div>
+
+<div id="tasksList"></div>
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+<div class="topbar">
+<div class="logo">PROFILE</div>
+<button class="back" onclick="showPage('dashboard')">← DASHBOARD</button>
+</div>
+
+<div id="profileDetails" class="card-box"></div>
+</section>
+
+
+<!-- ADMIN LOGIN -->
+<section id="adminLogin" class="page">
+<div class="topbar">
+<div class="logo">ADMIN ACCESS</div>
+<button class="back" onclick="showPage('home')">← BACK</button>
+</div>
+
+<div class="card-box">
+<h1>ADMIN LOGIN</h1>
+<p>Login using your authorized Firebase account</p>
+<input id="adminEmail" type="email" placeholder="Admin Email">
+<input id="adminPassword" type="password" placeholder="Password">
+<button style="width:100%;margin-top:10px" onclick="adminLogin()">ADMIN LOGIN</button>
+</div>
+</section>
+
+
+<!-- ADMIN DASHBOARD -->
+<section id="adminDashboard" class="page">
+<div class="topbar">
+<div class="logo">ADMIN DASHBOARD</div>
+<button class="logout" onclick="logoutUser()">LOGOUT</button>
+</div>
+
+<div class="menu-grid">
+<div class="menu-item" onclick="showPage('adminUsers');renderAdminUsers()"><h3>ALL USERS</h3><p>View and edit users</p></div>
+<div class="menu-item" onclick="showPage('adminTasks');renderAdminTasks()"><h3>TASKS</h3><p>Create and manage tasks</p></div>
+<div class="menu-item" onclick="showPage('adminChats');renderAdminChats()"><h3>CHAT HISTORY</h3><p>Admin conversation view</p></div>
+</div>
+</section>
+
+
+<!-- ADMIN USERS -->
+<section id="adminUsers" class="page">
+<div class="topbar">
+<div class="logo">ALL USERS</div>
+<button class="back" onclick="showPage('adminDashboard')">← DASHBOARD</button>
+</div>
+
+<div class="search-row">
+<input id="adminSearch" placeholder="Search name, email, mobile or User ID" oninput="renderAdminUsers()">
+</div>
+
+<div id="adminUsersList" class="list"></div>
+</section>
+
+
+<!-- ADMIN TASKS -->
+<section id="adminTasks" class="page">
+<div class="topbar">
+<div class="logo">TASK MANAGEMENT</div>
+<button class="back" onclick="showPage('adminDashboard')">← DASHBOARD</button>
+</div>
+
+<div class="card-box">
+<input id="taskTitle" placeholder="Task Title">
+<textarea id="taskDescription" placeholder="Task Description"></textarea>
+<input id="taskReward" type="number" placeholder="Aura Reward">
+<button style="width:100%" onclick="createTask()">CREATE TASK</button>
+</div>
+
+<div id="adminTasksList"></div>
+</section>
+
+
+<!-- ADMIN CHATS -->
+<section id="adminChats" class="page">
+<div class="topbar">
+<div class="logo">CHAT HISTORY</div>
+<button class="back" onclick="showPage('adminDashboard')">← DASHBOARD</button>
+</div>
+<p class="note">Chat data should be protected with Firestore Security Rules in production.</p>
+<div id="adminChatsList" class="list"></div>
+</section>
+
+
+<!-- ADMIN USER MODAL -->
+<div id="userModal" class="modal">
+<div class="modal-box">
+<button class="close" onclick="closeModal()">×</button>
+<h2 style="color:#edc75d">USER DETAILS</h2>
+<div id="modalUserDetails"></div>
+</div>
+</div>
+
+
+<script type="module">
+
+import {initializeApp} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+sendPasswordResetEmail,
+signOut,
+onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+getFirestore,
+doc,setDoc,getDoc,getDocs,
+collection,query,where,
+updateDoc,addDoc,
+serverTimestamp,arrayUnion,arrayRemove,
+onSnapshot,orderBy
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+/* =========================================================
+   PASTE YOUR FIREBASE CONFIG HERE
+========================================================= */
+
+const firebaseConfig = {
+ apiKey:"PASTE_YOUR_API_KEY",
+ authDomain:"PASTE_YOUR_AUTH_DOMAIN",
+ projectId:"PASTE_YOUR_PROJECT_ID",
+ storageBucket:"PASTE_YOUR_STORAGE_BUCKET",
+ messagingSenderId:"PASTE_YOUR_MESSAGING_SENDER_ID",
+ appId:"PASTE_YOUR_APP_ID"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+let currentUserData=null;
+let selectedUser=null;
+
+
+/* =========================================================
+   PAGE SYSTEM
+========================================================= */
+
+window.showPage=function(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const page=document.getElementById(id);
+ if(page)page.classList.add("active");
+
+ window.scrollTo({top:0,behavior:"smooth"});
+
+ if(id==="profile")renderProfile();
+};
+
+
+/* =========================================================
+   GENERATE IDS
+========================================================= */
+
+function generateUserId(){
+ return "AURA"+Math.floor(100000+Math.random()*900000);
+}
+
+function generateCardCode(){
+ return Math.floor(100000000000+Math.random()*900000000000).toString();
+}
+
+
+/* =========================================================
+   LEVEL SYSTEM
+   500 = LEVEL 1
+   1000 = LEVEL 2
+   2000 = LEVEL 3
+========================================================= */
+
+function calculateLevel(points){
+ let level=Math.floor(Number(points)/1000)+1;
+ return Math.min(Math.max(level,1),999);
+}
+
+function nextLevelAura(level){
+ return level*1000;
+}
+
+function cardStyle(level){
+ if(level>=999)return{className:"mythic",name:"MYTHIC AURA",type:"ETERNAL"};
+ if(level<=20)return{className:"",name:"AWAKENING AURA",type:"AWAKENING"};
+ if(level<=40)return{className:"cyber",name:"CYBER AURA",type:"CYBER"};
+ if(level<=60)return{className:"neon",name:"NEON AURA",type:"NEON"};
+ if(level<=80)return{className:"",name:"GOLDEN AURA",type:"ROYAL"};
+ if(level<=100)return{className:"demon",name:"DEMON AURA",type:"INFERNO"};
+ return{className:"future",name:"EVOLVED AURA",type:"FUTURISTIC"};
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+window.registerUser=async function(){
+
+ const name=document.getElementById("regName").value.trim();
+ const email=document.getElementById("regEmail").value.trim();
+ const mobile=document.getElementById("regMobile").value.trim();
+ const password=document.getElementById("regPassword").value;
+
+ if(!name||!email||!mobile||!password){
+  alert("Please fill all details");
+  return;
+ }
+
+ if(!/^[0-9]{10}$/.test(mobile)){
+  alert("Enter valid 10 digit mobile number");
+  return;
+ }
+
+ try{
+  const result=await createUserWithEmailAndPassword(auth,email,password);
+
+  const data={
+   uid:result.user.uid,
+   userId:generateUserId(),
+   name,email,mobile,
+   level:1,
+   auraPoints:500,
+   cardCode:generateCardCode(),
+   following:[],
+   followers:[],
+   completedTasks:[],
+   createdAt:new Date().toISOString(),
+   role:"user"
+  };
+
+  await setDoc(doc(db,"users",result.user.uid),data);
+
+  currentUserData=data;
+  alert("Account created! You received 500 Bonus Aura Points.");
+  showPage("dashboard");
+  renderDashboard();
+
+ }catch(error){
+  alert(error.message);
+ }
+};
+
+
+/* =========================================================
+   USER LOGIN
+========================================================= */
+
+window.loginUser=async function(){
+
+ try{
+  const email=document.getElementById("loginEmail").value.trim();
+  const password=document.getElementById("loginPassword").value;
+
+  await signInWithEmailAndPassword(auth,email,password);
+
+ }catch(error){
+  alert(error.message);
+ }
+};
+
+
+/* =========================================================
+   ADMIN LOGIN
+   Role must be set to "admin" in Firestore.
+========================================================= */
+
+window.adminLogin=async function(){
+
+ try{
+  const email=document.getElementById("adminEmail").value.trim();
+  const password=document.getElementById("adminPassword").value;
+
+  const result=await signInWithEmailAndPassword(auth,email,password);
+
+  const snap=await getDoc(doc(db,"users",result.user.uid));
+
+  if(!snap.exists()||snap.data().role!=="admin"){
+   await signOut(auth);
+   alert("This account is not authorized as Admin.");
+   return;
+  }
+
+  currentUserData=snap.data();
+  showPage("adminDashboard");
+
+ }catch(error){
+  alert(error.message);
+ }
+};
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+onAuthStateChanged(auth,async user=>{
+
+ if(!user)return;
+
+ const snap=await getDoc(doc(db,"users",user.uid));
+
+ if(!snap.exists())return;
+
+ currentUserData=snap.data();
+
+ if(currentUserData.role==="admin"){
+  return;
+ }
+
+ currentUserData.level=calculateLevel(currentUserData.auraPoints);
+
+ renderDashboard();
+});
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard(){
+
+ if(!currentUserData)return;
+
+ document.getElementById("dashName").textContent=currentUserData.name;
+ document.getElementById("dashUserId").textContent=currentUserData.userId;
+ document.getElementById("dashLevel").textContent="LEVEL "+currentUserData.level;
+ document.getElementById("dashAura").textContent=currentUserData.auraPoints;
+ document.getElementById("nextLevel").textContent=
+ "Next: "+nextLevelAura(currentUserData.level)+" Aura Points";
+}
+
+
+/* =========================================================
+   MY AURA CARD
+========================================================= */
+
+window.openMyCard=function(){
+ showPage("cardPage");
+ renderAuraCard(currentUserData,"myAuraCard");
+};
+
+function renderAuraCard(user,target){
+
+ const style=cardStyle(user.level);
+ const cardCode=user.cardCode.match(/.{1,4}/g)?.join(" ")||user.cardCode;
+
+ document.getElementById(target).innerHTML=`
+ <div class="aura-card ${style.className}">
+  <div class="card-row">
+   <div>
+    <div style="color:#f1c75a;font-size:12px;letter-spacing:2px">${style.name}</div>
+    <h2>${escapeHTML(user.name)}</h2>
+    <small>USER ID · ${escapeHTML(user.userId)}</small>
+   </div>
+   <div class="level-circle">LEVEL<br>${user.level}</div>
+  </div>
+
+  <div class="card-number">${cardCode}</div>
+
+  <div class="card-row">
+   <div>
+    <div class="card-label">AURA POINTS</div>
+    <div class="card-value">${user.auraPoints}</div>
+   </div>
+   <div>
+    <div class="card-label">AURA TYPE</div>
+    <div class="card-value">${style.type}</div>
+   </div>
+  </div>
+
+  <div class="card-label">CARD EVOLUTION</div>
+  <div class="card-value">LEVEL ${Math.floor((user.level-1)/20)+1} STAGE</div>
+ </div>`;
+}
+
+
+/* =========================================================
+   SEARCH BY USER ID OR LAST 4 CARD DIGITS
+========================================================= */
+
+window.searchUser=async function(){
+
+ const value=document.getElementById("userSearch").value.trim().toUpperCase();
+ const box=document.getElementById("searchResult");
+
+ if(!value){box.innerHTML="";return;}
+
+ const users=await getDocs(collection(db,"users"));
+
+ let found=[];
+
+ users.forEach(s=>{
+  const u=s.data();
+
+  if(u.uid===auth.currentUser.uid||u.role==="admin")return;
+
+  const last4=String(u.cardCode||"").slice(-4);
+
+  if(String(u.userId).toUpperCase()===value||last4===value){
+   found.push(u);
+  }
+ });
+
+ if(!found.length){
+  box.innerHTML='<div class="list-item">No user found.</div>';
+  return;
+ }
+
+ box.innerHTML=found.map(u=>`
+ <div class="list-item">
+  <div>
+   <strong>${escapeHTML(u.name)}</strong><br>
+   <small>${escapeHTML(u.userId)} · Level ${u.level}</small><br>
+   <small>Card ending: ${String(u.cardCode).slice(-4)}</small>
+  </div>
+  <div>
+   <button onclick="viewOtherUser('${u.uid}')">VIEW CARD</button>
+  </div>
+ </div>`).join("");
+};
+
+
+window.viewOtherUser=async function(uid){
+
+ const snap=await getDoc(doc(db,"users",uid));
+
+ if(!snap.exists())return;
+
+ selectedUser=snap.data();
+
+ showPage("otherCardPage");
+ renderAuraCard(selectedUser,"otherAuraCard");
+
+ const following=currentUserData.following||[];
+
+ document.getElementById("followCardBtn").textContent=
+ following.includes(uid)?"✓ FOLLOWING":"＋ FOLLOW";
+};
+
+
+/* =========================================================
+   FOLLOW / UNFOLLOW
+========================================================= */
+
+window.followSelectedUser=async function(){
+
+ if(!selectedUser||!currentUserData)return;
+
+ const myRef=doc(db,"users",auth.currentUser.uid);
+ const targetRef=doc(db,"users",selectedUser.uid);
+
+ const following=currentUserData.following||[];
+ const exists=following.includes(selectedUser.uid);
+
+ if(exists){
+  await updateDoc(myRef,{following:arrayRemove(selectedUser.uid)});
+  await updateDoc(targetRef,{followers:arrayRemove(auth.currentUser.uid)});
+  currentUserData.following=following.filter(x=>x!==selectedUser.uid);
+ }else{
+  await updateDoc(myRef,{following:arrayUnion(selectedUser.uid)});
+  await updateDoc(targetRef,{followers:arrayUnion(auth.currentUser.uid)});
+  currentUserData.following=[...following,selectedUser.uid];
+ }
+
+ document.getElementById("followCardBtn").textContent=
+ exists?"＋ FOLLOW":"✓ FOLLOWING";
+};
+
+
+/* =========================================================
+   FRIEND LIST
+========================================================= */
+
+window.renderFriends=async function(){
+
+ if(!currentUserData)return;
+
+ const box=document.getElementById("friendsList");
+ const ids=currentUserData.following||[];
+
+ if(!ids.length){
+  box.innerHTML='<div class="list-item">You are not following anyone yet.</div>';
+  return;
+ }
+
+ let html="";
+
+ for(const uid of ids){
+  const snap=await getDoc(doc(db,"users",uid));
+  if(!snap.exists())continue;
+
+  const u=snap.data();
+
+  html+=`
+  <div class="list-item">
+   <div>
+    <strong>${escapeHTML(u.name)}</strong><br>
+    <small>${escapeHTML(u.userId)} · Level ${u.level}</small>
+   </div>
+   <div>
+    <button onclick="viewOtherUser('${u.uid}')">CARD</button>
+    <button onclick="openChat('${u.uid}')">MESSAGE</button>
+   </div>
+  </div>`;
+ }
+
+ box.innerHTML=html||'<div class="list-item">No friends found.</div>';
+};
+
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+function conversationId(a,b){
+ return [a,b].sort().join("_");
+}
+
+window.startChat=function(){
+ if(selectedUser)openChat(selectedUser.uid);
+};
+
+window.openChat=async function(uid){
+
+ const snap=await getDoc(doc(db,"users",uid));
+ if(!snap.exists())return;
+
+ selectedUser=snap.data();
+
+ document.getElementById("chatTitle").textContent=
+ "CHAT · "+selectedUser.name;
+
+ showPage("chatPage");
+ loadMessages();
+};
+
+
+function loadMessages(){
+
+ if(!selectedUser)return;
+
+ const id=conversationId(auth.currentUser.uid,selectedUser.uid);
+
+ onSnapshot(
+  query(collection(db,"chats",id,"messages"),orderBy("createdAt","asc")),
+  snap=>{
+
+   const box=document.getElementById("chatMessages");
+
+   box.innerHTML=snap.docs.map(d=>{
+    const m=d.data();
+    const mine=m.senderId===auth.currentUser.uid;
+
+    return `
+    <div class="msg ${mine?"mine":"other"}">
+     ${escapeHTML(m.text)}
+    </div>`;
+   }).join("");
+
+   box.scrollTop=box.scrollHeight;
+  }
+ );
+}
+
+
+window.sendMessage=async function(){
+
+ const input=document.getElementById("messageText");
+ const text=input.value.trim();
+
+ if(!text||!selectedUser)return;
+
+ const id=conversationId(auth.currentUser.uid,selectedUser.uid);
+
+ await addDoc(collection(db,"chats",id,"messages"),{
+  senderId:auth.currentUser.uid,
+  receiverId:selectedUser.uid,
+  text:text,
+  createdAt:serverTimestamp()
+ });
+
+ input.value="";
+};
+
+
+/* =========================================================
+   TASKS
+========================================================= */
+
+window.renderTasks=async function(){
+
+ const box=document.getElementById("tasksList");
+ const snap=await getDocs(collection(db,"tasks"));
+
+ let html="";
+
+ snap.forEach(d=>{
+  const t=d.data();
+
+  html+=`
+  <div class="task">
+   <h3>${escapeHTML(t.title)}</h3>
+   <p>${escapeHTML(t.description||"")}</p>
+   <div class="reward">+${t.reward} Aura Points</div>
+   <button onclick="completeTask('${d.id}')">COMPLETE TASK</button>
+  </div>`;
+ });
+
+ box.innerHTML=html||'<p class="note">No tasks available.</p>';
+};
+
+
+window.completeTask=async function(taskId){
+
+ const userRef=doc(db,"users",auth.currentUser.uid);
+ const taskSnap=await getDoc(doc(db,"tasks",taskId));
+
+ if(!taskSnap.exists())return;
+
+ const task=taskSnap.data();
+
+ if((currentUserData.completedTasks||[]).includes(taskId)){
+  alert("Task already completed.");
+  return;
+ }
+
+ const newPoints=Number(currentUserData.auraPoints)+Number(task.reward);
+ const newLevel=calculateLevel(newPoints);
+
+ await updateDoc(userRef,{
+  auraPoints:newPoints,
+  level:newLevel,
+  completedTasks:arrayUnion(taskId)
+ });
+
+ currentUserData.auraPoints=newPoints;
+ currentUserData.level=newLevel;
+ currentUserData.completedTasks=[
+  ...(currentUserData.completedTasks||[]),taskId
+ ];
+
+ alert("Task completed! +"+task.reward+" Aura Points");
+ renderTasks();
+};
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function renderProfile(){
+
+ if(!currentUserData)return;
+
+ document.getElementById("profileDetails").innerHTML=`
+ <h1>${escapeHTML(currentUserData.name)}</h1>
+ <p>Account Details</p>
+ <div style="text-align:left;margin-top:20px;line-height:2">
+ <b>User ID:</b> ${escapeHTML(currentUserData.userId)}<br>
+ <b>Email:</b> ${escapeHTML(currentUserData.email)}<br>
+ <b>Mobile:</b> ${escapeHTML(currentUserData.mobile)}<br>
+ <b>Level:</b> ${currentUserData.level}<br>
+ <b>Aura Points:</b> ${currentUserData.auraPoints}<br>
+ <b>Card Last 4:</b> ${String(currentUserData.cardCode).slice(-4)}
+ </div>`;
+}
+
+
+/* =========================================================
+   ADMIN USERS
+========================================================= */
+
+window.renderAdminUsers=async function(){
+
+ const search=(document.getElementById("adminSearch")?.value||"").toLowerCase();
+ const box=document.getElementById("adminUsersList");
+
+ const snap=await getDocs(collection(db,"users"));
+
+ let html="";
+
+ snap.forEach(d=>{
+  const u=d.data();
+  if(u.role==="admin")return;
+
+  const text=[
+   u.name,u.email,u.mobile,u.userId,
+   String(u.cardCode||"").slice(-4)
+  ].join(" ").toLowerCase();
+
+  if(search&&!text.includes(search))return;
+
+  html+=`
+  <div class="list-item">
+   <div>
+    <strong>${escapeHTML(u.name)}</strong><br>
+    <small>${escapeHTML(u.userId)} · Level ${u.level}</small><br>
+    <small>${escapeHTML(u.email)} · ${escapeHTML(u.mobile)}</small>
+   </div>
+   <button onclick="viewAdminUser('${u.uid}')">FULL DETAILS</button>
+  </div>`;
+ });
+
+ box.innerHTML=html||'<div class="list-item">No users found.</div>';
+};
+
+
+window.viewAdminUser=async function(uid){
+
+ const snap=await getDoc(doc(db,"users",uid));
+ if(!snap.exists())return;
+
+ const u=snap.data();
+
+ document.getElementById("modalUserDetails").innerHTML=`
+ <p><b>Name:</b> ${escapeHTML(u.name)}</p>
+ <p><b>User ID:</b> ${escapeHTML(u.userId)}</p>
+ <p><b>Email:</b> ${escapeHTML(u.email)}</p>
+ <p><b>Mobile:</b> ${escapeHTML(u.mobile)}</p>
+ <p><b>Card Code:</b> ${escapeHTML(u.cardCode)}</p>
+ <p><b>Followers:</b> ${(u.followers||[]).length}</p>
+ <p><b>Following:</b> ${(u.following||[]).length}</p>
+
+ <hr style="margin:15px 0;border-color:#334">
+
+ <label>Level</label>
+ <input id="editLevel" type="number" min="1" max="999" value="${u.level}">
+
+ <label>Aura Points</label>
+ <input id="editAura" type="number" min="0" value="${u.auraPoints}">
+
+ <button onclick="saveAdminUser('${u.uid}')">SAVE CHANGES</button>
+ `;
+
+ document.getElementById("userModal").classList.add("show");
+};
+
+
+window.saveAdminUser=async function(uid){
+
+ const level=Math.min(999,Math.max(1,Number(document.getElementById("editLevel").value)));
+ const aura=Math.max(0,Number(document.getElementById("editAura").value));
+
+ await updateDoc(doc(db,"users",uid),{
+  level:level,
+  auraPoints:aura
+ });
+
+ alert("User updated.");
+ closeModal();
+ renderAdminUsers();
+};
+
+
+window.closeModal=function(){
+ document.getElementById("userModal").classList.remove("show");
+};
+
+
+/* =========================================================
+   ADMIN TASKS
+========================================================= */
+
+window.createTask=async function(){
+
+ const title=document.getElementById("taskTitle").value.trim();
+ const description=document.getElementById("taskDescription").value.trim();
+ const reward=Number(document.getElementById("taskReward").value);
+
+ if(!title||!reward){
+  alert("Enter task title and reward.");
+  return;
+ }
+
+ await addDoc(collection(db,"tasks"),{
+  title,description,reward,
+  createdAt:new Date().toISOString()
+ });
+
+ document.getElementById("taskTitle").value="";
+ document.getElementById("taskDescription").value="";
+ document.getElementById("taskReward").value="";
+
+ renderAdminTasks();
+};
+
+
+window.renderAdminTasks=async function(){
+
+ const box=document.getElementById("adminTasksList");
+ const snap=await getDocs(collection(db,"tasks"));
+
+ box.innerHTML=snap.docs.map(d=>{
+  const t=d.data();
+
+  return `
+  <div class="task">
+   <h3>${escapeHTML(t.title)}</h3>
+   <p>${escapeHTML(t.description||"")}</p>
+   <div class="reward">+${t.reward} Aura</div>
+  </div>`;
+ }).join("")||'<p class="note">No tasks created.</p>';
+};
+
+
+/* =========================================================
+   ADMIN CHAT LIST
+========================================================= */
+
+window.renderAdminChats=async function(){
+
+ document.getElementById("adminChatsList").innerHTML=
+ '<div class="list-item">Chat history access should be implemented with secure admin-only Firebase rules.</div>';
+};
+
+
+/* =========================================================
+   PASSWORD RESET
+========================================================= */
+
+window.forgotPassword=async function(){
+
+ const email=prompt("Enter your registered email address:");
+
+ if(!email)return;
+
+ try{
+  await sendPasswordResetEmail(auth,email);
+  alert("Password reset link has been sent to your email.");
+ }catch(error){
+  alert(error.message);
+ }
+};
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+window.logoutUser=async function(){
+
+ await signOut(auth);
+ currentUserData=null;
+ selectedUser=null;
+ showPage("home");
+};
+
+
+/* =========================================================
+   SHARE CARD
+========================================================= */
+
+window.shareCard=async function(){
+
+ const text="Check out my Aura Card on NOW SHINE YOUR AURA!";
+
+ if(navigator.share){
+  try{
+   await navigator.share({title:"My Aura Card",text:text});
+  }catch(e){}
+ }else{
+  alert(text);
+ }
+};
+
+
+/* =========================================================
+   SAFE TEXT
+========================================================= */
+
+function escapeHTML(text){
+ return String(text??"")
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#039;");
+}
+
+</script>
+
+</body>
+</html>
