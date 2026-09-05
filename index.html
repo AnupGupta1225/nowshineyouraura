@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOWSHINEYOURAURA</title>
+
+<style>
+:root{
+  --bg:#10051f;
+  --bg2:#220b42;
+  --card:rgba(43,31,70,.82);
+  --purple:#a855f7;
+  --light:#e9ddff;
+  --muted:#b7a5d7;
+  --border:rgba(210,180,255,.42);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#10051f;
+  color:white;
+}
+
+body{
+  background:
+  radial-gradient(circle at 80% 20%,#57218a55,transparent 28%),
+  radial-gradient(circle at 15% 75%,#8a2be255,transparent 30%),
+  linear-gradient(135deg,#090313,#170625 45%,#0c0617);
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  width:100%;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  overflow-y:auto;
+  padding:20px;
+  animation:fade .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:scale(.985)}
+  to{opacity:1;transform:scale(1)}
+}
+
+::-webkit-scrollbar{
+  width:0;
+}
+
+.glass{
+  background:linear-gradient(
+    135deg,
+    rgba(75,58,105,.88),
+    rgba(33,23,55,.86)
+  );
+  border:1px solid var(--border);
+  box-shadow:
+    0 0 25px rgba(168,85,247,.25),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  backdrop-filter:blur(18px);
+}
+
+.logo{
+  text-align:center;
+  letter-spacing:7px;
+  font-size:clamp(18px,4vw,30px);
+  color:#d4b3ff;
+  margin:25px 0;
+  text-shadow:0 0 18px #a855f7;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  max-width:1100px;
+  margin:auto;
+}
+
+.admin-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:none;
+  background:#b25cff;
+  box-shadow:0 0 15px #b25cff;
+}
+
+.center{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.auth-box{
+  width:min(95%,480px);
+  margin:auto;
+  padding:35px;
+  border-radius:28px;
+}
+
+.auth-box h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.auth-box p{
+  color:var(--muted);
+  margin-bottom:25px;
+}
+
+.input-group{
+  margin:15px 0;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:8px;
+  color:#ddd;
+}
+
+.input-group input{
+  width:100%;
+  padding:16px;
+  border-radius:15px;
+  border:1px solid var(--border);
+  outline:none;
+  background:#ffffff0b;
+  color:white;
+}
+
+.main-btn{
+  width:100%;
+  border:none;
+  padding:17px;
+  border-radius:16px;
+  margin-top:15px;
+  font-size:20px;
+  font-weight:bold;
+  color:white;
+  background:linear-gradient(90deg,#6331c8,#a63de0);
+  box-shadow:0 0 25px #8b3fe855;
+}
+
+.secondary-btn{
+  width:100%;
+  border:1px solid var(--border);
+  padding:15px;
+  border-radius:16px;
+  margin-top:12px;
+  background:#ffffff0c;
+  color:white;
+  font-weight:bold;
+}
+
+/* WELCOME */
+
+.welcome-card{
+  width:min(95%,600px);
+  padding:45px 25px;
+  margin:auto;
+  text-align:center;
+  border-radius:35px;
+}
+
+.welcome-card h1{
+  font-size:clamp(42px,9vw,75px);
+}
+
+.welcome-card h2{
+  margin:20px 0;
+  color:#dcc7ff;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+  max-width:700px;
+  margin:auto;
+  padding-bottom:110px;
+}
+
+.user-card{
+  border-radius:28px;
+  padding:25px;
+  margin-bottom:22px;
+}
+
+.welcome-user{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.avatar{
+  width:85px;
+  height:85px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:40px;
+  background:radial-gradient(circle,#9c63ff,#39215f);
+  border:1px solid #cba8ff;
+}
+
+.user-card h2{
+  font-size:32px;
+}
+
+.sub{
+  color:var(--muted);
+  margin-top:8px;
+  font-size:18px;
+}
+
+.aura-number{
+  font-size:58px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.progress{
+  height:15px;
+  background:#0b0714;
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid #75508e;
+  margin-top:18px;
+}
+
+.progress div{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#7136d9,#d06cff);
+}
+
+.empty{
+  text-align:center;
+  padding:55px 20px;
+}
+
+.empty .icon{
+  font-size:70px;
+  margin-bottom:20px;
+}
+
+.empty h2{
+  font-size:35px;
+}
+
+.nav{
+  position:fixed;
+  z-index:20;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  width:min(92%,650px);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-radius:28px;
+  padding:10px;
+}
+
+.nav button{
+  border:none;
+  background:transparent;
+  color:#c4b4da;
+  padding:15px 5px;
+  font-size:15px;
+}
+
+.nav button.active-nav{
+  color:#c174ff;
+  text-shadow:0 0 15px #b25cff;
+}
+
+/* TASKS */
+
+.task-list{
+  max-width:700px;
+  margin:auto;
+  padding-bottom:110px;
+}
+
+.task-item{
+  padding:20px;
+  border-radius:22px;
+  margin:15px 0;
+}
+
+.task-item h3{
+  font-size:22px;
+}
+
+.task-points{
+  color:#d3a8ff;
+  margin:10px 0;
+}
+
+.task-complete{
+  border:none;
+  padding:11px 20px;
+  border-radius:12px;
+  background:#8241d4;
+  color:white;
+}
+
+/* AURA CARD */
+
+.aura-page-content{
+  max-width:900px;
+  margin:auto;
+  padding-bottom:50px;
+}
+
+.aura-card-wrap{
+  position:relative;
+  width:100%;
+  max-width:850px;
+  margin:20px auto;
+  border-radius:18px;
+  overflow:hidden;
+  border:2px solid #d7a83c;
+  background:#08060b;
+}
+
+.aura-card-wrap img{
+  width:100%;
+  display:block;
+  min-height:350px;
+  object-fit:cover;
+}
+
+/*
+  User details are placed over the card image.
+  Image itself remains unchanged.
+*/
+
+.card-data{
+  position:absolute;
+  left:7%;
+  top:26%;
+  width:45%;
+  color:white;
+  text-shadow:0 2px 6px #000;
+}
+
+.card-data .card-name{
+  font-size:clamp(28px,6vw,70px);
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.card-data p{
+  font-size:clamp(12px,2vw,22px);
+  margin:8px 0;
+  font-weight:bold;
+}
+
+.card-code{
+  margin-top:25px;
+  letter-spacing:4px;
+}
+
+.download-btn{
+  width:min(95%,500px);
+  display:block;
+  margin:20px auto;
+}
+
+/* PROFILE */
+
+.profile-box{
+  max-width:700px;
+  margin:auto;
+  padding-bottom:110px;
+}
+
+.menu-item{
+  width:100%;
+  border-radius:22px;
+  padding:25px;
+  margin:18px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:white;
+  font-size:25px;
+  background:linear-gradient(135deg,rgba(67,49,94,.88),rgba(37,25,60,.88));
+  border:1px solid var(--border);
+}
+
+.menu-icon{
+  font-size:32px;
+  margin-right:15px;
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+}
+
+.delete{
+  color:#ff9ba8;
+}
+
+/* SETTINGS */
+
+.settings-box{
+  width:min(95%,650px);
+  margin:auto;
+}
+
+.setting-item{
+  width:100%;
+  text-align:left;
+  padding:30px;
+  color:white;
+  font-size:24px;
+  border:1px solid var(--border);
+  background:rgba(58,41,84,.88);
+}
+
+.setting-item:first-child{
+  border-radius:25px 25px 0 0;
+}
+
+.setting-item:last-child{
+  border-radius:0 0 25px 25px;
+  color:#ff9ca8;
+}
+
+/* RANK */
+
+.rank-row{
+  display:flex;
+  justify-content:space-between;
+  padding:20px;
+  margin:12px 0;
+  border-radius:18px;
+}
+
+/* ADMIN */
+
+.admin-layout{
+  max-width:1400px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:240px 1fr;
+  gap:20px;
+  min-height:90vh;
+}
+
+.admin-side{
+  border-radius:25px;
+  padding:20px;
+}
+
+.admin-side button{
+  width:100%;
+  text-align:left;
+  padding:15px;
+  margin:7px 0;
+  border:none;
+  border-radius:12px;
+  background:transparent;
+  color:#ddd;
+  font-size:16px;
+}
+
+.admin-main{
+  border-radius:25px;
+  padding:25px;
+}
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.stat{
+  padding:25px;
+  border-radius:20px;
+}
+
+.stat h3{
+  color:#ddd;
+}
+
+.stat strong{
+  display:block;
+  font-size:40px;
+  margin-top:12px;
+}
+
+.admin-section{
+  margin-top:20px;
+  padding:20px;
+  border-radius:20px;
+}
+
+.admin-section input,
+.admin-section textarea{
+  width:100%;
+  margin:8px 0;
+  padding:13px;
+  background:#ffffff0b;
+  border:1px solid var(--border);
+  color:white;
+  border-radius:10px;
+}
+
+.admin-section textarea{
+  min-height:100px;
+}
+
+.user-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.user-table td,.user-table th{
+  padding:12px;
+  border-bottom:1px solid #ffffff20;
+  text-align:left;
+}
+
+@media(max-width:800px){
+  .admin-layout{
+    grid-template-columns:1fr;
+  }
+
+  .admin-side{
+    display:flex;
+    overflow:auto;
+    gap:5px;
+  }
+
+  .admin-side button{
+    min-width:150px;
+  }
+
+  .admin-grid{
+    grid-template-columns:1fr;
+  }
+
+  .user-table{
+    font-size:12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- LOGIN PAGE -->
+<section id="loginPage" class="page active">
+  <div class="top">
+    <div class="logo">NOWSHINEYOURAURA</div>
+    <button class="admin-dot" onclick="showPage('adminLoginPage')" title="Admin"></button>
+  </div>
+
+  <div class="center">
+    <div class="auth-box glass">
+      <h1>Welcome</h1>
+      <p>Sign in to your Aura Dashboard</p>
+
+      <div class="input-group">
+        <label>Name</label>
+        <input id="userName" placeholder="Enter your name">
+      </div>
+
+      <div class="input-group">
+        <label>User ID / Email</label>
+        <input id="userId" placeholder="Enter User ID">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input id="userPassword" type="password" placeholder="Enter password">
+      </div>
+
+      <button class="main-btn" onclick="userLogin()">Login</button>
+      <button class="secondary-btn" onclick="createUser()">Create Account</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- WELCOME PAGE -->
+<section id="welcomePage" class="page">
+  <div class="center">
+    <div class="welcome-card glass">
+      <div class="logo">NOWSHINEYOURAURA</div>
+      <div style="font-size:55px">✦</div>
+      <h1>Welcome</h1>
+      <h2>Your Aura is Shining</h2>
+      <p class="sub">Your energy is now active • Premium Aura Unlocked</p>
+      <button class="main-btn" onclick="showPage('homePage')">
+        Continue to Aura Dashboard
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- HOME -->
+<section id="homePage" class="page">
+  <div class="dashboard">
+    <div class="logo">NOWSHINEYOURAURA</div>
+
+    <div class="user-card glass">
+      <div class="welcome-user">
+        <div class="avatar">✦</div>
+        <div>
+          <h2>Welcome, <span class="displayName">User</span></h2>
+          <div class="sub">
+            Level <span id="homeLevel">1</span> ✦
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-card glass">
+      <div class="sub">Total Aura</div>
+      <div id="homeAura" class="aura-number">0</div>
+      <div class="sub">Your total aura balance</div>
+    </div>
+
+    <div class="user-card glass">
+      <h2>Level Progress</h2>
+      <div class="sub">
+        <span id="xpText">0</span>/1000 XP to Level
+        <span id="nextLevel">2</span> •
+        <span id="progressText">0</span>%
+      </div>
+
+      <div class="progress">
+        <div id="progressBar"></div>
+      </div>
+    </div>
+
+    <div id="homeTasks" class="user-card glass empty">
+      <div class="icon">▣</div>
+      <h2>No tasks yet</h2>
+      <p class="sub">Admin will add tasks soon</p>
+    </div>
+
+    <button class="main-btn" onclick="showPage('auraPage')">
+      View Your Aura Card
+    </button>
+  </div>
+</section>
+
+
+<!-- TASKS -->
+<section id="tasksPage" class="page">
+  <div class="task-list">
+    <div class="logo">NOWSHINEYOURAURA</div>
+
+    <div class="user-card glass">
+      <h1>Tasks</h1>
+      <p class="sub">
+        Complete admin tasks and collect Aura points.
+      </p>
+    </div>
+
+    <div id="taskContainer">
+      <div class="user-card glass empty">
+        <div class="icon">▣</div>
+        <h2>No tasks yet</h2>
+        <p class="sub">Admin will add tasks soon</p>
+      </div>
+    </div>
+
+    <button class="main-btn" onclick="showPage('auraPage')">
+      ✦ View Your Aura Card
+    </button>
+  </div>
+</section>
+
+
+<!-- AURA CARD -->
+<section id="auraPage" class="page">
+  <div class="aura-page-content">
+    <div class="logo">NOWSHINEYOURAURA</div>
+
+    <div class="user-card glass">
+      <h1>Your Aura Card</h1>
+      <p class="sub">
+        Your card details are based on your Aura points and Level.
+      </p>
+    </div>
+
+    <div id="downloadCard" class="aura-card-wrap">
+      <!-- Put your uploaded 4-card image in project folder as aura-cards.jpg -->
+      <img src="aura-cards.jpg" alt="Aura Card">
+
+      <div class="card-data">
+        <div id="cardName" class="card-name">USER</div>
+        <p>Level: <span id="cardLevel">1</span></p>
+        <p>Aura: <span id="cardAura">0</span></p>
+        <p>Type: <span id="cardType">Beginner</span></p>
+        <p>Energy: <span id="cardEnergy">0 AE</span></p>
+        <p>Vibe: <span id="cardVibe">New Aura</span></p>
+        <p class="card-code">
+          Card No: <span id="cardNumber"></span>
+        </p>
+      </div>
+    </div>
+
+    <button class="main-btn download-btn" onclick="downloadAuraCard()">
+      Download Aura Card
+    </button>
+  </div>
+</section>
+
+
+<!-- PROFILE -->
+<section id="profilePage" class="page">
+  <div class="profile-box">
+    <div class="logo">NOWSHINEYOURAURA</div>
+
+    <h1 style="margin:20px 0">Profile</h1>
+
+    <div class="user-card glass">
+      <div class="welcome-user">
+        <div class="avatar">●</div>
+
+        <div style="flex:1">
+          <h2>Welcome <span class="displayName">User</span></h2>
+          <div class="sub">
+            Level <span id="profileLevel">1</span> •
+            Total Aura <b id="profileAura">0</b> ✦
+          </div>
+
+          <div class="sub" style="margin-top:20px">Aura</div>
+          <div class="progress">
+            <div id="profileProgress"></div>
+          </div>
+
+          <div class="sub">
+            <span id="profileXP">0</span> / 1000 to Level
+            <span id="profileNextLevel">2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="menu-item" onclick="editProfile()">
+      <span class="menu-left"><span class="menu-icon">✎</span>Edit Profile</span>
+      <span>›</span>
+    </button>
+
+    <!-- My Aura Cards replaced with Rank -->
+    <button class="menu-item" onclick="showPage('rankPage')">
+      <span class="menu-left"><span class="menu-icon">🏆</span>Rank</span>
+      <span>›</span>
+    </button>
+
+    <button class="menu-item" onclick="showPage('settingsPage')">
+      <span class="menu-left"><span class="menu-icon">⚙</span>Settings</span>
+      <span>›</span>
+    </button>
+
+    <button class="menu-item" onclick="userLogout()">
+      <span class="menu-left"><span class="menu-icon">⏻</span>Logout</span>
+      <span>›</span>
+    </button>
+  </div>
+</section>
+
+
+<!-- RANK -->
+<section id="rankPage" class="page">
+  <div class="profile-box">
+    <div class="logo">NOWSHINEYOURAURA</div>
+
+    <h1>Rank</h1>
+    <p class="sub">Rank is decided by Total Aura points.</p>
+
+    <div class="user-card glass" style="margin-top:20px">
+      <h2>Your Current Rank</h2>
+      <div class="aura-number" id="userRank">#1</div>
+      <p class="sub">
+        Total Aura: <span id="rankAura">0</span>
+      </p>
+    </div>
+
+    <div id="rankList"></div>
+
+    <button class="secondary-btn" onclick="showPage('profilePage')">
+      Back to Profile
+    </button>
+  </div>
+</section>
+
+
+<!-- SETTINGS -->
+<section id="settingsPage" class="page">
+  <div class="settings-box">
+    <div class="logo">NOWSHINEYOURAURA</div>
+
+    <h1 style="margin:25px 0">Settings</h1>
+
+    <button class="setting-item" onclick="openNotifications()">
+      🔔 &nbsp; Notification <span style="float:right">›</span>
+    </button>
+
+    <button class="setting-item" onclick="changePrivacy()">
+      🔒 &nbsp; Privacy <span style="float:right">›</span>
+    </button>
+
+    <button class="setting-item" onclick="showAbout()">
+      ⓘ &nbsp; About <span style="float:right">›</span>
+    </button>
+
+    <button class="setting-item" onclick="helpAdmin()">
+      ❔ &nbsp; Help <span style="float:right">›</span>
+    </button>
+
+    <button class="setting-item" onclick="deleteAccount()">
+      🗑 &nbsp; Delete Account <span style="float:right">›</span>
+    </button>
+
+    <button class="secondary-btn" onclick="showPage('profilePage')">
+      Back
+    </button>
+  </div>
+</section>
+
+
+<!-- ADMIN LOGIN -->
+<section id="adminLoginPage" class="page">
+  <div class="center">
+    <div class="auth-box glass">
+      <h1>🔒 Admin Access</h1>
+      <p>Sign in to continue to the admin dashboard</p>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input id="adminEmail" type="email" placeholder="you@nowshineyouraura.com">
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input id="adminPassword" type="password" placeholder="Password">
+      </div>
+
+      <button class="main-btn" onclick="adminLogin()">
+        Login as Admin
+      </button>
+
+      <button class="secondary-btn" onclick="showPage('loginPage')">
+        Cancel
+      </button>
+
+      <p style="text-align:center;margin-top:20px;font-size:13px">
+        Protected • Secure connection • v1.0
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ADMIN DASHBOARD -->
+<section id="adminPage" class="page">
+  <div class="admin-layout">
+
+    <aside class="admin-side glass">
+      <h2>✦ AURA ADMIN</h2>
+
+      <button onclick="adminScroll('adminDashboard')">👥 Dashboard</button>
+      <button onclick="adminScroll('adminUsers')">♙ User List</button>
+      <button onclick="adminScroll('adminAura')">✦ Aura Management</button>
+      <button onclick="adminScroll('adminLevels')">▣ Level Management</button>
+      <button onclick="adminScroll('adminTasks')">☷ Tasks Management</button>
+
+      <hr style="border-color:#ffffff22;margin:15px 0">
+
+      <button onclick="adminLogout()">⏻ Logout</button>
+    </aside>
+
+    <main class="admin-main glass">
+
+      <div id="adminDashboard">
+        <h1>Admin Dashboard</h1>
+        <p class="sub">Welcome back, Admin • Overview of users and management controls</p>
+
+        <div class="admin-grid" style="margin-top:20px">
+          <div class="stat glass">
+            <h3>Total Users</h3>
+            <strong id="totalUsers">1</strong>
+          </div>
+
+          <div class="stat glass">
+            <h3>Aura Management</h3>
+            <strong id="totalAuraAdmin">0</strong>
+            <p class="sub">Total Aura distributed</p>
+          </div>
+
+          <div class="stat glass">
+            <h3>Levels & Tasks</h3>
+            <strong id="adminTaskCount">0</strong>
+            <p class="sub">Active Tasks</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="adminUsers" class="admin-section glass">
+        <h2>User List</h2>
+        <p class="sub">Manage registered users</p>
+
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>User ID</th>
+              <th>Aura</th>
+              <th>Level</th>
+            </tr>
+          </thead>
+          <tbody id="adminUserTable"></tbody>
+        </table>
+      </div>
+
+
+      <div id="adminAura" class="admin-section glass">
+        <h2>Aura Management</h2>
+
+        <p class="sub">Total Aura Pool: 50,000 Credits</p>
+
+        <input id="auraUserId" placeholder="User ID">
+        <input id="auraAmount" type="number" placeholder="Aura points">
+        <button class="main-btn" onclick="adminAddAura()">
+          Add Aura to User
+        </button>
+      </div>
+
+
+      <div id="adminLevels" class="admin-section glass">
+        <h2>Level Management</h2>
+
+        <p class="sub">
+          Level formula: every 1000 Aura = next Level.
+        </p>
+
+        <input id="levelUserId" placeholder="User ID">
+        <input id="newLevel" type="number" placeholder="Set Level">
+        <button class="main-btn" onclick="adminSetLevel()">
+          Update Level
+        </button>
+      </div>
+
+
+      <div id="adminTasks" class="admin-section glass">
+        <h2>Tasks Management</h2>
+
+        <input id="taskTitle" placeholder="Task title">
+        <textarea id="taskDescription" placeholder="Task description"></textarea>
+        <input id="taskAura" type="number" placeholder="Aura points reward">
+
+        <button class="main-btn" onclick="addTask()">
+          Add Task
+        </button>
+
+        <div id="adminTasksList" style="margin-top:20px"></div>
+      </div>
+
+    </main>
+  </div>
+</section>
+
+
+<!-- BOTTOM NAVIGATION -->
+<nav id="bottomNav" class="nav glass" style="display:none">
+  <button id="navHome" onclick="showPage('homePage')">⌂<br>Home</button>
+  <button id="navTasks" onclick="showPage('tasksPage')">☷<br>Tasks</button>
+  <button id="navAura" onclick="showPage('auraPage')">✦<br>Aura</button>
+  <button id="navProfile" onclick="showPage('profilePage')">♟<br>Profile</button>
+</nav>
+
+</div>
+
+
+<script>
+/*
+  FRONTEND DEMO DATABASE
+*/
+
+const ADMIN_EMAIL = "Anup97005@gmail.com";
+const ADMIN_PASSWORD = "admin97005";
+
+let users = JSON.parse(localStorage.getItem("auraUsers")) || [];
+let tasks = JSON.parse(localStorage.getItem("auraTasks")) || [];
+let currentUserId = localStorage.getItem("currentAuraUser") || null;
+
+function saveData(){
+  localStorage.setItem("auraUsers",JSON.stringify(users));
+  localStorage.setItem("auraTasks",JSON.stringify(tasks));
+}
+
+function showPage(pageId){
+
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+  document.getElementById(pageId).classList.add("active");
+
+  const userPages = [
+    "homePage",
+    "tasksPage",
+    "auraPage",
+    "profilePage",
+    "rankPage",
+    "settingsPage"
+  ];
+
+  const nav = document.getElementById("bottomNav");
+
+  if(userPages.includes(pageId) && currentUserId){
+    nav.style.display="grid";
+    updateNav(pageId);
+    refreshUserUI();
+  }else{
+    nav.style.display="none";
+  }
+
+  if(pageId === "adminPage"){
+    refreshAdminUI();
+  }
+}
+
+function updateNav(pageId){
+  document.querySelectorAll(".nav button").forEach(btn=>{
+    btn.classList.remove("active-nav");
+  });
+
+  const map = {
+    homePage:"navHome",
+    tasksPage:"navTasks",
+    auraPage:"navAura",
+    profilePage:"navProfile",
+    rankPage:"navProfile",
+    settingsPage:"navProfile"
+  };
+
+  if(map[pageId]){
+    document.getElementById(map[pageId]).classList.add("active-nav");
+  }
+}
+
+function currentUser(){
+  return users.find(u=>u.id===currentUserId);
+}
+
+function generateCardNumber(){
+  return "4001 " +
+    Math.floor(1000+Math.random()*8999) + " " +
+    Math.floor(1000+Math.random()*8999) + " " +
+    Math.floor(1000+Math.random()*8999);
+}
+
+
+/* CREATE ACCOUNT */
+
+function createUser(){
+
+  const name = document.getElementById("userName").value.trim();
+  const id = document.getElementById("userId").value.trim();
+  const password = document.getElementById("userPassword").value;
+
+  if(!name || !id || !password){
+    alert("Please fill all details.");
+    return;
+  }
+
+  if(users.some(u=>u.id===id)){
+    alert("This User ID already exists. Please login.");
+    return;
+  }
+
+  const user = {
+    name:name,
+    id:id,
+    password:password,
+    aura:0,
+    level:1,
+    completedTasks:[],
+    cardNumber:generateCardNumber(),
+    cardType:"Beginner",
+    vibe:"New Aura"
+  };
+
+  users.push(user);
+  currentUserId=id;
+
+  localStorage.setItem("currentAuraUser",id);
+  saveData();
+
+  showPage("welcomePage");
+}
+
+
+/* USER LOGIN */
+
+function userLogin(){
+
+  const id=document.getElementById("userId").value.trim();
+  const password=document.getElementById("userPassword").value;
+
+  const user=users.find(u=>u.id===id && u.password===password);
+
+  if(!user){
+    alert("Invalid User ID or Password.");
+    return;
+  }
+
+  currentUserId=user.id;
+  localStorage.setItem("currentAuraUser",user.id);
+
+  showPage("welcomePage");
+}
+
+
+/* USER LOGOUT */
+
+function userLogout(){
+
+  currentUserId=null;
+  localStorage.removeItem("currentAuraUser");
+
+  showPage("loginPage");
+}
+
+
+/* REFRESH USER */
+
+function refreshUserUI(){
+
+  const user=currentUser();
+
+  if(!user) return;
+
+  user.level=Math.floor(user.aura/1000)+1;
+
+  const levelProgress=user.aura%1000;
+  const percent=(levelProgress/1000)*100;
+
+  document.querySelectorAll(".displayName").forEach(el=>{
+    el.textContent=user.name;
+  });
+
+  document.getElementById("homeLevel").textContent=user.level;
+  document.getElementById("homeAura").textContent=user.aura;
+
+  document.getElementById("xpText").textContent=levelProgress;
+  document.getElementById("nextLevel").textContent=user.level+1;
+  document.getElementById("progressText").textContent=Math.floor(percent);
+  document.getElementById("progressBar").style.width=percent+"%";
+
+  document.getElementById("profileLevel").textContent=user.level;
+  document.getElementById("profileAura").textContent=user.aura;
+  document.getElementById("profileXP").textContent=levelProgress;
+  document.getElementById("profileNextLevel").textContent=user.level+1;
+  document.getElementById("profileProgress").style.width=percent+"%";
+
+  updateCard(user);
+  renderTasks(user);
+  renderRank(user);
+
+  saveData();
+}
+
+
+/* CARD DETAILS */
+
+function updateCard(user){
+
+  let type="Beginner";
+  let vibe="New Aura";
+
+  if(user.level>=10){
+    type="Futuristic";
+    vibe="Plasma Flow";
+  }
+
+  if(user.level>=25){
+    type="Cyberpunk";
+    vibe="Voidshift";
+  }
+
+  if(user.level>=50){
+    type="Luxury";
+    vibe="Celestial Radiance";
+  }
+
+  if(user.level>=100){
+    type="Mythic";
+    vibe="Eternal Origin";
+  }
+
+  user.cardType=type;
+  user.vibe=vibe;
+
+  document.getElementById("cardName").textContent=user.name.toUpperCase();
+  document.getElementById("cardLevel").textContent=user.level;
+  document.getElementById("cardAura").textContent=user.aura;
+  document.getElementById("cardType").textContent=type;
+  document.getElementById("cardEnergy").textContent=user.aura+" AE";
+  document.getElementById("cardVibe").textContent=vibe;
+  document.getElementById("cardNumber").textContent=user.cardNumber;
+}
+
+
+/* TASKS */
+
+function renderTasks(user){
+
+  const container=document.getElementById("taskContainer");
+  const homeTasks=document.getElementById("homeTasks");
+
+  if(tasks.length===0){
+
+    container.innerHTML=`
+      <div class="user-card glass empty">
+        <div class="icon">▣</div>
+        <h2>No tasks yet</h2>
+        <p class="sub">Admin will add tasks soon</p>
+      </div>
+    `;
+
+    homeTasks.innerHTML=`
+      <div class="icon">▣</div>
+      <h2>No tasks yet</h2>
+      <p class="sub">Admin will add tasks soon</p>
+    `;
+
+    return;
+  }
+
+  let html="";
+
+  tasks.forEach(task=>{
+
+    const completed=user.completedTasks.includes(task.id);
+
+    html+=`
+      <div class="task-item glass">
+        <h3>${escapeHTML(task.title)}</h3>
+        <p class="sub">${escapeHTML(task.description)}</p>
+        <p class="task-points">✦ ${task.aura} Aura Points</p>
+
+        <button
+          class="task-complete"
+          ${completed ? "disabled" : ""}
+          onclick="completeTask('${task.id}')"
+        >
+          ${completed ? "Completed ✓" : "Complete Task"}
+        </button>
+      </div>
+    `;
+  });
+
+  container.innerHTML=html;
+
+  homeTasks.innerHTML=`
+    <div class="icon">▣</div>
+    <h2>${tasks.length} Active Task${tasks.length>1?"s":""}</h2>
+    <p class="sub">Go to Tasks and collect Aura points</p>
+  `;
+}
+
+function completeTask(taskId){
+
+  const user=currentUser();
+  const task=tasks.find(t=>t.id===taskId);
+
+  if(!user || !task) return;
+
+  if(user.completedTasks.includes(taskId)){
+    return;
+  }
+
+  user.completedTasks.push(taskId);
+  user.aura+=Number(task.aura);
+
+  saveData();
+  refreshUserUI();
+
+  alert("Task completed! +" + task.aura + " Aura collected ✦");
+}
+
+
+/* RANK */
+
+function renderRank(user){
+
+  const sorted=[...users].sort((a,b)=>b.aura-a.aura);
+
+  const position=sorted.findIndex(u=>u.id===user.id)+1;
+
+  document.getElementById("userRank").textContent="#"+position;
+  document.getElementById("rankAura").textContent=user.aura;
+
+  document.getElementById("rankList").innerHTML=
+    sorted.map((u,index)=>`
+      <div class="rank-row glass">
+        <b>#${index+1} ${escapeHTML(u.name)}</b>
+        <span>✦ ${u.aura}</span>
+      </div>
+    `).join("");
+}
+
+
+/* EDIT PROFILE */
+
+function editProfile(){
+
+  const user=currentUser();
+
+  const newName=prompt("Enter new name:",user.name);
+
+  if(newName && newName.trim()){
+    user.name=newName.trim();
+    saveData();
+    refreshUserUI();
+  }
+}
+
+
+/* SETTINGS */
+
+function openNotifications(){
+
+  const taskNames=tasks.map(t=>"• "+t.title).join("\n");
+
+  alert(
+    tasks.length
+    ? "Admin Task Notifications:\n\n"+taskNames
+    : "No new notifications."
+  );
+}
+
+function changePrivacy(){
+
+  const user=currentUser();
+
+  const newId=prompt("New User ID:",user.id);
+
+  if(newId && newId.trim() && newId!==user.id){
+
+    if(users.some(u=>u.id===newId.trim())){
+      alert("User ID already exists.");
+      return;
+    }
+
+    user.id=newId.trim();
+    currentUserId=user.id;
+    localStorage.setItem("currentAuraUser",user.id);
+  }
+
+  const newPassword=prompt("New Password:");
+
+  if(newPassword && newPassword.trim()){
+    user.password=newPassword.trim();
+  }
+
+  saveData();
+
+  alert("Privacy details updated.");
+}
+
+function showAbout(){
+  alert(
+    "NOWSHINEYOURAURA\n\n" +
+    "Complete tasks, collect Aura points, level up and improve your rank."
+  );
+}
+
+function helpAdmin(){
+
+  const message=prompt("Write your help message for Admin:");
+
+  if(message && message.trim()){
+
+    const messages=JSON.parse(
+      localStorage.getItem("auraHelpMessages") || "[]"
+    );
+
+    messages.push({
+      user:currentUser().name,
+      id:currentUser().id,
+      message:message.trim(),
+      date:new Date().toLocaleString()
+    });
+
+    localStorage.setItem(
+      "auraHelpMessages",
+      JSON.stringify(messages)
+    );
+
+    alert("Your message has been sent to Admin.");
+  }
+}
+
+function deleteAccount(){
+
+  const user=currentUser();
+
+  const password=prompt(
+    "Enter your password to request account deletion.\nPermanent deletion will happen after 15 days."
+  );
+
+  if(password!==user.password){
+    alert("Incorrect password.");
+    return;
+  }
+
+  user.deleteRequestedAt=Date.now();
+
+  saveData();
+
+  alert(
+    "Account deletion request submitted.\nYour account will be permanently deleted after 15 days."
+  );
+}
+
+
+/* ADMIN LOGIN */
+
+function adminLogin(){
+
+  const email=document.getElementById("adminEmail").value.trim();
+  const password=document.getElementById("adminPassword").value;
+
+  if(email===ADMIN_EMAIL && password===ADMIN_PASSWORD){
+
+    showPage("adminPage");
+
+  }else{
+
+    alert("Invalid Admin ID or Password.");
+  }
+}
+
+function adminLogout(){
+  showPage("loginPage");
+}
+
+
+/* ADMIN TASK */
+
+function addTask(){
+
+  const title=document.getElementById("taskTitle").value.trim();
+  const description=document.getElementById("taskDescription").value.trim();
+  const aura=document.getElementById("taskAura").value;
+
+  if(!title || !description || !aura){
+    alert("Please fill all task details.");
+    return;
+  }
+
+  tasks.push({
+    id:"task_"+Date.now(),
+    title:title,
+    description:description,
+    aura:Number(aura)
+  });
+
+  saveData();
+
+  document.getElementById("taskTitle").value="";
+  document.getElementById("taskDescription").value="";
+  document.getElementById("taskAura").value="";
+
+  refreshAdminUI();
+
+  alert("Task added successfully.");
+}
+
+
+/* ADMIN ADD AURA */
+
+function adminAddAura(){
+
+  const id=document.getElementById("auraUserId").value.trim();
+  const amount=Number(document.getElementById("auraAmount").value);
+
+  const user=users.find(u=>u.id===id);
+
+  if(!user){
+    alert("User not found.");
+    return;
+  }
+
+  if(!amount || amount<=0){
+    alert("Enter valid Aura points.");
+    return;
+  }
+
+  user.aura+=amount;
+
+  saveData();
+  refreshAdminUI();
+
+  alert(amount+" Aura added to "+user.name);
+}
+
+
+/* ADMIN SET LEVEL */
+
+function adminSetLevel(){
+
+  const id=document.getElementById("levelUserId").value.trim();
+  const level=Number(document.getElementById("newLevel").value);
+
+  const user=users.find(u=>u.id===id);
+
+  if(!user || !level || level<1){
+    alert("Invalid User ID or Level.");
+    return;
+  }
+
+  user.level=Math.floor(level);
+  user.aura=Math.max(user.aura,(user.level-1)*1000);
+
+  saveData();
+  refreshAdminUI();
+
+  alert("Level updated successfully.");
+}
+
+
+/* ADMIN UI */
+
+function refreshAdminUI(){
+
+  document.getElementById("totalUsers").textContent=users.length;
+
+  const totalAura=users.reduce((sum,user)=>sum+user.aura,0);
+
+  document.getElementById("totalAuraAdmin").textContent=totalAura;
+  document.getElementById("adminTaskCount").textContent=tasks.length;
+
+  document.getElementById("adminUserTable").innerHTML=
+    users.map(user=>`
+      <tr>
+        <td>${escapeHTML(user.name)}</td>
+        <td>${escapeHTML(user.id)}</td>
+        <td>${user.aura}</td>
+        <td>${user.level}</td>
+      </tr>
+    `).join("");
+
+  document.getElementById("adminTasksList").innerHTML=
+    tasks.map(task=>`
+      <div class="task-item glass">
+        <h3>${escapeHTML(task.title)}</h3>
+        <p class="sub">${escapeHTML(task.description)}</p>
+        <p class="task-points">✦ ${task.aura} Aura</p>
+        <button class="secondary-btn"
+          onclick="removeTask('${task.id}')">
+          Remove Task
+        </button>
+      </div>
+    `).join("");
+}
+
+function removeTask(taskId){
+
+  if(!confirm("Remove this task?")) return;
+
+  tasks=tasks.filter(task=>task.id!==taskId);
+
+  saveData();
+  refreshAdminUI();
+}
+
+
+/* ADMIN NAVIGATION */
+
+function adminScroll(id){
+
+  document.getElementById(id).scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+
+/* DOWNLOAD AURA CARD */
+
+async function downloadAuraCard(){
+
+  const user=currentUser();
+
+  /*
+    Downloads the card image.
+    For full production version, use a backend
+    or html2canvas to generate the exact card with details.
+  */
+
+  const imageUrl="aura-cards.jpg";
+
+  try{
+
+    const response=await fetch(imageUrl);
+    const blob=await response.blob();
+
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+    a.download=
+      user.name.replace(/\s+/g,"-")+
+      "-Aura-Card.jpg";
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
+  }catch(error){
+
+    alert(
+      "Aura card image not found. Put the uploaded card image in your project folder as aura-cards.jpg"
+    );
+  }
+}
+
+
+/* SAFE TEXT */
+
+function escapeHTML(text){
+
+  const div=document.createElement("div");
+  div.textContent=text;
+
+  return div.innerHTML;
+}
+
+
+/* DELETE ACCOUNTS AFTER 15 DAYS */
+
+function checkDeletedAccounts(){
+
+  const fifteenDays=15*24*60*60*1000;
+  const now=Date.now();
+
+  users=users.filter(user=>{
+
+    if(
+      user.deleteRequestedAt &&
+      now-user.deleteRequestedAt>=fifteenDays
+    ){
+      return false;
+    }
+
+    return true;
+  });
+
+  saveData();
+}
+
+
+/* START */
+
+checkDeletedAccounts();
+
+if(currentUserId && currentUser()){
+  showPage("homePage");
+}else{
+  showPage("loginPage");
+}
+</script>
+
+</body>
+</html>
