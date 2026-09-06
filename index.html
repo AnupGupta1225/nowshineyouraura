@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Now Shine Your Aura</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --bg:#090018;--purple:#8d35ff;--blue:#268cff;
+ --card:#160b2bd9;--text:#fff;--muted:#c8b9db;
+}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#090018;color:#fff}
+button,input{font:inherit}
+
+#app{width:100%;height:100vh;overflow:hidden}
+.page{
+ display:none;width:100%;height:100vh;
+ overflow-y:auto;overflow-x:hidden;padding-bottom:85px;
+}
+.page.active{display:block}
+
+.bg{
+ min-height:100%;
+ background:
+ radial-gradient(circle at 15% 15%,#1b61ff99,transparent 30%),
+ radial-gradient(circle at 85% 20%,#9d28ff88,transparent 35%),
+ radial-gradient(circle at 50% 90%,#243cff66,transparent 40%),
+ linear-gradient(135deg,#06000d,#16002c,#08001a);
+}
+.wrap{width:min(100% - 30px,680px);margin:auto;padding:18px 0}
+.glass{
+ background:linear-gradient(135deg,#25113ee8,#10051fe8);
+ border:1px solid #ffffff20;border-radius:24px;
+ box-shadow:0 15px 40px #0009;
+}
+.logo{text-align:center;padding:20px 0 12px;font-size:14px;letter-spacing:4px;font-weight:bold;color:#dfc2ff}
+.muted{color:var(--muted);line-height:1.5}
+
+.center{
+ min-height:100vh;display:flex;align-items:center;justify-content:center;
+ padding:20px;
+}
+.auth{width:min(100%,430px);padding:28px}
+.auth h1{font-size:30px;margin-bottom:8px}
+
+label{display:block;margin-top:15px;color:#e7dcf4}
+input{
+ width:100%;margin-top:7px;padding:15px;border-radius:14px;
+ border:1px solid #ffffff25;background:#ffffff0d;color:#fff;outline:none;
+}
+input:focus{border-color:#a963ff}
+
+.btn{
+ width:100%;border:0;border-radius:15px;padding:15px;margin-top:16px;
+ color:#fff;font-weight:bold;
+ background:linear-gradient(90deg,#5d2bc6,#aa51ff,#387dff);
+}
+.btn2{
+ width:100%;border-radius:15px;padding:14px;margin-top:10px;
+ background:#ffffff0b;color:#fff;border:1px solid #ffffff22;
+}
+
+.admin-dot{
+ position:fixed;top:14px;right:14px;z-index:9999;
+ width:13px;height:13px;border-radius:50%;border:0;
+ background:#b45cff;box-shadow:0 0 16px #a448ff;
+}
+
+.hero{
+ min-height:100vh;display:flex;flex-direction:column;
+ justify-content:center;text-align:center;padding:25px;
+}
+.hero h1{
+ font-size:clamp(35px,10vw,64px);line-height:1.05;
+ text-shadow:0 0 30px #8e38ff;
+}
+.hero h1 span{color:#9b54ff}
+.hero p{max-width:500px;margin:18px auto;color:#d8cbe8}
+.heroAura{
+ width:150px;height:150px;border-radius:50%;margin:0 auto 25px;
+ display:flex;align-items:center;justify-content:center;font-size:70px;
+ background:radial-gradient(circle,#fff9,#9e46ff88 35%,#2b64ff55 55%,transparent 70%);
+ box-shadow:0 0 80px #7d3cff;
+}
+
+.card{padding:20px;margin-bottom:15px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.big{font-size:58px;font-weight:bold;margin:8px 0}
+.progress{height:13px;background:#050009;border-radius:30px;overflow:hidden;margin-top:12px}
+.progress div{height:100%;background:linear-gradient(90deg,#5b2bd5,#bc62ff,#318cff);width:0%}
+
+.task{padding:18px;margin:12px 0}
+.small{
+ border:0;border-radius:11px;padding:10px 14px;color:#fff;
+ background:linear-gradient(90deg,#6332d0,#9e4dff);
+}
+
+/* AURA CARD */
+.auraCard{
+ width:100%;aspect-ratio:1.586/1;position:relative;overflow:hidden;
+ border-radius:22px;border:1px solid #e9d0ff99;
+ background:
+ radial-gradient(circle at 82% 18%,#bc6affcc,transparent 23%),
+ radial-gradient(circle at 18% 82%,#237affaa,transparent 28%),
+ linear-gradient(135deg,#09000f,#321054,#07142d);
+ box-shadow:0 0 35px #8946e888,0 20px 45px #000b;
+}
+.auraCard:before{
+ content:"";position:absolute;inset:0;
+ background:
+ linear-gradient(125deg,transparent 20%,#ffffff18 47%,transparent 60%),
+ repeating-linear-gradient(135deg,transparent 0 12px,#ffffff05 13px 14px);
+}
+.cardInside{
+ position:absolute;inset:0;padding:7%;display:flex;
+ flex-direction:column;justify-content:space-between;
+ text-shadow:0 3px 8px #000;
+}
+.cardTop{font-size:clamp(9px,2vw,15px);letter-spacing:2px;color:#efdfff}
+.cardName{font-size:clamp(30px,8vw,57px);font-weight:900;line-height:1}
+.cardSub{margin-top:8px;font-size:clamp(9px,2vw,16px)}
+.cardInfo{font-size:clamp(10px,2.2vw,17px);line-height:1.7}
+.cardNumber{letter-spacing:2px;font-size:clamp(8px,1.8vw,13px)}
+.evo2{filter:hue-rotate(35deg)}
+.evo3{filter:hue-rotate(110deg) saturate(1.25)}
+.evo4{filter:hue-rotate(210deg) saturate(1.5) brightness(1.1)}
+
+.menu{
+ width:100%;padding:18px;text-align:left;margin-bottom:10px;
+ border-radius:17px;border:1px solid #ffffff1d;
+ background:#ffffff0b;color:#fff;
+}
+
+.friend,.message{padding:13px;margin:8px 0;border-radius:15px;background:#ffffff0a}
+#chatMessages{height:280px;overflow-y:auto;padding:5px}
+textarea{
+ width:100%;min-height:90px;padding:14px;border-radius:14px;
+ background:#ffffff0d;color:#fff;border:1px solid #ffffff22;
+}
+
+.nav{
+ position:fixed;display:none;z-index:1000;bottom:10px;
+ left:50%;transform:translateX(-50%);
+ width:min(94%,680px);padding:6px;border-radius:22px;
+ grid-template-columns:repeat(5,1fr);
+ background:#160a29f2;border:1px solid #ffffff20;
+}
+.nav button{border:0;background:transparent;color:#cdbddd;padding:8px 2px}
+.nav button.on{color:#bd72ff}
+
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th,.table td{padding:9px;border-bottom:1px solid #ffffff18;text-align:left}
+
+.hidden{display:none!important}
+</style>
+</head>
+
+<body>
+<div id="app">
+
+<button class="admin-dot" onclick="go('adminLogin')" aria-label="Admin Login"></button>
+
+<!-- FIRST PAGE -->
+<section id="first" class="page active">
+ <div class="bg hero">
+   <div class="heroAura">✦</div>
+   <h1>NOW SHINE<br>YOUR <span>AURA</span></h1>
+   <p>Complete tasks. Collect Aura. Rise through the ranks and discover your power.</p>
+   <div style="width:min(100%,400px);margin:auto">
+     <button class="btn" onclick="go('login')">GET STARTED</button>
+   </div>
+ </div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+<div class="bg center">
+ <div class="auth glass">
+  <div class="logo">NOW SHINE YOUR AURA</div>
+  <h1>Welcome Back</h1>
+  <p class="muted">Login and continue your Aura journey.</p>
+  <label>Email</label><input id="loginEmail" type="email">
+  <label>Password</label><input id="loginPassword" type="password">
+  <button class="btn" onclick="loginUser()">LOGIN</button>
+  <button class="btn2" onclick="go('register')">CREATE ACCOUNT</button>
+  <button class="btn2" onclick="forgotPassword()">FORGOT PASSWORD?</button>
+  <button class="btn2" onclick="go('first')">BACK</button>
+ </div>
+</div>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="page">
+<div class="bg center">
+ <div class="auth glass">
+  <div class="logo">NOW SHINE YOUR AURA</div>
+  <h1>Create Account</h1>
+  <label>Name</label><input id="regName">
+  <label>Mobile Number</label><input id="regMobile" inputmode="numeric">
+  <label>Email</label><input id="regEmail" type="email">
+  <label>Password</label><input id="regPassword" type="password">
+  <button class="btn" onclick="registerUser()">CREATE ACCOUNT</button>
+  <button class="btn2" onclick="go('login')">BACK TO LOGIN</button>
+ </div>
+</div>
+</section>
+
+<!-- WELCOME -->
+<section id="welcome" class="page">
+<div class="bg center">
+ <div class="auth glass" style="text-align:center">
+  <div class="heroAura" style="width:110px;height:110px;font-size:50px">✦</div>
+  <h1>AURA ACTIVATED!</h1>
+  <p class="muted">You received your starting Aura. Complete tasks and become stronger.</p>
+  <button class="btn" onclick="go('home')">CONTINUE</button>
+ </div>
+</div>
+</section>
+
+<!-- HOME -->
+<section id="home" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">NOW SHINE YOUR AURA</div>
+ <div class="glass card">
+   <h2 id="homeName">USER</h2>
+   <p class="muted">ID: <span id="homeUserId">----</span></p>
+   <p class="muted">LEVEL <span id="homeLevel">1</span></p>
+ </div>
+ <div class="glass card">
+   <p class="muted">TOTAL AURA</p>
+   <div class="big" id="homeAura">500</div>
+   <p class="muted">Your power grows with every completed task.</p>
+ </div>
+ <div class="glass card">
+   <div class="row"><b>LEVEL PROGRESS</b><span id="progressText">500 / 1000</span></div>
+   <div class="progress"><div id="progressBar"></div></div>
+ </div>
+ <button class="btn" onclick="go('aura')">VIEW YOUR AURA CARD</button>
+</div></div></section>
+
+<!-- TASKS -->
+<section id="tasks" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">TASKS & AURA</div>
+ <div class="glass card">
+  <h2>Complete Tasks</h2>
+  <p class="muted">Complete an Admin task and submit it for approval to collect Aura.</p>
+ </div>
+ <div id="taskList"></div>
+</div></div></section>
+
+<!-- AURA CARD -->
+<section id="aura" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">YOUR AURA CARD</div>
+ <div id="auraCard" class="auraCard">
+  <div class="cardInside">
+   <div>
+    <div class="cardTop">NOW SHINE YOUR AURA</div>
+    <div class="cardName" id="cardName">USER</div>
+    <div class="cardSub">LEVEL <span id="cardLevel">1</span> • <span id="cardType">AWAKENED</span></div>
+   </div>
+   <div class="cardInfo">
+    ✦ TOTAL AURA: <b id="cardAura">500</b><br>
+    ⚡ ENERGY: <b id="cardEnergy">500 AE</b><br>
+    ID: <b id="cardUserId">----</b>
+   </div>
+   <div class="cardNumber">AURA CARD NO. <span id="cardNumber">----</span></div>
+  </div>
+ </div>
+ <button class="btn" onclick="downloadCard()">DOWNLOAD AURA CARD</button>
+ <button class="btn2" onclick="shareCard()">SHARE</button>
+</div></div></section>
+
+<!-- FRIENDS -->
+<section id="friends" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">FRIENDS</div>
+ <div class="glass card">
+  <h2>Search Aura User</h2>
+  <p class="muted">Enter User ID or last 4 digits of Aura Card.</p>
+  <input id="friendSearch" placeholder="USER ID / LAST 4 DIGITS">
+  <button class="btn" onclick="findUser()">SEARCH</button>
+  <div id="searchResult"></div>
+ </div>
+ <div class="glass card"><h2>Friend Requests</h2><div id="requestList"></div></div>
+ <div class="glass card"><h2>My Friends</h2><div id="friendList"></div></div>
+ <div class="glass card">
+  <h2>Messages</h2>
+  <select id="chatSelect" onchange="openChat()" style="width:100%;padding:14px;border-radius:14px;background:#ffffff0d;color:white;border:1px solid #ffffff22"></select>
+  <div id="chatMessages"></div>
+  <input id="messageText" placeholder="Write a message">
+  <button class="btn" onclick="sendChat()">SEND</button>
+ </div>
+</div></div></section>
+
+<!-- RANK -->
+<section id="rank" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">AURA RANK</div>
+ <div id="rankList"></div>
+</div></div></section>
+
+<!-- PROFILE -->
+<section id="profile" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">MY PROFILE</div>
+ <div class="glass card">
+  <h2 id="profileName">USER</h2>
+  <p class="muted">USER ID: <span id="profileUserId"></span></p>
+  <p class="muted">EMAIL: <span id="profileEmail"></span></p>
+  <p class="muted">MOBILE: <span id="profileMobile"></span></p>
+ </div>
+ <button class="menu" onclick="editProfile()">✎ Edit Profile</button>
+ <button class="menu" onclick="go('rank')">🏆 Rank</button>
+ <button class="menu" onclick="go('settings')">⚙ Settings</button>
+ <button class="menu" onclick="logoutUser()">⏻ Logout</button>
+</div></div></section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">SETTINGS</div>
+ <button class="menu" onclick="showNotifications()">🔔 Notifications</button>
+ <button class="menu" onclick="changePasswordUser()">🔑 Change Password</button>
+ <button class="menu" onclick="helpAdmin()">❔ Help</button>
+ <button class="menu" style="color:#ff8797" onclick="requestDelete()">🗑 Delete Account</button>
+ <button class="btn2" onclick="go('profile')">BACK</button>
+</div></div></section>
+
+<!-- ADMIN LOGIN -->
+<section id="adminLogin" class="page"><div class="bg center">
+ <div class="auth glass">
+  <div class="logo">ADMIN LOGIN</div>
+  <h1>Admin Panel</h1>
+  <label>Email</label><input id="adminEmail" type="email">
+  <label>Password</label><input id="adminPassword" type="password">
+  <button class="btn" onclick="adminLogin()">LOGIN AS ADMIN</button>
+  <button class="btn2" onclick="go('first')">BACK</button>
+ </div>
+</div></section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="admin" class="page"><div class="bg"><div class="wrap">
+ <div class="logo">ADMIN DASHBOARD</div>
+ <div class="glass card">
+  <h2>Users: <span id="adminUserCount">0</span></h2>
+  <h2>Total Aura: <span id="adminAuraTotal">0</span></h2>
+ </div>
+ <div class="glass card">
+  <h2>Create Task</h2>
+  <input id="newTaskTitle" placeholder="Task title">
+  <textarea id="newTaskDescription" placeholder="Task description"></textarea>
+  <input id="newTaskPoints" type="number" placeholder="Aura points">
+  <button class="btn" onclick="createTask()">CREATE TASK</button>
+ </div>
+ <div class="glass card"><h2>Pending Tasks</h2><div id="submissionList"></div></div>
+ <div class="glass card">
+  <h2>All Users</h2>
+  <div style="overflow:auto"><table class="table">
+   <thead><tr><th>Name</th><th>ID</th><th>Aura</th><th>Level</th><th></th></tr></thead>
+   <tbody id="adminUsers"></tbody>
+  </table></div>
+ </div>
+ <div class="glass card">
+  <h2>Edit User</h2>
+  <input id="editUid" placeholder="Firebase UID">
+  <input id="editAura" type="number" placeholder="Aura">
+  <input id="editLevel" type="number" min="1" max="999" placeholder="Level override">
+  <button class="btn" onclick="adminEditUser()">SAVE</button>
+ </div>
+ <div class="glass card"><h2>Help Messages</h2><div id="adminHelp"></div></div>
+ <div class="glass card"><h2>Chat History</h2><div id="adminChats"></div></div>
+ <button class="btn2" onclick="logoutUser()">LOGOUT</button>
+</div></div></section>
+
+<nav id="nav" class="nav">
+ <button id="nHome" onclick="go('home')">⌂<br>Home</button>
+ <button id="nTasks" onclick="go('tasks')">☷<br>Tasks</button>
+ <button id="nAura" onclick="go('aura')">✦<br>Card</button>
+ <button id="nFriends" onclick="go('friends')">♧<br>Friends</button>
+ <button id="nProfile" onclick="go('profile')">♙<br>Profile</button>
+</nav>
+
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+import {
+ getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,
+ sendPasswordResetEmail,signOut,updateProfile,updatePassword
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import {
+ getFirestore,doc,setDoc,getDoc,getDocs,collection,addDoc,updateDoc,
+ onSnapshot,serverTimestamp,query,where,orderBy,runTransaction
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyC0yFwgraFlvxtikK6FmWvPHxKwMpdCKGI",
+ authDomain:"now-shine-your-aura.firebaseapp.com",
+ projectId:"now-shine-your-aura",
+ storageBucket:"now-shine-your-aura.firebasestorage.app",
+ messagingSenderId:"987525264332",
+ appId:"1:987525264332:web:370522236e2f4a58bd6369",
+ measurementId:"G-W59YH8K4QZ"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+let profile=null;
+let isAdmin=false;
+let chatUnsub=null;
+
+const ADMIN_EMAIL="anup97005@gmail.com";
+
+/* ONE PAGE AT A TIME */
+window.go=(id)=>{
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const target=document.getElementById(id);
+ if(target)target.classList.add("active");
+ target?.scrollTo(0,0);
+
+ const userPages=["home","tasks","aura","friends","profile","rank","settings"];
+ document.getElementById("nav").style.display=
+  auth.currentUser && userPages.includes(id) && !isAdmin ? "grid":"none";
+
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("on"));
+ const map={home:"nHome",tasks:"nTasks",aura:"nAura",friends:"nFriends",profile:"nProfile",rank:"nProfile",settings:"nProfile"};
+ if(map[id])document.getElementById(map[id]).classList.add("on");
+
+ if(!isAdmin && auth.currentUser && userPages.includes(id))refreshUI();
+ if(isAdmin && id==="admin")loadAdmin();
+};
+
+function userId(){return "NSYA"+crypto.randomUUID().replaceAll("-","").slice(0,8).toUpperCase()}
+function cardNumber(){return "AURA-"+Date.now().toString().slice(-8)+"-"+Math.floor(1000+Math.random()*9000)}
+function levelFromAura(a){return Math.min(999,Math.floor(Number(a||0)/1000)+1)}
+function escapeHtml(v){const d=document.createElement("div");d.textContent=v??"";return d.innerHTML}
+
+async function loadProfile(){
+ if(!auth.currentUser)return;
+ const s=await getDoc(doc(db,"users",auth.currentUser.uid));
+ if(!s.exists())return;
+ profile=s.data();
+ refreshUI();
+}
+
+window.registerUser=async()=>{
+ const name=regName.value.trim(),mobile=regMobile.value.trim();
+ const email=regEmail.value.trim(),password=regPassword.value;
+ if(!name||!mobile||!email||!password)return alert("Fill all details.");
+
+ try{
+  const c=await createUserWithEmailAndPassword(auth,email,password);
+  await updateProfile(c.user,{displayName:name});
+  profile={
+   uid:c.user.uid,userId:userId(),name,email,mobile,
+   aura:500,levelOverride:null,cardNumber:cardNumber(),
+   createdAt:serverTimestamp()
+  };
+  await setDoc(doc(db,"users",c.user.uid),profile);
+  isAdmin=false;
+  go("welcome");
+ }catch(e){alert(e.message)}
+};
+
+window.loginUser=async()=>{
+ try{
+  const c=await signInWithEmailAndPassword(auth,loginEmail.value.trim(),loginPassword.value);
+  if(c.user.email.toLowerCase()===ADMIN_EMAIL){
+   await signOut(auth);return alert("Use the Admin Login dot.");
+  }
+  isAdmin=false;await loadProfile();go("welcome");
+ }catch(e){alert(e.message)}
+};
+
+window.forgotPassword=async()=>{
+ const email=prompt("Enter registered email:");
+ if(!email)return;
+ try{await sendPasswordResetEmail(auth,email);alert("Reset email sent.");}
+ catch(e){alert(e.message)}
+};
+
+window.logoutUser=async()=>{
+ if(chatUnsub)chatUnsub();
+ chatUnsub=null;profile=null;isAdmin=false;
+ await signOut(auth);go("first");
+};
+
+window.adminLogin=async()=>{
+ try{
+  const c=await signInWithEmailAndPassword(auth,adminEmail.value.trim(),adminPassword.value);
+  const token=await c.user.getIdTokenResult(true);
+  if(c.user.email.toLowerCase()!==ADMIN_EMAIL || token.claims.admin!==true){
+   await signOut(auth);return alert("Admin permission not configured.");
+  }
+  isAdmin=true;go("admin");
+ }catch(e){alert(e.message)}
+};
+
+function refreshUI(){
+ if(!profile)return;
+ const aura=Number(profile.aura||0);
+ const level=profile.levelOverride||levelFromAura(aura);
+
+ homeName.textContent=profile.name;
+ homeUserId.textContent=profile.userId;
+ homeAura.textContent=aura;
+ homeLevel.textContent=level;
+
+ const progress=aura%1000;
+ progressText.textContent=progress+" / 1000";
+ progressBar.style.width=(progress/10)+"%";
+
+ profileName.textContent=profile.name;
+ profileUserId.textContent=profile.userId;
+ profileEmail.textContent=profile.email;
+ profileMobile.textContent=profile.mobile;
+
+ cardName.textContent=profile.name.toUpperCase();
+ cardLevel.textContent=level;
+ cardAura.textContent=aura;
+ cardEnergy.textContent=aura+" AE";
+ cardUserId.textContent=profile.userId;
+ cardNumber.textContent=profile.cardNumber;
+ cardType.textContent=level>=60?"MYTHIC":level>=40?"CELESTIAL":level>=20?"EVOLVED":"AWAKENED";
+
+ auraCard.className="auraCard "+(level>=60?"evo4":level>=40?"evo3":level>=20?"evo2":"");
+
+ loadTasks();
+ loadRanks();
+ loadFriends();
+}
+
+function loadTasks(){
+ onSnapshot(collection(db,"tasks"),snap=>{
+  let html="";
+  snap.forEach(d=>{
+   const t=d.data();
+   html+=`<div class="glass task">
+    <h3>${escapeHtml(t.title)}</h3>
+    <p class="muted">${escapeHtml(t.description)}</p>
+    <p style="color:#d89aff;margin:10px 0">✦ ${t.points} Aura</p>
+    <button class="small" onclick="submitTask('${d.id}')">SUBMIT FOR APPROVAL</button>
+   </div>`;
+  });
+  taskList.innerHTML=html||"<div class='glass card'>No tasks available.</div>";
+ });
+}
+
+window.submitTask=async(id)=>{
+ const subId=auth.currentUser.uid+"_"+id;
+ try{
+  await setDoc(doc(db,"taskSubmissions",subId),{
+   uid:auth.currentUser.uid,taskId:id,status:"pending",submittedAt:serverTimestamp()
+  });
+  alert("Submitted for Admin approval.");
+ }catch(e){alert(e.message)}
+};
+
+window.downloadCard=async()=>{
+ try{
+  const {default:html2canvas}=await import("https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/+esm");
+  const canvas=await html2canvas(auraCard,{scale:3,backgroundColor:null});
+  const a=document.createElement("a");
+  a.download="Aura-Card-"+profile.userId+".png";
+  a.href=canvas.toDataURL("image/png");a.click();
+ }catch(e){alert("Download failed. "+e.message)}
+};
+
+window.shareCard=async()=>{
+ const text=`${profile.name} | Aura ${profile.aura} | Level ${profile.levelOverride||levelFromAura(profile.aura)}`;
+ try{
+  if(navigator.share)await navigator.share({title:"My Aura Card",text});
+  else{await navigator.clipboard.writeText(text);alert("Copied.");}
+ }catch(e){}
+};
+
+window.findUser=async()=>{
+ const value=friendSearch.value.trim().toUpperCase();
+ if(!value)return;
+ const users=await getDocs(collection(db,"users"));
+ let found=null;
+ users.forEach(d=>{
+  const u=d.data();
+  if(u.userId===value||(u.cardNumber||"").slice(-4)===value)found=u;
+ });
+ if(!found)return searchResult.innerHTML="<p class='muted'>User not found.</p>";
+ if(found.uid===auth.currentUser.uid)return searchResult.innerHTML="<p class='muted'>This is your account.</p>";
+ searchResult.innerHTML=`<div class="friend">
+ <b>${escapeHtml(found.name)}</b><br>
+ <span class="muted">Aura ${found.aura} • Level ${found.levelOverride||levelFromAura(found.aura)}</span><br><br>
+ <button class="small" onclick="sendFriendRequest('${found.uid}')">FOLLOW / ADD FRIEND</button></div>`;
+};
+
+window.sendFriendRequest=async(to)=>{
+ await setDoc(doc(db,"friendRequests",auth.currentUser.uid+"_"+to),{
+  from:auth.currentUser.uid,to,status:"pending",createdAt:serverTimestamp()
+ });
+ alert("Request sent.");
+};
+
+function loadFriends(){
+ const me=auth.currentUser?.uid;if(!me)return;
+ onSnapshot(collection(db,"friendRequests"),async snap=>{
+  let req="",friends=[];
+  snap.forEach(d=>{
+   const x=d.data();
+   if(x.to===me&&x.status==="pending")req+=`<div class="friend"><b>${x.from}</b><br><button class="small" onclick="acceptFriend('${d.id}')">ACCEPT</button></div>`;
+   if(x.status==="accepted"){
+    if(x.from===me)friends.push(x.to);
+    if(x.to===me)friends.push(x.from);
+   }
+  });
+  requestList.innerHTML=req||"<p class='muted'>No requests.</p>";
+  let list="",options="<option value=''>Select friend</option>";
+  for(const uid of friends){
+   const s=await getDoc(doc(db,"users",uid));
+   if(s.exists()){
+    const u=s.data();
+    list+=`<div class="friend"><b>${escapeHtml(u.name)}</b><br><span class="muted">${u.userId}</span></div>`;
+    options+=`<option value="${uid}">${escapeHtml(u.name)}</option>`;
+   }
+  }
+  friendList.innerHTML=list||"<p class='muted'>No friends yet.</p>";
+  chatSelect.innerHTML=options;
+ });
+}
+
+window.acceptFriend=async(id)=>{
+ await updateDoc(doc(db,"friendRequests",id),{status:"accepted"});
+};
+
+function chatId(a,b){return[a,b].sort().join("_")}
+
+window.openChat=()=>{
+ if(chatUnsub)chatUnsub();
+ const other=chatSelect.value;if(!other)return;
+ const id=chatId(auth.currentUser.uid,other);
+ chatUnsub=onSnapshot(query(collection(db,"chats",id,"messages"),orderBy("createdAt","asc")),s=>{
+  chatMessages.innerHTML=s.docs.map(d=>{
+   const m=d.data();
+   return `<div class="message"><b>${m.sender===auth.currentUser.uid?"You":"Friend"}:</b> ${escapeHtml(m.text)}</div>`;
+  }).join("");
+  chatMessages.scrollTop=chatMessages.scrollHeight;
+ });
+};
+
+window.sendChat=async()=>{
+ const other=chatSelect.value,text=messageText.value.trim();
+ if(!other||!text)return;
+ const id=chatId(auth.currentUser.uid,other);
+ await setDoc(doc(db,"chats",id),{members:[auth.currentUser.uid,other],updatedAt:serverTimestamp()},{merge:true});
+ await addDoc(collection(db,"chats",id,"messages"),{sender:auth.currentUser.uid,text,createdAt:serverTimestamp()});
+ messageText.value="";
+};
+
+function loadRanks(){
+ onSnapshot(collection(db,"users"),s=>{
+  const users=s.docs.map(d=>d.data()).sort((a,b)=>Number(b.aura)-Number(a.aura));
+  rankList.innerHTML=users.map((u,i)=>`<div class="glass card row"><b>#${i+1} ${escapeHtml(u.name)}</b><b>✦ ${u.aura}</b></div>`).join("");
+ });
+}
+
+window.editProfile=async()=>{
+ const name=prompt("Name:",profile.name);if(!name)return;
+ const mobile=prompt("Mobile:",profile.mobile);if(mobile===null)return;
+ await updateDoc(doc(db,"users",auth.currentUser.uid),{name:name.trim(),mobile:mobile.trim()});
+ await updateProfile(auth.currentUser,{displayName:name.trim()});
+ await loadProfile();
+};
+
+window.changePasswordUser=async()=>{
+ const p=prompt("New password:");if(!p)return;
+ try{await updatePassword(auth.currentUser,p);alert("Password changed.");}
+ catch(e){alert("Please log in again for security. "+e.message)}
+};
+
+window.showNotifications=()=>alert("Task notifications will appear here.");
+window.helpAdmin=async()=>{
+ const text=prompt("Write your help message:");if(!text)return;
+ await addDoc(collection(db,"helpMessages"),{uid:auth.currentUser.uid,name:profile.name,text,createdAt:serverTimestamp()});
+ alert("Help message sent.");
+};
+
+window.requestDelete=async()=>{
+ if(!confirm("Request deletion? The account will be permanently processed after 15 days."))return;
+ await updateDoc(doc(db,"users",auth.currentUser.uid),{deleteRequestedAt:Date.now()});
+ alert("Deletion request submitted.");
+};
+
+function loadAdmin(){
+ onSnapshot(collection(db,"users"),s=>{
+  let total=0,html="";
+  s.forEach(d=>{
+   const u=d.data();total+=Number(u.aura||0);
+   html+=`<tr><td>${escapeHtml(u.name)}</td><td>${u.userId}</td><td>${u.aura}</td>
+   <td>${u.levelOverride||levelFromAura(u.aura)}</td>
+   <td><button class="small" onclick="selectAdminUser('${u.uid}',${u.aura},'${u.levelOverride||""}')">SELECT</button></td></tr>`;
+  });
+  adminUserCount.textContent=s.size;adminAuraTotal.textContent=total;adminUsers.innerHTML=html;
+ });
+
+ onSnapshot(query(collection(db,"taskSubmissions"),where("status","==","pending")),async s=>{
+  let html="";
+  for(const d of s.docs){
+   const x=d.data();
+   html+=`<div class="friend">User: ${x.uid}<br>Task: ${x.taskId}<br><br>
+   <button class="small" onclick="approveTask('${d.id}')">APPROVE</button>
+   <button class="small" onclick="rejectTask('${d.id}')">REJECT</button></div>`;
+  }
+  submissionList.innerHTML=html||"No pending tasks.";
+ });
+}
+
+window.createTask=async()=>{
+ const title=newTaskTitle.value.trim(),description=newTaskDescription.value.trim(),points=Number(newTaskPoints.value);
+ if(!title||!description||points<=0)return alert("Enter valid details.");
+ await addDoc(collection(db,"tasks"),{title,description,points,createdAt:serverTimestamp()});
+ newTaskTitle.value="";newTaskDescription.value="";newTaskPoints.value="";
+};
+
+window.approveTask=async(id)=>{
+ try{
+  await runTransaction(db,async tx=>{
+   const sr=doc(db,"taskSubmissions",id),ss=await tx.get(sr);
+   if(!ss.exists()||ss.data().status!=="pending")throw new Error("Already processed.");
+   const x=ss.data(),tr=doc(db,"tasks",x.taskId),ur=doc(db,"users",x.uid);
+   const ts=await tx.get(tr),us=await tx.get(ur);
+   if(!ts.exists()||!us.exists())throw new Error("Data missing.");
+   tx.update(ur,{aura:Number(us.data().aura||0)+Number(ts.data().points||0)});
+   tx.update(sr,{status:"approved",approvedAt:serverTimestamp()});
+  });
+  alert("Aura added.");
+ }catch(e){alert(e.message)}
+};
+
+window.rejectTask=async(id)=>{
+ await updateDoc(doc(db,"taskSubmissions",id),{status:"rejected"});
+};
+
+window.selectAdminUser=(uid,aura,level)=>{
+ editUid.value=uid;editAura.value=aura;editLevel.value=level;
+};
+
+window.adminEditUser=async()=>{
+ const uid=editUid.value.trim(),aura=Number(editAura.value),level=editLevel.value.trim();
+ if(!uid||Number.isNaN(aura)||aura<0)return alert("Invalid data.");
+ const data={aura};
+ data.levelOverride=level?Math.max(1,Math.min(999,Number(level))):null;
+ await updateDoc(doc(db,"users",uid),data);
+ alert("Saved.");
+};
+
+auth.onAuthStateChanged(async user=>{
+ if(user&&!isAdmin)await loadProfile();
+});
+</script>
+</body>
+</html>
