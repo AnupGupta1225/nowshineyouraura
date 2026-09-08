@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#12051f">
+  <title>NOWSHINE YOURAURA</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div id="app">
+
+  <!-- ================= LOGIN PAGE ================= -->
+  <section id="loginPage" class="page auth-page">
+
+    <div class="aura-orb orb-a"></div>
+    <div class="aura-orb orb-b"></div>
+    <div class="energy-lines"></div>
+
+    <div class="auth-art">
+      <div class="flame flame-1"></div>
+      <div class="flame flame-2"></div>
+      <div class="flame flame-3"></div>
+
+      <div class="silhouette">
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+      </div>
+    </div>
+
+    <div class="auth-panel glass">
+
+      <div class="brand brand-center">
+        ✦ NOWSHINEYOURAURA
+      </div>
+
+      <p class="subtitle">
+        Welcome Back • Sign in to continue
+      </p>
+
+      <form id="loginForm">
+
+        <label>Email</label>
+
+        <div class="input-wrap">
+          <span>✉</span>
+
+          <input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            required
+          >
+        </div>
+
+
+        <label>Password</label>
+
+        <div class="input-wrap">
+
+          <span>🔒</span>
+
+          <input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            required
+          >
+
+          <button
+            type="button"
+            class="eye-btn"
+            id="togglePassword"
+          >
+            ◉
+          </button>
+
+        </div>
+
+
+        <div class="login-row">
+
+          <label class="check">
+            <input id="remember" type="checkbox">
+            <span>Remember me</span>
+          </label>
+
+          <button
+            type="button"
+            class="text-btn"
+            id="forgotBtn"
+          >
+            Forgot Password?
+          </button>
+
+        </div>
+
+
+        <button
+          class="primary-btn"
+          type="submit"
+        >
+          Login
+        </button>
+
+      </form>
+
+
+      <div class="or">
+        <span></span>
+        OR
+        <span></span>
+      </div>
+
+
+      <p class="signup-line">
+        Don’t have an account?
+
+        <button
+          class="text-btn"
+          id="signupBtn"
+        >
+          Sign Up
+        </button>
+      </p>
+
+      <p class="demo-note">
+        Demo site • Your data stays in this browser
+      </p>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ================= MAIN APP ================= -->
+
+  <section id="appPage" class="page app-page hidden">
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+      <div class="brand">
+        ✦ NOWSHINEYOURAURA
+      </div>
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        ⇥ Logout
+      </button>
+
+    </header>
+
+
+
+    <main class="content">
+
+
+      <!-- ================= HOME ================= -->
+
+      <section id="homeView" class="view">
+
+        <div class="welcome-card glass">
+
+          <div class="avatar-glow">
+            ✦
+          </div>
+
+          <div>
+
+            <h2>
+              Welcome,
+              <span class="userName">
+                User
+              </span>
+            </h2>
+
+            <p>
+              Level
+              <span class="level">
+                1
+              </span>
+              ✦
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- TOTAL AURA -->
+
+        <div class="stat-card glass">
+
+          <div class="stat-icon">
+            ◉
+          </div>
+
+          <div>
+
+            <h3>
+              Total Aura
+            </h3>
+
+            <strong id="auraValue">
+              0
+            </strong>
+
+            <p>
+              Your total aura balance
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- LEVEL PROGRESS -->
+
+        <div class="progress-card glass">
+
+          <div class="section-head">
+
+            <h3>
+              Level Progress
+            </h3>
+
+            <span id="progressPct">
+              0%
+            </span>
+
+          </div>
+
+          <p>
+
+            <span id="xpValue">
+              0
+            </span>
+
+            /
+
+            <span id="xpTarget">
+              400
+            </span>
+
+            XP to Level 2
+
+          </p>
+
+          <div class="progress">
+            <i id="progressBar"></i>
+          </div>
+
+        </div>
+
+
+
+        <!-- TASK STATUS -->
+
+        <div class="empty-card glass">
+
+          <div class="big-icon">
+            ☷
+          </div>
+
+          <h3 id="homeTaskTitle">
+            No tasks yet
+          </h3>
+
+          <p id="homeTaskText">
+            Admin will add tasks soon
+          </p>
+
+        </div>
+
+
+
+        <!-- AURA CARD BUTTON -->
+
+        <button
+          class="wide-btn"
+          data-view="aura"
+        >
+
+          ✦ View Your Aura Card
+
+          <span>
+            ›
+          </span>
+
+        </button>
+
+      </section>
+
+
+
+      <!-- ================= TASKS ================= -->
+
+      <section
+        id="tasksView"
+        class="view hidden"
+      >
+
+        <div class="page-title glass">
+
+          <h1>
+            Tasks
+          </h1>
+
+        </div>
+
+
+        <div id="taskList"></div>
+
+
+        <button
+          class="wide-btn"
+          data-view="aura"
+        >
+
+          ✦ View Your Aura Card
+
+        </button>
+
+      </section>
+
+
+
+      <!-- ================= AURA CARD ================= -->
+
+      <section
+        id="auraView"
+        class="view hidden"
+      >
+
+        <div class="page-title glass">
+
+          <h1>
+            Your Aura
+          </h1>
+
+          <p>
+            Choose your style
+          </p>
+
+        </div>
+
+
+
+        <div class="aura-card-preview">
+
+          <img
+            id="auraCardImage"
+            src="assets/mythic-aura-card.jpg"
+            alt="Aura Card"
+          >
+
+        </div>
+
+
+
+        <!-- CARD STYLES -->
+
+        <div class="style-grid">
+
+          <button
+            data-card="assets/blue-aura-card.jpg"
+          >
+            Futuristic
+          </button>
+
+          <button
+            data-card="assets/mythic-aura-card.jpg"
+          >
+            Mythic
+          </button>
+
+          <button
+            data-card="assets/card-styles.jpg"
+          >
+            Styles
+          </button>
+
+        </div>
+
+
+
+        <div class="aura-actions">
+
+          <button
+            class="primary-btn"
+            id="downloadCard"
+          >
+            ⇩ Download
+          </button>
+
+          <button
+            class="secondary-btn"
+            id="shareCard"
+          >
+            ↗ Share
+          </button>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================= PROFILE ================= -->
+
+      <section
+        id="profileView"
+        class="view hidden"
+      >
+
+        <div class="page-title pill-title">
+
+          <h1>
+            Profile
+          </h1>
+
+        </div>
+
+
+
+        <div class="profile-card glass">
+
+          <div class="profile-avatar">
+            ●
+          </div>
+
+          <div>
+
+            <h2>
+              Welcome
+              <span class="userName">
+                User
+              </span>
+            </h2>
+
+            <p>
+
+              Level
+              <span class="level">
+                1
+              </span>
+
+              • Total Aura
+
+              <b id="profileAura">
+                0
+              </b>
+
+              ✦
+
+            </p>
+
+
+            <small>
+              Aura
+            </small>
+
+            <div class="mini-progress">
+
+              <i id="profileProgress"></i>
+
+            </div>
+
+            <small>
+
+              <span id="profileXp">
+                0
+              </span>
+
+              / 1000 to Level 2
+
+            </small>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- EDIT PROFILE -->
+
+        <button
+          class="menu-item glass"
+          id="editProfile"
+        >
+
+          ✎
+
+          <span>
+            Edit Profile
+          </span>
+
+          <b>
+            ›
+          </b>
+
+        </button>
+
+
+
+        <!-- AURA CARDS -->
+
+        <button
+          class="menu-item glass"
+          data-view="aura"
+        >
+
+          ▣
+
+          <span>
+            My Aura Cards
+          </span>
+
+          <b>
+            ›
+          </b>
+
+        </button>
+
+
+
+        <!-- SETTINGS -->
+
+        <button
+          class="menu-item glass"
+          data-view="settings"
+        >
+
+          ⚙
+
+          <span>
+            Settings
+          </span>
+
+          <b>
+            ›
+          </b>
+
+        </button>
+
+
+
+        <!-- ADMIN -->
+
+        <button
+          class="menu-item glass admin-item"
+          id="adminBtn"
+        >
+
+          ♙
+
+          <span>
+            Admin Access
+          </span>
+
+          <b>
+            ›
+          </b>
+
+        </button>
+
+
+
+        <!-- LOGOUT -->
+
+        <button
+          class="menu-item glass danger"
+          id="profileLogout"
+        >
+
+          ⏻
+
+          <span>
+            Logout
+          </span>
+
+          <b>
+            ›
+          </b>
+
+        </button>
+
+      </section>
+
+
+
+      <!-- ================= SETTINGS ================= -->
+
+      <section
+        id="settingsView"
+        class="view hidden"
+      >
+
+        <div class="page-title">
+
+          <h1>
+            Settings
+          </h1>
+
+        </div>
+
+
+
+        <div class="settings-card glass">
+
+
+          <button
+            class="setting-row"
+            id="notifications"
+          >
+
+            🔔
+
+            <span>
+              Notifications
+            </span>
+
+            <b>
+              ›
+            </b>
+
+          </button>
+
+
+
+          <button
+            class="setting-row"
+            id="privacy"
+          >
+
+            🔒
+
+            <span>
+              Privacy
+            </span>
+
+            <b>
+              ›
+            </b>
+
+          </button>
+
+
+
+          <button
+            class="setting-row"
+            id="about"
+          >
+
+            ⓘ
+
+            <span>
+              About
+            </span>
+
+            <b>
+              ›
+            </b>
+
+          </button>
+
+
+
+          <button
+            class="setting-row"
+            id="help"
+          >
+
+            ?
+
+            <span>
+              Help
+            </span>
+
+            <b>
+              ›
+            </b>
+
+          </button>
+
+
+
+          <button
+            class="setting-row danger"
+            id="deleteAccount"
+          >
+
+            ♜
+
+            <span>
+              Delete Account
+            </span>
+
+            <b>
+              ›
+            </b>
+
+          </button>
+
+
+        </div>
+
+      </section>
+
+
+
+      <!-- ================= ADMIN DASHBOARD ================= -->
+
+      <section
+        id="adminView"
+        class="view hidden"
+      >
+
+        <div class="page-title glass">
+
+          <h1>
+            Admin Dashboard
+          </h1>
+
+          <p>
+            Create tasks and manage Aura
+          </p>
+
+        </div>
+
+
+
+        <div class="glass admin-panel">
+
+          <label>
+            Task title
+          </label>
+
+          <input
+            id="taskTitle"
+            placeholder="e.g. Complete 20 minutes of study"
+          >
+
+
+          <label>
+            Aura reward
+          </label>
+
+          <input
+            id="taskReward"
+            type="number"
+            min="1"
+            value="50"
+          >
+
+
+          <button
+            class="primary-btn"
+            id="addTask"
+          >
+            Add Task
+          </button>
+
+        </div>
+
+
+
+        <div class="glass admin-list">
+
+          <h3>
+            Current Tasks
+          </h3>
+
+          <div id="adminTaskList"></div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <nav class="bottom-nav">
+
+      <button
+        data-view="home"
+        class="active"
+      >
+
+        ⌂
+
+        <span>
+          Home
+        </span>
+
+      </button>
+
+
+      <button
+        data-view="tasks"
+      >
+
+        ☷
+
+        <span>
+          Tasks
+        </span>
+
+      </button>
+
+
+      <button
+        data-view="aura"
+      >
+
+        ✦
+
+        <span>
+          Aura
+        </span>
+
+      </button>
+
+
+      <button
+        data-view="profile"
+      >
+
+        ●
+
+        <span>
+          Profile
+        </span>
+
+      </button>
+
+    </nav>
+
+  </section>
+
+</div>
+
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+  class="modal hidden"
+  id="modal"
+>
+
+  <div class="modal-box glass">
+
+    <button
+      class="modal-close"
+      id="modalClose"
+    >
+      ×
+    </button>
+
+    <h2 id="modalTitle">
+      Info
+    </h2>
+
+    <p id="modalText"></p>
+
+    <button
+      class="primary-btn"
+      id="modalOk"
+    >
+      OK
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- JAVASCRIPT -->
+
+<script src="app.js"></script>
+
+</body>
+</html>
