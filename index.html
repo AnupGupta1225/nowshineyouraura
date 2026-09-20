@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NOWSHINEYOURAURA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07040f;
+  --bg2:#0c0620;
+  --violet:#a855f7;
+  --violet-dim:#7c3aed;
+  --blue:#4f7bff;
+  --pink:#ec4899;
+  --gold:#e8c873;
+  --glass:rgba(255,255,255,.045);
+  --glass-border:rgba(168,85,247,.30);
+  --text:#f4f1ff;
+  --text-dim:#a99cc9;
+  --text-dimmer:#786a99;
+  --danger:#f0708a;
+  --radius:22px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(60% 45% at 18% 8%, rgba(168,85,247,.30), transparent 60%),
+    radial-gradient(55% 40% at 85% 15%, rgba(79,123,255,.22), transparent 60%),
+    radial-gradient(70% 55% at 50% 100%, rgba(124,58,237,.28), transparent 60%),
+    var(--bg);
+  min-height:100vh;
+  font-family:'Inter',system-ui,sans-serif;
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+}
+#app{
+  width:100%;
+  max-width:460px;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+.screen{display:none;padding:28px 20px 110px;min-height:100vh;position:relative;animation:fadeIn .35s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.screen.center{display:none;align-items:center;justify-content:center;padding:20px;}
+.screen.center.active{display:flex;}
+
+.logo{
+  font-family:'Orbitron',sans-serif;
+  font-weight:700;
+  letter-spacing:.14em;
+  font-size:15px;
+  background:linear-gradient(90deg,#c9a8ff,#a855f7 40%,#7ea6ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 22px rgba(168,85,247,.35);
+  text-align:center;
+}
+.logo-row{display:flex;justify-content:center;margin-bottom:30px;}
+.logo-row.left{justify-content:space-between;align-items:center;}
+
+.glass{
+  background:linear-gradient(155deg, rgba(168,85,247,.10), rgba(79,123,255,.045) 60%, rgba(255,255,255,.02));
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 8px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.field-label{font-size:12.5px;color:var(--text-dim);margin:0 0 7px 2px;font-weight:500;}
+.field{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(168,85,247,.22);
+  border-radius:14px;
+  padding:14px 15px;
+  margin-bottom:16px;
+}
+.field input{
+  background:none;border:none;outline:none;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:14.5px;width:100%;
+}
+.field input::placeholder{color:var(--text-dimmer);}
+.field svg{flex-shrink:0;opacity:.75;}
+.icon-btn{background:none;border:none;color:var(--text-dimmer);cursor:pointer;display:flex;}
+
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:15px 18px;border-radius:16px;border:none;
+  font-family:'Inter',sans-serif;font-weight:700;font-size:15px;cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{
+  background:linear-gradient(90deg,#7c3aed,#a855f7 55%,#6d8bff);
+  color:#fff;
+  box-shadow:0 8px 26px rgba(124,58,237,.45);
+}
+.btn-ghost{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--text);
+}
+.btn-danger{
+  background:rgba(240,112,138,.12);
+  border:1px solid rgba(240,112,138,.35);
+  color:var(--danger);
+}
+.btn-sm{padding:10px 14px;font-size:13px;border-radius:12px;}
+
+.link{color:var(--violet);text-decoration:none;font-weight:600;}
+.muted-link{color:var(--text-dimmer);text-decoration:none;font-size:13px;}
+.center-text{text-align:center;}
+.row-between{display:flex;align-items:center;justify-content:space-between;}
+.small{font-size:12.5px;color:var(--text-dim);}
+.tiny{font-size:11px;color:var(--text-dimmer);}
+
+/* ---- Login / Signup ---- */
+.auth-hero{
+  height:190px;display:flex;align-items:flex-end;justify-content:center;
+  margin-bottom:-58px;position:relative;z-index:0;
+}
+.aura-logo-mark{width:150px;height:150px;filter:drop-shadow(0 0 30px rgba(168,85,247,.55));animation:flicker 3.2s ease-in-out infinite;}
+@keyframes flicker{0%,100%{opacity:.92;transform:scale(1)}50%{opacity:1;transform:scale(1.035)}}
+.auth-card{position:relative;z-index:1;padding:30px 24px 26px;}
+.auth-title{font-family:'Orbitron',sans-serif;font-size:19px;font-weight:700;text-align:center;letter-spacing:.06em;
+  background:linear-gradient(90deg,#d9c2ff,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px;display:flex;gap:8px;align-items:center;justify-content:center;}
+.auth-sub{text-align:center;color:var(--text-dim);font-size:13px;margin-bottom:22px;}
+.checkbox-row{display:flex;align-items:center;justify-content:space-between;margin:-4px 0 20px;}
+.chk-wrap{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);}
+.chk{width:17px;height:17px;border-radius:5px;border:1px solid rgba(168,85,247,.4);}
+.divider{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--text-dimmer);font-size:12px;}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.1);}
+.admin-entry{margin-top:26px;text-align:center;}
+.corner-logo{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:12px;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.85;z-index:20;transition:transform .15s ease, opacity .15s ease;}
+.corner-logo:active{transform:scale(.9);}
+.corner-logo:hover{opacity:1;}
+.user-edit-form{padding:16px;border-top:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);}
+.user-row-head{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.06);}
+.admin-tag{font-size:10px;font-weight:800;color:#e8c873;border:1px solid rgba(232,200,115,.5);border-radius:8px;padding:2px 8px;margin-left:8px;}
+.field-inline{display:flex;gap:10px;}
+.field-inline .field{flex:1;}
+
+/* ---- Welcome/unlock ---- */
+.welcome-wrap{max-width:420px;width:100%;}
+.welcome-flame{height:180px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:-56px;}
+.welcome-card{padding:44px 26px 30px;text-align:center;position:relative;z-index:1;}
+.sparkle-badge{width:46px;height:46px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;}
+.welcome-h1{font-size:32px;font-weight:800;margin:0 0 6px;}
+.welcome-h2{color:var(--text-dim);font-size:15px;margin:0 0 22px;}
+.hr-glow{height:1px;background:linear-gradient(90deg,transparent,rgba(168,85,247,.6),transparent);margin:0 0 20px;}
+.welcome-note{color:var(--text-dim);font-size:13px;margin-bottom:26px;line-height:1.6;}
+
+/* ---- Top bar w/ logout ---- */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;}
+.pill-btn{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;padding:8px 15px;font-size:12.5px;color:var(--text-dim);cursor:pointer;font-weight:600;
+}
+
+/* ---- Home dashboard ---- */
+.stack{display:flex;flex-direction:column;gap:14px;}
+.card-pad{padding:20px;}
+.hi-row{display:flex;align-items:center;gap:14px;}
+.avatar-orb{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 35% 30%, #d9b8ff, #7c3aed 70%);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 20px rgba(168,85,247,.45);
+}
+.hi-name{font-size:18px;font-weight:800;margin:0;}
+.hi-level{color:var(--violet);font-size:13px;font-weight:600;margin-top:3px;display:flex;align-items:center;gap:5px;}
+.stat-orb{
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 35% 30%, #cfe0ff, #4f7bff 70%);
+  box-shadow:0 0 18px rgba(79,123,255,.4);
+}
+.stat-label{font-size:13px;color:var(--text-dim);margin:0 0 2px;}
+.stat-value{font-size:30px;font-weight:800;margin:0;}
+.stat-sub{font-size:12px;color:var(--text-dimmer);margin-top:2px;}
+.prog-head{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-dim);margin-bottom:10px;}
+.prog-track{height:9px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;}
+.prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#7c3aed,#a855f7,#6d8bff);transition:width .5s ease;}
+.empty-block{padding:34px 20px;text-align:center;}
+.empty-icon{width:58px;height:58px;margin:0 auto 16px;opacity:.85;}
+.empty-title{font-weight:800;font-size:17px;margin:0 0 6px;}
+.empty-sub{color:var(--text-dim);font-size:13px;margin:0;}
+
+/* task rows */
+.task-row{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.task-name{font-weight:700;font-size:14.5px;margin:0 0 3px;}
+.task-reward{font-size:12px;color:var(--violet);font-weight:600;}
+.task-done{opacity:.45;}
+.task-done .task-name{text-decoration:line-through;}
+
+/* ---- bottom nav ---- */
+.bottom-nav{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 32px);max-width:428px;
+  background:rgba(15,8,28,.75);
+  border:1px solid rgba(168,85,247,.25);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-radius:22px;
+  display:flex;justify-content:space-around;align-items:center;
+  padding:11px 6px 9px;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+  z-index:50;
+}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--text-dimmer);cursor:pointer;font-size:10.5px;font-weight:600;flex:1;}
+.nav-item.active{color:var(--violet);}
+.nav-item svg{width:21px;height:21px;}
+
+/* ---- profile ---- */
+.list-item{
+  display:flex;align-items:center;gap:14px;padding:17px 18px;cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.list-item:last-child{border-bottom:none;}
+.list-icon{
+  width:40px;height:40px;border-radius:12px;flex-shrink:0;
+  background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.25);
+  display:flex;align-items:center;justify-content:center;
+}
+.list-icon.danger{background:rgba(240,112,138,.12);border-color:rgba(240,112,138,.3);}
+.list-title{font-weight:700;font-size:14.5px;flex:1;}
+.list-title.danger{color:var(--danger);}
+.chev{color:var(--text-dimmer);}
+
+/* ---- back header ---- */
+.back-header{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.back-btn{
+  width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;flex-shrink:0;
+}
+.page-title{font-size:22px;font-weight:800;margin:0;}
+
+/* ---- aura card (main) ---- */
+.aura-card{
+  border-radius:20px;padding:22px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(120,170,255,.35), transparent 55%),
+    linear-gradient(135deg,#0a1230,#111a45 45%,#0c1638);
+  border:1px solid rgba(120,170,255,.3);
+  box-shadow:0 14px 40px rgba(30,60,180,.35), inset 0 1px 0 rgba(255,255,255,.08);
+  color:#eaf1ff;
+}
+.aura-card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(115deg, rgba(255,255,255,.025) 0 2px, transparent 2px 26px);
+}
+.ac-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px;}
+.ac-logo-row{display:flex;align-items:center;gap:10px;}
+.ac-logo{font-family:'Orbitron',sans-serif;font-size:19px;font-weight:700;color:#cfe0ff;}
+.ac-ring{width:22px;height:22px;border-radius:50%;border:2px solid currentColor;position:relative;box-shadow:0 0 14px currentColor;}
+.ac-ring::after{content:"";position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle,#fff,currentColor 70%);box-shadow:0 0 10px 2px currentColor;}
+.ac-level-badge{
+  border:1px solid rgba(120,170,255,.5);padding:6px 16px 6px 12px;
+  font-size:11px;font-weight:800;letter-spacing:.03em;color:#bcd4ff;background:rgba(80,130,255,.14);
+  clip-path:polygon(10% 0,100% 0,100% 100%,10% 100%,0 50%);
+}
+.ac-chip{width:44px;height:33px;border-radius:6px;background:linear-gradient(135deg,#e9d18a,#b9922f);margin-bottom:20px;position:relative;}
+.ac-chip::before{content:"";position:absolute;inset:5px;border:1px solid rgba(0,0,0,.25);border-radius:3px;}
+.ac-handle{font-size:19px;letter-spacing:.09em;font-weight:600;color:#dce8ff;margin-bottom:14px;word-break:break-all;}
+.ac-num-row{margin-bottom:22px;}
+.ac-num-full{font-size:20px;font-weight:700;letter-spacing:.09em;color:#fff;font-family:'Orbitron',monospace;word-spacing:4px;}
+.ac-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
+.ac-field-label{font-size:9.5px;letter-spacing:.08em;color:#8ea2d6;margin-bottom:4px;}
+.ac-field-val{font-size:14px;font-weight:700;color:#f1f5ff;}
+.ac-actions{display:flex;gap:12px;margin-top:20px;}
+.ac-action{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px;border-radius:14px;font-weight:700;font-size:13.5px;cursor:pointer;
+}
+.ac-action.dl{background:linear-gradient(90deg,#3457d5,#5f8bff);color:#fff;}
+.ac-action.sh{background:rgba(255,255,255,.06);border:1px solid rgba(120,170,255,.35);color:#dbe6ff;}
+
+/* style-variant cards for gallery */
+.style-scroll{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x mandatory;}
+.style-scroll::-webkit-scrollbar{display:none;}
+.svar{
+  flex:0 0 86%;scroll-snap-align:center;border-radius:18px;padding:18px;position:relative;overflow:hidden;
+  min-height:190px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.svar.cyber{background:linear-gradient(145deg,#120a24,#1c0f33);border:1px solid rgba(168,85,247,.45);}
+.svar.gold{background:linear-gradient(145deg,#f7f1e2,#efe3c2);border:1px solid rgba(190,150,60,.5);color:#3b2f12;}
+.svar.demon{background:linear-gradient(145deg,#1c0808,#2a0a0a);border:1px solid rgba(240,90,60,.45);}
+.svar.future{background:linear-gradient(145deg,#06131c,#0a2233);border:1px solid rgba(80,200,230,.4);}
+.svar-tag{font-size:10px;letter-spacing:.08em;font-weight:700;opacity:.85;}
+.svar-lvl{position:absolute;top:16px;right:14px;font-size:10px;font-weight:800;border:1px solid currentColor;border-radius:8px;padding:4px 9px;opacity:.9;}
+.svar-name{font-size:19px;font-weight:800;margin:14px 0 2px;}
+.svar-grid{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:11.5px;}
+.svar-grid div div:first-child{opacity:.6;font-size:10px;margin-bottom:2px;}
+.svar-quote{font-size:11px;font-style:italic;opacity:.75;margin-top:12px;}
+.cyber{color:#e3caff;} .demon{color:#ffd3c4;} .future{color:#c9f3ff;}
+
+/* mythic admin card */
+.mythic-card{
+  border-radius:20px;padding:24px;position:relative;overflow:hidden;
+  background:radial-gradient(120% 100% at 0% 0%, rgba(232,200,115,.12), transparent 60%), #0a0805;
+  border:1px solid rgba(232,200,115,.55);
+  box-shadow:0 16px 44px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
+  color:#f3e6c2;
+}
+.myth-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;}
+.myth-eyebrow{font-size:9.5px;color:#d9c07a;letter-spacing:.08em;font-weight:700;}
+.myth-title{font-family:'Orbitron',sans-serif;font-size:21px;font-weight:800;color:var(--gold);margin-top:4px;}
+.myth-badge{border:1px solid var(--gold);border-radius:10px;padding:6px 12px;font-size:10.5px;font-weight:800;color:var(--gold);}
+.myth-chip{width:44px;height:33px;border-radius:6px;background:linear-gradient(135deg,#f3dfa0,#b9922f);margin-bottom:16px;}
+.myth-name{font-size:30px;font-weight:800;color:#f7e9bb;margin-bottom:2px;}
+.myth-lvl{font-size:13px;color:#d9c07a;margin-bottom:16px;font-weight:600;}
+.myth-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.myth-grid div div:first-child{font-size:10.5px;color:#a3915c;margin-bottom:3px;}
+.myth-grid div div:last-child{font-size:14px;font-weight:700;color:#f3e6c2;}
+.myth-code{font-size:12px;letter-spacing:.06em;color:#d9c07a;margin-bottom:14px;}
+.myth-quote{font-size:12.5px;font-style:italic;color:#e7d391;text-align:right;}
+
+/* admin login */
+.admin-modal{padding:30px 24px 26px;}
+.admin-icon{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.admin-head{font-size:22px;font-weight:800;margin:0 0 4px;}
+.admin-sub{color:var(--text-dim);font-size:13px;margin:0 0 22px;}
+
+.toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+  background:rgba(20,10,35,.95);border:1px solid rgba(168,85,247,.4);
+  padding:12px 20px;border-radius:14px;font-size:13px;font-weight:600;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-6px);}
+
+@media (prefers-reduced-motion: reduce){
+  .aura-logo-mark{animation:none;}
+  .screen{animation:none;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- LOGIN -->
+  <section class="screen center active" id="screen-login">
+    <div class="welcome-wrap">
+      <div class="auth-hero">
+        <svg class="aura-logo-mark" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="auraGlow" cx="50%" cy="38%" r="60%">
+              <stop offset="0%" stop-color="#f0e0ff"/>
+              <stop offset="45%" stop-color="#a855f7" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="#4c1d95" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="auraFlame" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f5ebff"/>
+              <stop offset="30%" stop-color="#d9b8ff"/>
+              <stop offset="62%" stop-color="#a855f7"/>
+              <stop offset="100%" stop-color="#5b21b6"/>
+            </linearGradient>
+            <linearGradient id="auraCore" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#c9a8ff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="102" r="86" fill="url(#auraGlow)"/>
+          <path d="M100 26c-6 22-30 34-30 64a30 30 0 0 0 60 0c0-30-24-42-30-64z
+                   M75 92c-10 18-16 30-16 44a41 41 0 0 0 82 0c0-14-6-26-16-44
+                   c-4 20-14 28-14 42a11 11 0 0 1-22 0c0-14-10-22-14-42z"
+                fill="url(#auraFlame)" fill-rule="evenodd" opacity=".95"/>
+          <path d="M100 70c-4 14-16 22-16 38a16 16 0 0 0 32 0c0-16-12-24-16-38z"
+                fill="url(#auraCore)"/>
+          <g fill="#f3e6ff">
+            <path d="M156 46l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" opacity=".9"/>
+            <path d="M44 130l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5z" opacity=".8"/>
+          </g>
+        </svg>
+      </div>
+      <div class="glass auth-card">
+        <div class="auth-title">✦ NOWSHINEYOURAURA</div>
+        <div class="auth-sub">Welcome back · Sign in to continue</div>
+        <p class="tiny center-text" id="cloud-status" style="margin:-10px 0 18px;">🔒 Your account &amp; progress are saved on this device</p>
+
+        <div class="field-label">Email</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          <input type="email" id="login-email" placeholder="you@example.com">
+        </div>
+
+        <div class="field-label">Password</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <input type="password" id="login-pass" placeholder="••••••••">
+          <button class="icon-btn" onclick="togglePwd('login-pass')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+
+        <div class="checkbox-row">
+          <label class="chk-wrap"><span class="chk"></span>Remember me</label>
+          <a class="muted-link" href="#" onclick="toast('Password reset isn\'t wired up in this demo');return false;">Forgot Password?</a>
+        </div>
+
+        <button class="btn btn-primary" onclick="doLogin()">Login</button>
+
+        <div class="divider">OR</div>
+        <div class="center-text small">Don't have an account? <a class="link" href="#" onclick="go('screen-signup');return false;">Sign Up</a></div>
+      </div>
+
+      <div class="corner-logo" onclick="go('screen-admin')" title="Admin">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="#e8c873"><path d="M12 2l2.5 5.5L20 9l-4.5 4 1 6-4.5-3-4.5 3 1-6L3 9l5.5-1.5z"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGN UP -->
+  <section class="screen center" id="screen-signup">
+    <div class="welcome-wrap">
+      <div class="glass auth-card" style="margin-top:20px;">
+        <div class="auth-title">✦ NOWSHINEYOURAURA</div>
+        <div class="auth-sub">Create your account · Begin your ascent</div>
+
+        <div class="field-label">Name</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+          <input type="text" id="signup-name" placeholder="Your name">
+        </div>
+        <div class="field-label">Mobile Number</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>
+          <input type="tel" id="signup-phone" placeholder="+91 98765 43210">
+        </div>
+        <div class="field-label">Email</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          <input type="email" id="signup-email" placeholder="you@example.com">
+        </div>
+        <div class="field-label">Password</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <input type="password" id="signup-pass" placeholder="Create a password">
+        </div>
+
+        <button class="btn btn-primary" onclick="doSignup()">Create Account</button>
+        <div class="center-text small" style="margin-top:18px;">Already have an account? <a class="link" href="#" onclick="go('screen-login');return false;">Login</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WELCOME / UNLOCK -->
+  <section class="screen center" id="screen-welcome">
+    <div class="welcome-wrap">
+      <div class="logo-row left" style="margin-bottom:8px;">
+        <span class="logo" style="font-size:12px;">NOWSHINEYOURAURA</span>
+        <button class="pill-btn" onclick="doLogout()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Logout
+        </button>
+      </div>
+      <div class="welcome-flame">
+        <svg class="aura-logo-mark" style="width:170px;height:170px;" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="auraGlow2" cx="50%" cy="38%" r="60%">
+              <stop offset="0%" stop-color="#f0e0ff"/>
+              <stop offset="45%" stop-color="#a855f7" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="#4c1d95" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="auraFlame2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f5ebff"/>
+              <stop offset="30%" stop-color="#d9b8ff"/>
+              <stop offset="62%" stop-color="#a855f7"/>
+              <stop offset="100%" stop-color="#5b21b6"/>
+            </linearGradient>
+            <linearGradient id="auraCore2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#c9a8ff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="102" r="86" fill="url(#auraGlow2)"/>
+          <path d="M100 26c-6 22-30 34-30 64a30 30 0 0 0 60 0c0-30-24-42-30-64z
+                   M75 92c-10 18-16 30-16 44a41 41 0 0 0 82 0c0-14-6-26-16-44
+                   c-4 20-14 28-14 42a11 11 0 0 1-22 0c0-14-10-22-14-42z"
+                fill="url(#auraFlame2)" fill-rule="evenodd" opacity=".95"/>
+          <path d="M100 70c-4 14-16 22-16 38a16 16 0 0 0 32 0c0-16-12-24-16-38z"
+                fill="url(#auraCore2)"/>
+          <g fill="#f3e6ff">
+            <path d="M156 46l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" opacity=".9"/>
+            <path d="M44 130l2.5 7 7 2.5-7 2.5-2.5 7-2.5-7-7-2.5 7-2.5z" opacity=".8"/>
+          </g>
+        </svg>
+      </div>
+      <div class="glass welcome-card">
+        <div class="sparkle-badge">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="url(#g1)"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9c2ff"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z"/></svg>
+        </div>
+        <p class="welcome-h1">Welcome</p>
+        <p class="welcome-h2">Your Aura is Shining</p>
+        <div class="hr-glow"></div>
+        <p class="welcome-note">Your energy is now active · Premium Aura Unlocked</p>
+        <button class="btn btn-primary" onclick="go('screen-home');renderHome();">Continue to Aura Dashboard</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOME -->
+  <section class="screen" id="screen-home">
+    <div class="logo-row left">
+      <span class="logo">NOWSHINEYOURAURA</span>
+      <button class="pill-btn" onclick="doLogout()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        Logout
+      </button>
+    </div>
+
+    <div class="stack">
+      <div class="glass card-pad hi-row">
+        <div class="avatar-orb">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z"/></svg>
+        </div>
+        <div>
+          <p class="hi-name">Welcome, <span id="home-name">User</span></p>
+          <p class="hi-level" id="home-level">Level 1 ✦</p>
+        </div>
+      </div>
+
+      <div class="glass card-pad hi-row">
+        <div class="stat-orb"></div>
+        <div>
+          <p class="stat-label">Total Aura</p>
+          <p class="stat-value" id="home-aura">0</p>
+          <p class="stat-sub">Your total aura balance</p>
+        </div>
+      </div>
+
+      <div class="glass card-pad">
+        <p style="font-weight:800;font-size:16px;margin:0 0 4px;">Level Progress</p>
+        <div class="prog-head"><span id="home-progtext">0/400 XP to Level 2</span><span id="home-progpct">0%</span></div>
+        <div class="prog-track"><div class="prog-fill" id="home-progfill" style="width:0%"></div></div>
+      </div>
+
+      <div class="glass empty-block" id="home-tasks-empty">
+        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.6"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="M9 11h6M9 14h6M9 17h4"/></svg>
+        <p class="empty-title">No tasks yet</p>
+        <p class="empty-sub">Admin will add tasks soon</p>
+      </div>
+
+      <button class="btn btn-primary" onclick="go('screen-aura')">
+        View Your Aura Card
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="go('screen-home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home
+      </div>
+      <div class="nav-item" onclick="go('screen-tasks')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 11h6M9 15h6"/></svg>Tasks
+      </div>
+      <div class="nav-item" onclick="go('screen-aura')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z"/></svg>Aura
+      </div>
+      <div class="nav-item" onclick="go('screen-profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Profile
+      </div>
+    </div>
+  </section>
+
+  <!-- TASKS -->
+  <section class="screen" id="screen-tasks">
+    <div class="logo-row"><span class="logo">NOWSHINEYOURAURA</span></div>
+    <div class="glass card-pad" style="margin-bottom:16px;"><p style="font-weight:800;font-size:18px;margin:0;">Tasks</p></div>
+
+    <div class="glass" id="tasks-list-wrap" style="margin-bottom:16px;overflow:hidden;"></div>
+
+    <div class="glass empty-block" id="tasks-empty">
+      <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.6"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="M9 11h6M9 14h6M9 17h4"/></svg>
+      <p class="empty-title">No tasks yet</p>
+      <p class="empty-sub">Admin will add tasks soon</p>
+    </div>
+
+    <button class="btn btn-ghost" style="margin-top:16px;" onclick="go('screen-aura')">✦ View Your Aura Card</button>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="go('screen-home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</div>
+      <div class="nav-item active" onclick="go('screen-tasks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 11h6M9 15h6"/></svg>Tasks</div>
+      <div class="nav-item" onclick="go('screen-aura')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z"/></svg>Aura</div>
+      <div class="nav-item" onclick="go('screen-profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Profile</div>
+    </div>
+  </section>
+
+  <!-- AURA CARD -->
+  <section class="screen" id="screen-aura">
+    <div class="logo-row"><span class="logo">NOWSHINEYOURAURA</span></div>
+
+    <div id="aura-card-slot" style="margin-bottom:20px;"></div>
+
+    <div class="ac-actions">
+      <div class="ac-action dl" onclick="toast('Card image saved (demo)')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download
+      </div>
+      <div class="ac-action sh" onclick="toast('Share sheet opened (demo)')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#dbe6ff" stroke-width="2.2"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/></svg>Share
+      </div>
+    </div>
+
+    <button class="btn btn-ghost" style="margin-top:20px;" onclick="go('screen-mycards')">My Aura Cards</button>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="go('screen-home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</div>
+      <div class="nav-item" onclick="go('screen-tasks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 11h6M9 15h6"/></svg>Tasks</div>
+      <div class="nav-item active" onclick="go('screen-aura')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z"/></svg>Aura</div>
+      <div class="nav-item" onclick="go('screen-profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Profile</div>
+    </div>
+  </section>
+
+  <!-- MY AURA CARDS GALLERY -->
+  <section class="screen" id="screen-mycards">
+    <div class="back-header">
+      <div class="back-btn" onclick="go('screen-aura')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <p class="page-title">My Aura Cards</p>
+    </div>
+    <p class="small" style="margin:-10px 0 16px;">Your card evolves every 50 levels. Reach Level 999 to unlock the Mythic admin-style card.</p>
+
+    <div class="style-scroll" id="tier-ladder"></div>
+    <p class="tiny center-text" style="margin-top:6px;">Swipe to browse · locked tiers unlock as you level up</p>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="screen" id="screen-profile">
+    <div class="logo-row"><span class="logo">NOWSHINEYOURAURA</span></div>
+    <p class="page-title" style="margin-bottom:18px;">Profile</p>
+
+    <div class="glass card-pad hi-row" style="margin-bottom:16px;">
+      <div class="avatar-orb">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div>
+        <p class="hi-name">Welcome <span id="profile-name">User</span></p>
+        <p class="hi-level" id="profile-level">Level 1 · Total Aura <span id="profile-aura">0</span> ✦</p>
+      </div>
+    </div>
+    <div class="glass card-pad" style="margin-bottom:20px;">
+      <div class="prog-track"><div class="prog-fill" id="profile-progfill" style="width:0%"></div></div>
+      <p class="tiny" style="margin-top:8px;" id="profile-progtext">0 / 400 to Level 2</p>
+    </div>
+
+    <div class="glass" style="margin-bottom:18px;overflow:hidden;">
+      <div class="list-item" onclick="go('screen-edit-profile')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a8ff" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <div class="list-title">Edit Profile</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" onclick="go('screen-mycards')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a8ff" stroke-width="2"><rect x="4" y="5" width="13" height="16" rx="2"/><path d="M9 2h13v16"/></svg></div>
+        <div class="list-title">My Aura Cards</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" id="profile-admin-link" style="display:none;" onclick="go('screen-admin-dash')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e8c873" stroke-width="2"><path d="M12 2l2.5 5.5L20 9l-4.5 4 1 6-4.5-3-4.5 3 1-6L3 9l5.5-1.5z"/></svg></div>
+        <div class="list-title" style="color:#e8c873;">Admin Panel</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" onclick="go('screen-settings')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a8ff" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 0 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z"/></svg></div>
+        <div class="list-title">Settings</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" onclick="doLogout()">
+        <div class="list-icon danger"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f0708a" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></div>
+        <div class="list-title danger">Logout</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+    </div>
+
+    <div class="bottom-nav">
+      <div class="nav-item" onclick="go('screen-home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</div>
+      <div class="nav-item" onclick="go('screen-tasks')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 11h6M9 15h6"/></svg>Tasks</div>
+      <div class="nav-item" onclick="go('screen-aura')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.9 6.1L20 10l-6.1 1.9L12 18l-1.9-6.1L4 10l6.1-1.9L12 2z"/></svg>Aura</div>
+      <div class="nav-item active" onclick="go('screen-profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>Profile</div>
+    </div>
+  </section>
+
+  <!-- EDIT PROFILE (self) -->
+  <section class="screen" id="screen-edit-profile">
+    <div class="back-header">
+      <div class="back-btn" onclick="go('screen-profile')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <p class="page-title">Edit Profile</p>
+    </div>
+
+    <div class="glass card-pad">
+      <div class="field-label">Name</div>
+      <div class="field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        <input type="text" id="ep-name" placeholder="Your name">
+      </div>
+      <div class="field-label">Mobile Number</div>
+      <div class="field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>
+        <input type="tel" id="ep-phone" placeholder="+91 98765 43210">
+      </div>
+      <div class="field-label">Email</div>
+      <div class="field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+        <input type="email" id="ep-email" placeholder="you@example.com">
+      </div>
+      <div class="field-label">Password</div>
+      <div class="field">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        <input type="text" id="ep-pass" placeholder="New password">
+      </div>
+      <button class="btn btn-primary" onclick="saveOwnProfile()">Save Changes</button>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="screen" id="screen-settings">
+    <div class="logo-row"><span class="logo">NOWSHINEYOURAURA</span></div>
+    <div class="back-header">
+      <div class="back-btn" onclick="go('screen-profile')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <p class="page-title">Settings</p>
+    </div>
+
+    <div class="glass" style="overflow:hidden;">
+      <div class="list-item" onclick="toast('Notification settings (demo)')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a8ff" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></div>
+        <div class="list-title">Notification</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" onclick="toast('Privacy settings (demo)')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a8ff" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+        <div class="list-title">Privacy</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" onclick="toast('NowShineYourAura · v2.1.0')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a8ff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg></div>
+        <div class="list-title">About</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" onclick="toast('Help center (demo)')">
+        <div class="list-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a8ff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg></div>
+        <div class="list-title">Help</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div class="list-item" onclick="confirmDelete()">
+        <div class="list-icon danger"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f0708a" stroke-width="2"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/></svg></div>
+        <div class="list-title danger">Delete Account</div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN LOGIN -->
+  <section class="screen center" id="screen-admin">
+    <div class="welcome-wrap">
+      <div class="glass admin-modal">
+        <div class="admin-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <p class="admin-head">Admin Access</p>
+        <p class="admin-sub">Sign in to continue to the admin dashboard</p>
+
+        <div class="field-label">Email</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+          <input type="email" id="admin-email" placeholder="you@nowshineyouraura.com">
+        </div>
+        <div class="field-label">Password</div>
+        <div class="field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <input type="password" id="admin-pass" placeholder="••••••••••">
+        </div>
+
+        <button class="btn btn-primary" onclick="doAdminLogin()" style="margin-bottom:12px;">Login as Admin</button>
+        <button class="btn btn-ghost" onclick="go('screen-login')">Cancel</button>
+        <p class="tiny center-text" style="margin-top:18px;">Protected · Secure connection · Demo v2.1.0</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN DASHBOARD -->
+  <section class="screen" id="screen-admin-dash">
+    <div class="back-header">
+      <div class="back-btn" onclick="go('screen-login')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+      </div>
+      <p class="page-title">Admin Dashboard</p>
+    </div>
+
+    <div id="admin-card-slot" style="margin-bottom:22px;"></div>
+    <p class="tiny" id="admin-access-note" style="margin:-14px 0 22px;"></p>
+
+    <div class="glass card-pad" style="margin-bottom:16px;">
+      <p style="font-weight:800;font-size:16px;margin:0 0 14px;">Add a Task</p>
+      <div class="field"><input type="text" id="admin-task-name" placeholder="Task name"></div>
+      <div class="field"><input type="number" id="admin-task-aura" placeholder="Aura reward (e.g. 50)"></div>
+      <button class="btn btn-primary" onclick="adminAddTask()">Add Task for Everyone</button>
+    </div>
+
+    <div class="glass card-pad" style="margin-bottom:16px;">
+      <p style="font-weight:800;font-size:16px;margin:0 0 4px;">Current Tasks</p>
+      <div id="admin-task-list" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="glass card-pad">
+      <p style="font-weight:800;font-size:16px;margin:0 0 4px;">All Users</p>
+      <p class="tiny" id="admin-users-note" style="margin:0 0 10px;">Everyone who has ever logged in.</p>
+      <div id="admin-users-list"></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   STORAGE LAYER
+   Real mode: Anthropic's "db" + "user" artifact capabilities —
+   a genuine per-organization shared document database. Each
+   signed-in viewer's profile is stored privately at
+   data/users/<their id>/profile, and lives across sessions and
+   devices. Tasks live in a shared "tasks" collection that only
+   the artifact's owner/editor ("admin") can write to.
+   Fallback: if this page is opened somewhere that can't reach
+   those capabilities (e.g. a downloaded copy of the file), it
+   falls back to a local, browser-only demo store so the UI still
+   works — clearly labeled as such.
+   ============================================================ */
+/* ============================================================
+   LOCAL DATABASE — no Firebase, no backend server.
+   All accounts, tasks and profiles are stored in this browser's
+   localStorage as a small JSON "database". Multiple people can
+   register and log in on the SAME device/browser (e.g. for a
+   demo, kiosk, or personal use); data does not sync across
+   different devices or browsers since there is no server.
+   ============================================================ */
+const DB_KEY = 'aura_local_db_v1';
+const SESSION_KEY = 'aura_local_session_v1';
+
+function loadDB(){
+  try{
+    const raw = localStorage.getItem(DB_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return { users:{}, tasks:[] };
+}
+function saveDB(db){ try{ localStorage.setItem(DB_KEY, JSON.stringify(db)); }catch(e){} }
+function getSession(){ try{ return localStorage.getItem(SESSION_KEY); }catch(e){ return null; } }
+function setSession(email){ try{ localStorage.setItem(SESSION_KEY, email); }catch(e){} }
+function clearSession(){ try{ localStorage.removeItem(SESSION_KEY); }catch(e){} }
+
+function getUserRecord(email){ const db=loadDB(); return db.users[String(email||'').toLowerCase()]; }
+function setUserRecord(email, data){ const db=loadDB(); db.users[String(email).toLowerCase()] = data; saveDB(db); }
+function deleteUserRecord(email){ const db=loadDB(); delete db.users[String(email).toLowerCase()]; saveDB(db); }
+function allUserRecords(){
+  const db=loadDB();
+  return Object.keys(db.users).map(e=>Object.assign({id:e}, db.users[e]))
+    .sort((a,b)=>(b.level||1)-(a.level||1));
+}
+function userCount(){ return Object.keys(loadDB().users).length; }
+function addTaskRecord(t){ const db=loadDB(); db.tasks.push(t); saveDB(db); return t; }
+function removeTaskRecord(id){ const db=loadDB(); db.tasks = db.tasks.filter(t=>t.id!==id); saveDB(db); }
+function getTaskRecords(){ return loadDB().tasks || []; }
+
+let uid = null; // the logged-in user's email (lowercased) — our local "user id"
+let isRealAdmin = false;   // Main Admin (appAdmin flag) — the first person to ever sign up
+let adminEligible = false; // isRealAdmin OR level-999 mythic
+
+function defaultState(){
+  return {
+    loggedIn:false,
+    name:'User',
+    phone:'',
+    email:'',
+    password:'',
+    appAdmin:false,
+    level:1,
+    aura:0,
+    xpToNext:400,
+    completedTaskIds:[]
+  };
+}
+let state = defaultState();
+
+/* ---------- unique per-user card number ---------- */
+function hashStr(str){
+  str = String(str||'seed');
+  let h = 2166136261;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return Math.abs(h);
+}
+function cardNumberFor(seed){
+  const g1 = String(hashStr(seed+':g1')).padStart(4,'4').slice(-4);
+  const g2 = String(hashStr(seed+':g2')).padStart(4,'0').slice(-4);
+  const g3 = String(hashStr(seed+':g3')).padStart(4,'0').slice(-4);
+  const g4 = String(hashStr(seed+':g4')).padStart(4,'0').slice(-4);
+  return { groups:[g1,g2,g3,g4], last4:g4, full:g1+' '+g2+' '+g3+' '+g4 };
+}
+function cardCodeFor(seed){
+  const h = hashStr(seed+':code');
+  const s = String(h).padStart(16,'0').slice(0,16);
+  return s.match(/.{1,4}/g).join(' ');
+}
+function validThruFor(seed){
+  const h = hashStr(seed+':valid');
+  const mm = String((h%12)+1).padStart(2,'0');
+  const yy = 27 + (h%5);
+  return mm+'/'+yy;
+}
+
+/* ---------- card evolution tiers (every 50 levels) ---------- */
+const TIERS = [
+  {name:'Spark',       hue:265}, {name:'Ember',      hue:18},
+  {name:'Tide',        hue:205}, {name:'Verdant',    hue:140},
+  {name:'Solaris',     hue:45},  {name:'Nova',       hue:325},
+  {name:'Frostbourne', hue:190}, {name:'Voidshift',  hue:270},
+  {name:'Wraith',      hue:0},   {name:'Aurum',      hue:40},
+  {name:'Zenith',      hue:220}, {name:'Eclipse',    hue:280},
+  {name:'Astra',       hue:200}, {name:'Obsidian',   hue:250},
+  {name:'Seraph',      hue:50},  {name:'Chimera',    hue:10},
+  {name:'Infinity',    hue:195}, {name:'Celestial',  hue:230},
+  {name:'Transcendent',hue:300}, {name:'Ascendant',  hue:260}
+];
+function tierIndexFor(level){ return Math.max(0, Math.min(TIERS.length-1, Math.floor((level-1)/50))); }
+function tierFor(level){
+  const idx = tierIndexFor(level);
+  const t = TIERS[idx];
+  return Object.assign({index:idx, minLevel: idx*50+1, maxLevel: idx*50+50}, t);
+}
+function isMythic(level){ return level >= 999; }
+
+/* ---------- render: normal evolving card ---------- */
+function tieredCardHTML(profile, seed){
+  const t = tierFor(profile.level);
+  const num = cardNumberFor(seed);
+  const bg = `linear-gradient(135deg, hsl(${t.hue} 55% 10%), hsl(${t.hue+30} 60% 16%) 55%, hsl(${t.hue-20} 55% 9%))`;
+  const border = `hsl(${t.hue} 70% 62% / .45)`;
+  const accent = `hsl(${t.hue} 85% 74%)`;
+  const validThru = validThruFor(seed);
+  return `
+  <div class="aura-card" style="background:${bg};border-color:${border};">
+    <div class="ac-top">
+      <div class="ac-logo-row">
+        <span class="ac-logo" style="color:${accent}">Aura</span>
+        <span class="ac-ring" style="color:${accent}"></span>
+      </div>
+      <span class="ac-level-badge" style="border-color:${border};color:${accent};background:hsl(${t.hue} 70% 50% / .12)">LEVEL ${profile.level}</span>
+    </div>
+    <div class="ac-chip"></div>
+    <div class="ac-handle" style="color:${accent}">NOWSHINEYOURAURA</div>
+    <div class="ac-num-row">
+      <span class="ac-num-full">${num.groups.join(' ')}</span>
+    </div>
+    <div class="ac-bottom">
+      <div><div class="ac-field-label">CARDHOLDER</div><div class="ac-field-val">${escapeHtml((profile.name||'USER').toUpperCase())}</div></div>
+      <div><div class="ac-field-label">VALID THRU</div><div class="ac-field-val">${validThru}</div></div>
+    </div>
+  </div>
+  <p class="tiny center-text" style="margin-top:10px;">${t.name} Tier · Total Aura ${profile.aura}</p>`;
+}
+
+/* ---------- render: mythic admin-style card ---------- */
+function mythicCardHTML(profile, seed){
+  const code = cardCodeFor(seed);
+  return `
+  <div class="mythic-card">
+    <div class="myth-top">
+      <div>
+        <div class="myth-eyebrow">ADMIN SPECIAL EDITION</div>
+        <div class="myth-title">AURA CARD</div>
+        <div class="tiny" style="color:#a3915c;margin-top:2px;">STYLE 10 · MYTHIC · ADMIN SPECIAL</div>
+      </div>
+      <div class="myth-badge">MYTHIC</div>
+    </div>
+    <div class="myth-chip"></div>
+    <div class="myth-name">${escapeHtml((profile.name||'USER').toUpperCase())}</div>
+    <div class="myth-lvl">Level: ${profile.level}+</div>
+    <div class="myth-grid">
+      <div><div>AURA</div><div>Eternal Origin</div></div>
+      <div><div>TYPE</div><div>Mythic</div></div>
+      <div><div>ENERGY</div><div>${profile.aura} AE</div></div>
+      <div><div>VIBE</div><div>Aura God</div></div>
+    </div>
+    <div class="myth-code">Card Code: ${code}</div>
+    <div class="myth-quote">"Beyond levels, I AM aura."</div>
+  </div>`;
+}
+
+function renderAuraCard(){
+  const slot = document.getElementById('aura-card-slot');
+  if(!slot) return;
+  const seed = uid || state.email || state.name || 'demo';
+  slot.innerHTML = isMythic(state.level) ? mythicCardHTML(state, seed) : tieredCardHTML(state, seed);
+}
+
+/* ---------- tier ladder / evolution gallery ---------- */
+function renderTierLadder(){
+  const wrap = document.getElementById('tier-ladder');
+  if(!wrap) return;
+  const seed = uid || state.email || state.name || 'demo';
+  const cards = TIERS.map((t,i)=>{
+    const minLvl = i*50+1, maxLvl = i*50+50;
+    const unlocked = state.level >= minLvl;
+    const current = tierIndexFor(state.level)===i && !isMythic(state.level);
+    const bg = `linear-gradient(145deg, hsl(${t.hue} 50% ${unlocked?12:6}%), hsl(${t.hue+25} 55% ${unlocked?18:8}%))`;
+    const border = unlocked ? `hsl(${t.hue} 70% 60% / .5)` : 'rgba(255,255,255,.12)';
+    return `
+    <div class="svar" style="background:${bg};border:1px solid ${border};${unlocked?'':'opacity:.5;'}">
+      <div><div class="svar-tag" style="color:hsl(${t.hue} 70% 75%)">TIER ${String(i+1).padStart(2,'0')} · LV ${minLvl}-${maxLvl}</div>
+      <span class="svar-lvl" style="color:hsl(${t.hue} 70% 75%)">${current?'CURRENT':(unlocked?'UNLOCKED':'LOCKED')}</span></div>
+      <div><p class="svar-name" style="color:hsl(${t.hue} 60% 88%)">${t.name}</p>
+      <div class="svar-grid" style="color:hsl(${t.hue} 40% 80%)"><div><div>REQUIRES</div>Level ${minLvl}</div><div><div>CARD NO.</div>•• ${cardNumberFor(seed+':'+i).last4}</div></div>
+      <p class="svar-quote" style="color:hsl(${t.hue} 40% 80%)">${unlocked?'"Your aura resonates at this tier."':'🔒 Keep completing tasks to unlock.'}</p></div>
+    </div>`;
+  }).join('') + `
+    <div class="svar" style="background:radial-gradient(120% 100% at 0% 0%, rgba(232,200,115,.15), transparent 60%), #0a0805;border:1px solid ${isMythic(state.level)?'rgba(232,200,115,.6)':'rgba(232,200,115,.25)'};${isMythic(state.level)?'':'opacity:.55;'}">
+      <div><div class="svar-tag" style="color:#e8c873;">MYTHIC · LV 999+</div><span class="svar-lvl" style="color:#e8c873;">${isMythic(state.level)?'UNLOCKED':'LOCKED'}</span></div>
+      <div><p class="svar-name" style="color:#f3e6c2;">Admin Special Edition</p>
+      <div class="svar-grid" style="color:#c9b076;"><div><div>REQUIRES</div>Level 999</div><div><div>UNLOCKS</div>Admin Access</div></div>
+      <p class="svar-quote" style="color:#e7d391;">${isMythic(state.level)?'"Beyond levels, I AM aura."':'🔒 The final evolution — the founder card design.'}</p></div>
+    </div>`;
+  wrap.innerHTML = cards;
+}
+
+/* ---------- profile save/load ---------- */
+function stateForSave(){
+  return {
+    name: state.name, phone: state.phone||'', email: state.email||'',
+    password: state.password||'', appAdmin: !!state.appAdmin,
+    level: state.level, aura: state.aura,
+    xpToNext: state.xpToNext, completedTaskIds: state.completedTaskIds || []
+  };
+}
+function saveProfile(){
+  if(!uid) return;
+  setUserRecord(uid, stateForSave());
+}
+
+function getTasks(){ return getTaskRecords(); }
+function isTaskDone(id){ return (state.completedTaskIds||[]).includes(id); }
+
+function refreshAdminEligibility(){
+  isRealAdmin = !!state.appAdmin;
+  adminEligible = isRealAdmin || isMythic(state.level);
+  const link = document.getElementById('profile-admin-link');
+  if(link) link.style.display = adminEligible ? 'flex' : 'none';
+}
+
+function init(){
+  const session = getSession();
+  if(session){
+    const rec = getUserRecord(session);
+    if(rec){
+      uid = session;
+      state = Object.assign(defaultState(), rec);
+      state.loggedIn = true;
+      refreshAdminEligibility();
+      go('screen-home');
+      return;
+    }
+  }
+  go('screen-login');
+}
+init();
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='screen-home') renderHome();
+  if(id==='screen-tasks') renderTasks();
+  if(id==='screen-aura') renderAuraCard();
+  if(id==='screen-mycards') renderTierLadder();
+  if(id==='screen-profile'){ renderProfile(); refreshAdminEligibility(); }
+  if(id==='screen-edit-profile') renderEditProfileForm();
+  if(id==='screen-admin-dash'){ renderAdminCard(); renderAdminTasks(); renderAdminUsers(); }
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+function togglePwd(id){
+  const el = document.getElementById(id);
+  if(el) el.type = (el.type === 'password') ? 'text' : 'password';
+}
+
+/* ---------- auth actions ---------- */
+function doLogin(){
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const pass = document.getElementById('login-pass').value;
+  if(!email || !pass){ toast('Enter email and password'); return; }
+  const rec = getUserRecord(email);
+  if(!rec || rec.password !== pass){ toast('Incorrect email or password'); return; }
+  uid = email;
+  state = Object.assign(defaultState(), rec);
+  state.loggedIn = true;
+  setSession(email);
+  refreshAdminEligibility();
+  go('screen-welcome');
+}
+
+function doSignup(){
+  const name = document.getElementById('signup-name').value.trim();
+  const phone = document.getElementById('signup-phone').value.trim();
+  const email = document.getElementById('signup-email').value.trim().toLowerCase();
+  const password = document.getElementById('signup-pass').value;
+
+  if(!name || !email || !password){ toast('Fill in name, email and password'); return; }
+  if(password.length < 4){ toast('Password should be at least 4 characters'); return; }
+  if(getUserRecord(email)){ toast('That email is already registered — try logging in'); return; }
+
+  const becameAdmin = userCount() === 0; // first-ever signup becomes Main Admin
+  state = defaultState();
+  state.name = name; state.phone = phone; state.email = email; state.password = password;
+  state.appAdmin = becameAdmin;
+  state.loggedIn = true;
+  uid = email;
+  setUserRecord(email, stateForSave());
+  setSession(email);
+  refreshAdminEligibility();
+  if(becameAdmin) toast('🎉 You are the first user — Main Admin granted!');
+  go('screen-welcome');
+}
+
+function doLogout(){
+  clearSession();
+  state = defaultState();
+  uid = null;
+  go('screen-login');
+}
+
+function pctOf(aura, target){ return Math.min(100, Math.round((aura/target)*100)); }
+
+function renderHome(){
+  if(!document.getElementById('home-name')) return;
+  document.getElementById('home-name').textContent = state.name;
+  document.getElementById('home-level').textContent = 'Level '+state.level+(isMythic(state.level)?'+ ✦ MYTHIC':' ✦');
+  document.getElementById('home-aura').textContent = state.aura;
+  const pct = pctOf(state.aura, state.xpToNext);
+  document.getElementById('home-progtext').textContent = state.aura+'/'+state.xpToNext+' XP to Level '+(state.level+1);
+  document.getElementById('home-progpct').textContent = pct+'%';
+  document.getElementById('home-progfill').style.width = pct+'%';
+  document.getElementById('home-tasks-empty').style.display = getTasks().length ? 'none':'block';
+}
+
+function renderTasks(){
+  const wrap = document.getElementById('tasks-list-wrap');
+  const empty = document.getElementById('tasks-empty');
+  if(!wrap) return;
+  const tasks = getTasks();
+  if(!tasks.length){
+    wrap.style.display='none';
+    empty.style.display='block';
+    return;
+  }
+  wrap.style.display='block';
+  empty.style.display='none';
+  wrap.innerHTML = tasks.map(t=>{
+    const done = isTaskDone(t.id);
+    return `
+    <div class="task-row ${done?'task-done':''}" style="border-bottom:1px solid rgba(255,255,255,.06)">
+      <div>
+        <p class="task-name">${escapeHtml(t.name)}</p>
+        <p class="task-reward">+${t.reward} Aura</p>
+      </div>
+      ${done
+        ? `<span class="tiny">Completed</span>`
+        : `<button class="btn btn-primary btn-sm" onclick="completeTask('${t.id}')">Complete</button>`}
+    </div>`;
+  }).join('');
+}
+
+function completeTask(id){
+  if(isTaskDone(id)) return;
+  const t = getTasks().find(x=>x.id===id);
+  if(!t) return;
+  const wasMythic = isMythic(state.level);
+  state.completedTaskIds = state.completedTaskIds || [];
+  state.completedTaskIds.push(id);
+  state.aura += Number(t.reward)||0;
+  while(state.aura >= state.xpToNext && !isMythic(state.level)){
+    state.aura -= state.xpToNext;
+    state.level += 1;
+    state.xpToNext = Math.round(state.xpToNext * 1.25);
+    if(state.level >= 999){ state.level = 999; break; }
+    toast('Level up! Now level '+state.level);
+  }
+  saveProfile();
+  refreshAdminEligibility();
+  renderTasks();
+  renderHome();
+  if(!wasMythic && isMythic(state.level)){
+    toast('🎉 MYTHIC unlocked — your Admin card + Admin Access are ready!');
+  }else{
+    toast('+'+t.reward+' Aura earned');
+  }
+}
+
+function renderProfile(){
+  document.getElementById('profile-name').textContent = state.name;
+  document.getElementById('profile-level').innerHTML = 'Level '+state.level+(isMythic(state.level)?'+':'')+' · Total Aura <span id="profile-aura">'+state.aura+'</span> ✦';
+  const pct = pctOf(state.aura, state.xpToNext);
+  document.getElementById('profile-progfill').style.width = pct+'%';
+  document.getElementById('profile-progtext').textContent = state.aura+' / '+state.xpToNext+' to Level '+(state.level+1);
+}
+
+function renderEditProfileForm(){
+  const g = id => document.getElementById(id);
+  if(!g('ep-name')) return;
+  g('ep-name').value = state.name || '';
+  g('ep-phone').value = state.phone || '';
+  g('ep-email').value = state.email || '';
+  g('ep-pass').value = state.password || '';
+}
+
+function saveOwnProfile(){
+  const g = id => document.getElementById(id).value.trim();
+  const name = g('ep-name'), phone = g('ep-phone'), email = g('ep-email').toLowerCase();
+  const password = document.getElementById('ep-pass').value;
+  if(!name){ toast('Name cannot be empty'); return; }
+  if(email && email !== state.email && getUserRecord(email)){
+    toast('That email is already used by another account'); return;
+  }
+  if(email && email !== state.email){
+    deleteUserRecord(state.email);
+    uid = email;
+    setSession(email);
+  }
+  state.name = name;
+  state.phone = phone;
+  state.email = email || state.email;
+  if(password) state.password = password;
+  saveProfile();
+  renderProfile();
+  toast('Profile updated');
+  go('screen-profile');
+}
+
+function confirmDelete(){
+  if(confirm('Delete your account data? This cannot be undone.')){
+    if(uid) deleteUserRecord(uid);
+    doLogout();
+    toast('Account deleted');
+  }
+}
+
+function doAdminLogin(){
+  refreshAdminEligibility();
+  if(!adminEligible){
+    toast('Admin needs Main Admin status or Level 999');
+    return;
+  }
+  go('screen-admin-dash');
+}
+
+function renderAdminCard(){
+  const slot = document.getElementById('admin-card-slot');
+  const note = document.getElementById('admin-access-note');
+  if(!slot) return;
+  const seed = uid || state.email || state.name || 'demo';
+  slot.innerHTML = mythicCardHTML(state, seed);
+  if(note){
+    note.textContent = isRealAdmin
+      ? 'You are the Main Admin for this app.'
+      : (isMythic(state.level) ? 'You unlocked Admin Access by reaching Level 999.' : '');
+  }
+}
+
+function adminAddTask(){
+  const name = document.getElementById('admin-task-name').value.trim();
+  const reward = parseInt(document.getElementById('admin-task-aura').value, 10);
+  if(!name || !reward || reward<=0){
+    toast('Enter a task name and aura reward');
+    return;
+  }
+  addTaskRecord({id:'t'+Date.now(), name, reward, createdAt: Date.now()});
+  document.getElementById('admin-task-name').value='';
+  document.getElementById('admin-task-aura').value='';
+  renderAdminTasks();
+  renderTasks();
+  toast('Task added for everyone');
+}
+
+function renderAdminTasks(){
+  const wrap = document.getElementById('admin-task-list');
+  if(!wrap) return;
+  const tasks = getTasks();
+  if(!tasks.length){
+    wrap.innerHTML = '<p class="tiny">No tasks created yet.</p>';
+    return;
+  }
+  wrap.innerHTML = tasks.map(t=>`
+    <div class="task-row" style="border-bottom:1px solid rgba(255,255,255,.06)">
+      <div>
+        <p class="task-name">${escapeHtml(t.name)}</p>
+        <p class="task-reward">+${t.reward} Aura</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="adminRemoveTask('${t.id}')">Remove</button>
+    </div>`).join('');
+}
+function adminRemoveTask(id){
+  removeTaskRecord(id);
+  renderAdminTasks();
+  renderTasks();
+}
+
+function renderAdminUsers(){
+  const wrap = document.getElementById('admin-users-list');
+  const note = document.getElementById('admin-users-note');
+  if(!wrap) return;
+  const list = allUserRecords();
+  if(note){
+    note.textContent = isRealAdmin
+      ? 'You are the Main Admin — view, edit or promote anyone on this device.'
+      : 'Showing public info only. Full details and editing need Main Admin status.';
+  }
+  if(!list.length){
+    wrap.innerHTML = '<p class="tiny">No players yet.</p>';
+    return;
+  }
+  wrap.innerHTML = list.map((p,i)=>`
+    <div>
+      <div class="user-row-head" onclick="toggleUserEditor('${p.id}')">
+        <div>
+          <p class="task-name">#${i+1} ${escapeHtml(p.name||'Player')} ${p.appAdmin?'<span class="admin-tag">ADMIN</span>':''}</p>
+          <p class="task-reward">Level ${p.level||1} · ${p.aura||0} Aura</p>
+        </div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
+      <div id="user-editor-${cssId(p.id)}"></div>
+    </div>`).join('');
+}
+
+function cssId(email){ return String(email).replace(/[^a-zA-Z0-9]/g,'_'); }
+
+let openUserEditorId = null;
+function toggleUserEditor(targetEmail){
+  const box = document.getElementById('user-editor-'+cssId(targetEmail));
+  if(!box) return;
+  if(openUserEditorId === targetEmail){
+    box.innerHTML = '';
+    openUserEditorId = null;
+    return;
+  }
+  if(openUserEditorId){
+    const prev = document.getElementById('user-editor-'+cssId(openUserEditorId));
+    if(prev) prev.innerHTML = '';
+  }
+  openUserEditorId = targetEmail;
+
+  const f = getUserRecord(targetEmail);
+  if(!f){ box.innerHTML = ''; return; }
+
+  if(!isRealAdmin){
+    box.innerHTML = `
+      <div class="user-edit-form">
+        <p class="small">Name: ${escapeHtml(f.name||'—')}</p>
+        <p class="small">Level: ${f.level||1} · Aura: ${f.aura||0}</p>
+        <p class="tiny">Full details are private — only the Main Admin can view or edit them.</p>
+      </div>`;
+    return;
+  }
+
+  const cid = cssId(targetEmail);
+  box.innerHTML = `
+    <div class="user-edit-form">
+      <div class="field-label">Name</div>
+      <div class="field"><input type="text" id="ue-name-${cid}" value="${escapeAttr(f.name)}"></div>
+      <div class="field-inline">
+        <div class="field"><input type="tel" id="ue-phone-${cid}" placeholder="Mobile" value="${escapeAttr(f.phone)}"></div>
+        <div class="field"><input type="email" id="ue-email-${cid}" placeholder="Email" value="${escapeAttr(f.email)}"></div>
+      </div>
+      <div class="field"><input type="text" id="ue-pass-${cid}" placeholder="Password" value="${escapeAttr(f.password)}"></div>
+      <div class="field-inline">
+        <div class="field"><input type="number" id="ue-level-${cid}" placeholder="Level" value="${f.level}"></div>
+        <div class="field"><input type="number" id="ue-aura-${cid}" placeholder="Aura" value="${f.aura}"></div>
+      </div>
+      <label class="chk-wrap" style="margin-bottom:16px;">
+        <input type="checkbox" id="ue-admin-${cid}" ${f.appAdmin?'checked':''} style="width:16px;height:16px;">
+        Grant Admin Access to this user
+      </label>
+      <div class="field-inline">
+        <button class="btn btn-primary btn-sm" onclick="saveUserEdits('${targetEmail}')">Save Changes</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteUserAdmin('${targetEmail}')">Delete User</button>
+      </div>
+    </div>`;
+}
+
+function saveUserEdits(targetEmail){
+  if(!isRealAdmin) return;
+  const cid = cssId(targetEmail);
+  const g = id => document.getElementById(id);
+  const updated = {
+    name: g('ue-name-'+cid).value.trim() || 'User',
+    phone: g('ue-phone-'+cid).value.trim(),
+    email: g('ue-email-'+cid).value.trim().toLowerCase() || targetEmail,
+    password: g('ue-pass-'+cid).value,
+    level: Math.max(1, parseInt(g('ue-level-'+cid).value,10) || 1),
+    aura: Math.max(0, parseInt(g('ue-aura-'+cid).value,10) || 0),
+    appAdmin: g('ue-admin-'+cid).checked,
+    completedTaskIds: (getUserRecord(targetEmail)||{}).completedTaskIds || []
+  };
+  if(updated.email !== targetEmail){
+    deleteUserRecord(targetEmail);
+  }
+  setUserRecord(updated.email, updated);
+  toast('User updated');
+  if(targetEmail === uid || updated.email === uid){
+    state = Object.assign(state, updated);
+    if(updated.email !== targetEmail){ uid = updated.email; setSession(uid); }
+    renderHome(); renderProfile(); refreshAdminEligibility();
+  }
+  renderAdminUsers();
+}
+
+function deleteUserAdmin(targetEmail){
+  if(!isRealAdmin) return;
+  if(!confirm('Delete this user completely? This cannot be undone.')) return;
+  deleteUserRecord(targetEmail);
+  if(targetEmail === uid){ doLogout(); }
+  toast('User deleted');
+  renderAdminUsers();
+}
+
+function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;'); }
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+</script>
+</body>
+</html>
